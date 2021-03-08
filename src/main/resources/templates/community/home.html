@@ -4,12 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
-
+    <!-- css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 
-<footer th:insert="~{/layout/footer :: copy}"></footer>
+<!-- Sidebar -->
+<div th:insert="~{/layout/layout :: sidebar}"></div>
+<!-- Sidebar END -->
+
+<!-- Main Contents -->
+<div class="w3-center">
+Community Home
+</div>
+<!-- Main Contents END -->
+
+<!-- Footer -->
+<footer th:insert="~{/layout/layout :: footer}"></footer>
+<!-- Footer END -->
 
 </body>
 </html>
