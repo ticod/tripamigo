@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <title>Tripamigo | LOGIN</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" th:href="@{/css/layout.css}">
+<body>
+
+<!-- Sidebar -->
+<div th:insert="~{/layout/layout :: sidebar}"></div>
+<!-- Sidebar END -->
+
+<!-- Main Contents -->
+<div class="w3-center">
+
+  <form class="w3-container main" style="height:100vh">
+    <label>아이디</label>
+    <input class="w3-input" type="text">
+    <label>비밀번호</label>
+    <input class="w3-input" type="text">
+  </form>
+
+</div>
+<!-- Main Contents END -->
+
+<!-- Footer -->
+<footer th:insert="~{/layout/layout :: footer}"></footer>
+<!-- Footer END -->
+
+</body>
+</html>
+
+

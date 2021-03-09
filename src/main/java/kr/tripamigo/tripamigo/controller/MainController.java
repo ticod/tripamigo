@@ -12,4 +12,9 @@ public class MainController {
         return "home";
     }
 
+    @RequestMapping("/login")
+    String login(Model model) {
+        return "login";
+    }
+
 }
