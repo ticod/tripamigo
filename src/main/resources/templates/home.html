@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <body id="myPage">
 
 <!-- Sidebar on click -->
@@ -24,12 +25,11 @@
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>HOME</a>
-  <a href="#team" class="w3-bar-item w3-button w3-hide-small w3-hover-white">계획세우기</a>
-  <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">여행정보</a>
-  <a href="#pricing" class="w3-bar-item w3-button w3-hide-small w3-hover-white">로그인</a>
-  <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-hover-white" title="Go To W3.CSS">로그인</button>
-  <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-hover-white" title="Go To W3.CSS">회원가입</button>
+  <a href="#" class="w3-bar-item w3-button w3-right w3-teal"><i class="fa fa-home w3-margin-right"></i>HOME</a>
+  <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Tripamigo</a>
+  <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS">회원가입</button>
+  <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS">로그인</button>
+  <a href="community/home" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white">커뮤니티</a>
     <!-- 
     <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button" title="Notifications">Dropdown <i class="fa fa-caret-down"></i></button>     
@@ -54,12 +54,16 @@
 </div>
 
 <!-- Image Header -->
-<div class="w3-display-container w3-animate-opacity">
+<div class="w3-display-container w3-animate-opacity" style="position:relative;">
   <img src="imgs/mainbar2.jpg" alt="boat" style="width:100%;min-height:350px;max-height:600px;">
   
+  <div class="w3-container w3-display-center w3-margin-bottom" style="position:absolute; top:35%; left:37%">
+    <img src="imgs/logo2.png" alt="boat" style="width:100%;">
+  </div>
   
-  <div class="w3-container w3-display-center w3-margin-bottom">
-    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-xlarge w3-theme w3-hover-teal" title="Go To W3.CSS">LEARN W3.CSS</button>
+  <div class="w3-container w3-display-center w3-margin-bottom" style="position:absolute; top:80%; left:43%">
+    <button onclick="document.getElementById('id01').style.display='block'"
+    style="height:50px; width:250px; font-weight: bold; border-radius: 20px; border:none; background-color: yellow; font-size: 25px;">여행떠나기</button>
   </div>
 </div>
 
@@ -90,96 +94,108 @@
     <div class="w3-container">
       <p>Cool huh? Ok, enough teasing around..</p>
       <p>Go to our <a class="w3-text-teal" href="/w3css/default.asp">W3.CSS Tutorial</a> to learn more!</p>
+      <br>
+      <br>
+      <br>
+      <br>
     </div>
-    <footer class="w3-container w3-teal">
-      <p>Modal footer</p>
-    </footer>
   </div>
 </div>
 
-<!-- Team Container -->
+<!-- Magazines -->
 <div class="w3-container w3-padding-64 w3-center" id="team">
-<h2>이런 여행은 어떠신가요?</h2>
-<p>Magazine</p>
-
-<div class="w3-row"><br>
-
-<div class="w3-quarter">
-  <img src="imgs/mainbar.jpg" alt="Boss" style="width:90%" class="w3-hover-opacity">
-  <h3>제목</h3>
-  <p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-</div>
-
-<div class="w3-quarter">
-  <img src="imgs/mainbar.jpg" alt="Boss" style="width:90%" class="w3-hover-opacity">
-  <h3>제목</h3>
-  <p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-</div>
-
-<div class="w3-quarter">
-  <img src="imgs/mainbar.jpg" alt="Boss" style="width:90%" class="w3-hover-opacity">
-  <h3>제목</h3>
-  <p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-</div>
-
-<div class="w3-quarter">
-  <img src="imgs/mainbar.jpg" alt="Boss" style="width:90%" class="w3-hover-opacity">
-  <h3>제목</h3>
-  <p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-</div>
-
-</div>
+	<h2>이런 여행은 어떠신가요?</h2>
+	<p>Magazines</p>
+	<div class="w3-row"><br>
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+ 	 			<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+		
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+		
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+	
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Work Row -->
-<div class="w3-row-padding w3-padding-64 w3-theme-l1" id="work">
+<div class="w3-row-padding w3-padding-64 w3-theme-l1 w3-center" id="work">
 
-<div class="w3-quarter">
-<h2>Our Work</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div>
+	<h2>이런 여행도 괜찮았어요</h2>
+	<p>reviews</p>
+	<div class="w3-row"><br>
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+ 	 			<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+		
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+		
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+	
+		<div class="w3-quarter" style="text-align: center;">
+			<div class="w3-display-container w3-hover-opacity">
+	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
+	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
+				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
+ 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
+  	 			</div>
+			</div>
+		</div>
+	</div>
 
-<div class="w3-quarter">
-<div class="w3-card w3-white">
-  <img src="imgs/mainbar.jpg" alt="Snow" style="width:100%">
-  <div class="w3-container">
-  <h3>Customer 1</h3>
-  <h4>Trade</h4>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  </div>
-  </div>
-</div>
-
-<div class="w3-quarter">
-<div class="w3-card w3-white">
-  <img src="/w3images/lights.jpg" alt="Lights" style="width:100%">
-  <div class="w3-container">
-  <h3>Customer 2</h3>
-  <h4>Trade</h4>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  </div>
-  </div>
-</div>
-
-<div class="w3-quarter">
-<div class="w3-card w3-white">
-  <img src="/w3images/mountains.jpg" alt="Mountains" style="width:100%">
-  <div class="w3-container">
-  <h3>Customer 3</h3>
-  <h4>Trade</h4>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  <p>Blablabla</p>
-  </div>
-  </div>
-</div>
 
 </div>
 
