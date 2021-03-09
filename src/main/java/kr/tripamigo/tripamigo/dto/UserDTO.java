@@ -13,7 +13,7 @@ public class UserDTO {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_SEQ")
-    private String userSeq;
+    private Long userSeq;
 
     @Column(name = "USER_STATUS")
     private boolean userStatus;
