@@ -1,0 +1,15 @@
+:root {
+    --sidebar-length: 20%;
+}
+
+.sidebar {
+    width: var(--sidebar-length);
+}
+
+.footer {
+    margin-left: var(--sidebar-length);
+}
+
+.main {
+    margin-left: var(--sidebar-length);
+}
