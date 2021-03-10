@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity @Table(name = "FOLLOW")
 @Getter @Setter
@@ -24,7 +24,7 @@ public class Follow {
     private boolean followStatus;
 
     @Column(name = "FOLLOW_DATE")
-    private Date followDate;
+    private LocalDateTime followDate;
 
 
 }

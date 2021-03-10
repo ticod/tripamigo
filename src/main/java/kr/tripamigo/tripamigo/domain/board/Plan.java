@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "PLAN")
@@ -30,7 +30,7 @@ public class Plan {
     private String planContent;
 
     @Column(name = "PLAN_REGDATE")
-    private Date planRegdate;
+    private LocalDateTime planRegdate;
 
     @Column(name = "PLAN_HITS")
     private int planHits;
@@ -39,10 +39,10 @@ public class Plan {
     private int planOpen;
 
     @Column(name = "PLAN_START")
-    private Date planStart;
+    private LocalDateTime planStart;
 
     @Column(name = "PLAN_END")
-    private Date planEnd;
+    private LocalDateTime planEnd;
 
 
 }

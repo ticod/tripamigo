@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity @Table(name = "BOARD")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -35,7 +35,7 @@ public abstract class Board {
     private String boardThumbnail;
 
     @Column(name = "BOARD_REGDATE")
-    private Date boardRegdate;
+    private LocalDateTime boardRegdate;
 
     @Column(name = "BOARD_HITS")
     private int boardHits;

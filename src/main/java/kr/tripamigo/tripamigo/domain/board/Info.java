@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "INFO")
@@ -30,7 +30,7 @@ public class Info {
     private String infoContent;
 
     @Column(name = "INFO_REGDATE")
-    private Date infoRegdate;
+    private LocalDateTime infoRegdate;
 
     @Column(name = "INFO_HITS")
     private int infoHits;

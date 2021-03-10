@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity @Table(name = "DIARY_BOARD")
 @Getter @Setter
@@ -31,6 +31,6 @@ public class DiaryBoard {
     private String diaryThumbnail;
 
     @Column(name = "DIARY_REGDATE")
-    private Date diaryRegdate;
+    private LocalDateTime diaryRegdate;
 
 }

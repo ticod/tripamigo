@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity @Table(name = "COMMENT")
 @Getter @Setter
@@ -28,7 +28,7 @@ public class Comment {
     private Long commentContentSeq;
 
     @Column(name = "COMMENT_REGDATE")
-    private Date commentRegdate;
+    private LocalDateTime commentRegdate;
 
     @Column(name = "COMMENT_CONTENT")
     private String commentContent;
