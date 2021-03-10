@@ -19,7 +19,7 @@ public class Plan {
     @Column(name = "PLAN_STATUS")
     private boolean planStatus;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ")
     private User user;
 

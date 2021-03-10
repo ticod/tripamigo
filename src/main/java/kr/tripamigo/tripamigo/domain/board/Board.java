@@ -21,7 +21,7 @@ public abstract class Board {
     @Column(name = "BOARD_STATUS")
     private boolean boardStatus;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ")
     private User user;
 

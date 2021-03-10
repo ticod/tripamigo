@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter @Setter
 public class Review extends Board {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAN_SEQ")
     private Plan plan;
 

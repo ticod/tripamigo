@@ -21,7 +21,7 @@ public class Diary {
     @Column(name = "DIARY_OPEN")
     private OpenScope diaryOpen;
 
-    @OneToMany(mappedBy = "diary")
+    @OneToMany(mappedBy = "diary", fetch = FetchType.LAZY)
     private List<DiaryBoard> boards;
 
 }

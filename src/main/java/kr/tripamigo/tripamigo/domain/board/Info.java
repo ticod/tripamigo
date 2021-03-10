@@ -19,7 +19,7 @@ public class Info {
     @Column(name = "INFO_STATUS")
     private boolean infoStatus;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ")
     private User user;
 
