@@ -15,14 +15,6 @@ public class Promotion extends Board {
 
     @Enumerated
     @Column(name = "BOARD_CATEGORY")
-    private promotionCategory boardCategory;
-
-    private enum promotionCategory {
-        FOOD,
-        FESTIVAL,
-        ATTRACTIONS,
-        LODGMENT,
-        ETC
-    }
+    private PromotionType boardCategory;
 
 }
