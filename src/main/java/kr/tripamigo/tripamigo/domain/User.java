@@ -1,4 +1,4 @@
-package kr.tripamigo.tripamigo.dto;
+package kr.tripamigo.tripamigo.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity @Table(name = "user")
 @Getter @Setter @ToString
-public class UserDTO {
+public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_SEQ")
