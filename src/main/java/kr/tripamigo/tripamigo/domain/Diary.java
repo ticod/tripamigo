@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity @Table(name = "DIARY")
 @Getter @Setter
@@ -19,5 +20,8 @@ public class Diary {
     @Enumerated
     @Column(name = "DIARY_OPEN")
     private OpenScope diaryOpen;
+
+    @OneToMany(mappedBy = "diary")
+    private List<DiaryBoard> boards;
 
 }
