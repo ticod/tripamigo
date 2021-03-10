@@ -6,6 +6,25 @@
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" th:href="@{/css/layout.css}">
+  <style>
+	body, h1, h2, h3, h4, h5 {	font-family: "Poppins", sans-serif}
+	body {	font-size: 16px;}
+	table {	width:650px;	border: none;	border-collapse: collapse;}
+	th, td {border:none;}
+	.w3-half img {	margin-bottom: -6px;	margin-top: 16px;	opacity: 0.8;	cursor: pointer}
+	.w3-half img:hover {	opacity: 1}
+	td{height:60px; text-align:center;}
+	input[type=text]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+	input[type=password]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+	input::placeholder{color: #c6c6c6; }
+	.dologin{width:400px; height:70px; font-weight:bold; font-size:20px; background-color:#434a5d; color:white; border:none;}
+	.googlelogin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:red; color:white; border:none;}
+	.kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+	.signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+	h2 {
+	font-weight: bold;
+	}
+	</style>
 <body>
 
 <!-- Sidebar -->
@@ -13,14 +32,50 @@
 <!-- Sidebar END -->
 
 <!-- Main Contents -->
-<div class="w3-center">
+<div class="w3-center w3-container main">
 
+	<div style="display:flex; justify-content: center; vertical-align: middle; height:100%; margin-top: 20vh; margin-bottom: 40vh">
+		<table>
+			<tr>
+				<td><h2>로그인</h2><br></td>
+			</tr>
+			<tr>
+			<td>
+			<form action="login" method="post" name="f" onsubmit="return inputcheck(this)">
+			<table>
+				<tr>
+					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
+				</tr>
+				<tr>
+					<td><br><input type="password" name="pass" placeholder="비밀번호 입력"></td>
+				</tr>
+				<tr>
+					<td>
+					<br><br>
+						<input type="submit" value="로그인" class="dologin">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br>
+						<input type="submit" value="Google" class="googlelogin">
+						<input type="submit" value="Kakao" class="kakaologin">
+					</td>
+				</tr>
+			</table>
+			</form>
+			</td>
+			</tr>
+		</table>
+		</div>
+		<!-- 
   <form class="w3-container main" style="height:100vh">
     <label>아이디</label>
     <input class="w3-input" type="text">
     <label>비밀번호</label>
     <input class="w3-input" type="text">
   </form>
+   -->
 
 </div>
 <!-- Main Contents END -->
