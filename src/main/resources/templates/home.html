@@ -6,6 +6,45 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1, h2, h3, h4, h5 {	font-family: "Poppins", sans-serif}
+body {	font-size: 16px;}
+table {	width:650px;	border: none;	border-collapse: collapse;}
+th, td {border:none;}
+.w3-half img {	margin-bottom: -6px;	margin-top: 16px;	opacity: 0.8;	cursor: pointer}
+.w3-half img:hover {	opacity: 1}
+td{height:60px; text-align:center;}
+input[type=text]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+input[type=password]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+input::placeholder{color: #c6c6c6; }
+.dologin{width:400px; height:70px; font-weight:bold; font-size:20px; background-color:#434a5d; color:white; border:none;}
+.googlelogin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:red; color:white; border:none;}
+.kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+</style>
+<script type="text/javascript">
+	function inputcheck(f) {
+		if(f.id.value == '') {
+			alert("아이디를 입력하세요");
+			f.id.focus();
+			return false;
+		}
+		if(f.id.value.length < 4) {
+			alert("아이디는 4자리 이상 입력하세요");
+		}
+		if(f.pass.value == ''){
+			alert("비밀번호를 입력하세요");
+			f.pass.focus();
+			return false;
+		}
+		return true;
+	}	
+	
+	function win_open(page) {
+		var op = "width=500, height=350, left=50, top=150";
+		open(page+".jsp","",op);
+	}
+</script>
+
 
 <body id="myPage">
 
@@ -76,28 +115,96 @@
       <h3>회원가입</h3>
     </header>
     <div class="w3-container">
-      <p>Cool huh? Ok, enough teasing around..</p>
-      <p>Go to our <a class="w3-text-teal" href="/w3css/default.asp">W3.CSS Tutorial</a> to learn more!</p>
-    </div>
-    <footer class="w3-container w3-teal">
-      <p>Modal footer</p>
-    </footer>
+      <div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
+			<form action="signup" method="post" name="f" onsubmit="return inputcheck(this)">
+			<table>
+				<tr>
+					<td colspan="3">
+					<br>
+						<input type="submit" value="Google" class="googlelogin">
+						<input type="submit" value="Kakao" class="kakaologin">
+						<br><br>
+					</td>
+				</tr>
+				<tr>
+					<td>아이디</td>
+					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>비밀번호</td>
+					<td><input type="password" name="pass" placeholder="비밀번호 입력"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" name="email" placeholder="이메일 입력"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>생년월일</td>
+					<td>년 / 월 / 일</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>별명</td>
+					<td><input type="text" name="nickname" placeholder="별명 입력 "></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>성별</td>
+					<td>
+						<input type="radio" name="gender" value="0">남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="gender" value="1">여
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<input type="submit" value="회원가입" class="dologin">
+					</td>
+				</tr>
+				
+			</table>
+			</form>
+		</div>
   </div>
+</div>
 </div>
 	<!-- 로그인 -->
 <div id="id02" class="w3-modal">
-  <div class="w3-modal-content w3-card-4 w3-animate-top">
+  <div class="w3-modal-content w3-card-4 w3-animate-top" style="width:600px; height:700px;">
     <header class="w3-container w3-teal w3-display-container"> 
       <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-teal w3-display-topright"><i class="fa fa-remove"></i></span>
       <h3>로그인</h3>
     </header>
-    <div class="w3-container">
-      <p>Cool huh? Ok, enough teasing around..</p>
-      <p>Go to our <a class="w3-text-teal" href="/w3css/default.asp">W3.CSS Tutorial</a> to learn more!</p>
-      <br>
-      <br>
-      <br>
-      <br>
+    <div class="w3-container" style="text-align:center;">
+    	<br><br><br><br>
+    	<div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
+			<form action="login" method="post" name="f" onsubmit="return inputcheck(this)">
+			<table>
+				<tr>
+					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
+				</tr>
+				<tr>
+					<td><br><input type="password" name="pass" placeholder="비밀번호 입력"></td>
+				</tr>
+				<tr>
+					<td>
+					<br><br>
+						<input type="submit" value="로그인" class="dologin">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br>
+						<input type="submit" value="Google" class="googlelogin">
+						<input type="submit" value="Kakao" class="kakaologin">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</div>
     </div>
   </div>
 </div>
