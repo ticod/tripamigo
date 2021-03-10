@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity @Table(name = "user")
+@Entity @Table(name = "USER")
 @Getter @Setter @ToString
 public class User {
 
@@ -42,19 +42,19 @@ public class User {
     @Column(name = "USER_RANK")
     private int userRank;
 
-    @Column(name = "USER_ACCESS_TOKEN")
+    @Column(name = "USER_ACCESS_TOKEN", insertable=false)
     private String userAccessToken;
 
-    @Column(name = "USER_REFRESH_TOKEN")
+    @Column(name = "USER_REFRESH_TOKEN", insertable=false)
     private String userRefreshToken;
 
-    @Column(name = "USER_REGDATE")
+    @Column(name = "USER_REGDATE", insertable=false)
     private Date userRegdate;
 
-    @Column(name = "USER_RECENT_DATE")
+    @Column(name = "USER_RECENT_DATE", insertable=false)
     private Date userRecentDate;
 
-    @Column(name = "USER_ALERT_CHK_DATE")
+    @Column(name = "USER_ALERT_CHK_DATE", insertable=false)
     private Date userAlertChkDate;
 
 }

@@ -129,34 +129,38 @@ input::placeholder{color: #c6c6c6; }
 				</tr>
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="userId" placeholder="아이디 입력 "></td>
+					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password" name="userPw" placeholder="비밀번호 입력"></td>
+					<td><input type="password" name="password" placeholder="비밀번호 입력"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>이메일</td>
-					<td><input type="text" name="userEmail" placeholder="이메일 입력"></td>
+					<td><input type="text" name="email" placeholder="이메일 입력"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
-					<td><input type="text" name="userBirth" placeholder="생년월일 입력"></td>
+					<td>
+						<input type="text" name="year" placeholder="년">
+						<input type="text" name="month" placeholder="월">
+						<input type="text" name="day" placeholder="일">
+					</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>별명</td>
-					<td><input type="text" name="userNickname" placeholder="별명 입력 "></td>
+					<td><input type="text" name="nickname" placeholder="별명 입력 "></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>성별</td>
 					<td>
-						<input type="radio" name="userGender" value="0">남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="radio" name="userGender" value="1">여
+						<input type="radio" name="gender" value="0">남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="gender" value="1">여
 					</td>
 					<td></td>
 				</tr>
@@ -182,7 +186,7 @@ input::placeholder{color: #c6c6c6; }
     <div class="w3-container" style="text-align:center;">
     	<br><br><br><br>
     	<div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form action="login" method="post" name="f" onsubmit="return inputcheck(this)">
+			<form method="post" name="f">
 			<table>
 				<tr>
 					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
@@ -193,7 +197,7 @@ input::placeholder{color: #c6c6c6; }
 				<tr>
 					<td>
 					<br><br>
-						<input type="submit" value="로그인" class="dologin">
+						<input type="button" class="dologin" value="로그인" onclick="this.form.action='login'; this.form.submit()">
 					</td>
 				</tr>
 				<tr>
