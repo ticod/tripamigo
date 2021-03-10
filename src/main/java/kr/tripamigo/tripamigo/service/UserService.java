@@ -1,6 +1,8 @@
 package kr.tripamigo.tripamigo.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class UserService {
         this.userJpaRepository = userJpaRepository;
     }
 
-    public void join(UserFormDTO userFormDTO) throws Exception {
+    public void join(UserFormDTO userFormDTO) {
     	User user = new User();
 
     	//userseq / userstatus
@@ -36,13 +38,8 @@ public class UserService {
         user.setUserEmail(userFormDTO.getEmail());
         user.setUserNickname(userFormDTO.getNickname());
         String birth = userFormDTO.getYear()+"-"+userFormDTO.getMonth()+"-"+userFormDTO.getDay();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
-        Date userbirth = null;
-        userbirth = sdf.parse(birth);
-        
-        System.out.println(userbirth);
-        user.setUserBirth(userbirth);
+        LocalDateTime ldt = LocalDateTime.parse(birth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        user.setUserBirth(ldt);
         user.setUserGender(userFormDTO.getGender());
         user.setUserSalt("");
         
