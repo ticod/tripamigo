@@ -38,11 +38,17 @@ public class Plan {
     @Column(name = "PLAN_OPEN")
     private int planOpen;
 
-    @Column(name = "PLAN_START")
-    private LocalDateTime planStart;
-
-    @Column(name = "PLAN_END")
-    private LocalDateTime planEnd;
-
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name = "start",
+                    column = @Column(name = "PLAN_START")
+            ),
+            @AttributeOverride(
+                    name = "end",
+                    column = @Column(name = "PLAN_END")
+            )
+    })
+    private Period period;
 
 }
