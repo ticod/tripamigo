@@ -24,7 +24,7 @@ input::placeholder{color: #c6c6c6; }
 </style>
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
 	function overlap(){
 		var id = document.getElementById('f').id.value;
 		if(id==null || id==''){
@@ -57,19 +57,26 @@ input::placeholder{color: #c6c6c6; }
 			alert("아이디 중복확인을 클릭하세요")
 		}
 		if(ovChk==1){
-			/*
+			console.log([[${userFormDTO}]])
 			$.ajax({
 				type:"POST",
 				url:"submitChk",
-				data:{
+				data:[[${userFormDTO}]],
+				success : function(data){
+					if($.trim(data)=="y"){
+						form.action='signup';
+						form.submit();					
+					}else{
 						
 					}
+				=====================================================회원가입 페이지 분리.=======================================
+				}
+				
 			
 			})
-			*/
+			
 			//success시.
-			form.action='signup';
-			form.submit();
+			
 		}
 		
 		/*this.form.action='signup'; this.form.submit()*/

@@ -110,5 +110,14 @@ public class MainController {
     	return idchk;
     	
     }
+    @RequestMapping(value="/submitChk", method=RequestMethod.POST)
+    public @ResponseBody String submitChk(@RequestParam("userFormDTO") UserFormDTO userFormDTO) {
+    	
+    	System.out.println(userFormDTO);
+    	
+    	
+    	return "y";
+    	
+    }
 
 }
