@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
@@ -55,7 +57,7 @@ public class MainController {
     }
     
     @PostMapping("login")
-    String login(@ModelAttribute @Valid UserFormDTO userFormDTO, HttpSession session, BindingResult bindingResult, Model model) throws Exception{
+    String login(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception{
     	
     	if(bindingResult.hasErrors()) {
     		return "login";
@@ -64,7 +66,7 @@ public class MainController {
     	User dbuser = svc.selectUserOne(userFormDTO.getId());
 
     	if (dbuser == null) {
-			model.addAttribute("message", "로그인 실패, 아이디와 비밀번호 확인.");
+			model.addAttribute("message", "로그인 실패, 아이디확인.");
 			model.addAttribute("url", "/login");
 			return "/alert";
 		}
@@ -75,7 +77,7 @@ public class MainController {
     		return "redirect:home";
     		
     	}else {
-    		model.addAttribute("message", "로그인 실패, 아이디와 비밀번호 확인.");
+    		model.addAttribute("message", "로그인 실패,비밀번호 확인.");
     		model.addAttribute("url", "/login");
     		return "/alert";
     	}
@@ -85,6 +87,17 @@ public class MainController {
     String logout(HttpSession session, Model model) {
     	session.invalidate();
     	return "redirect:home";
+    }
+    
+    @RequestMapping(value="/idOverlapChk", method=RequestMethod.POST)
+    public @ResponseBody String idOverlapChk(@RequestParam("id") String id) {
+    	String idchk = "n";
+    	User dbuser = svc.selectUserOne(id);
+    	if(dbuser==null) {
+    		idchk="y";
+    	}
+    	return idchk;
+    	
     }
 
 }
