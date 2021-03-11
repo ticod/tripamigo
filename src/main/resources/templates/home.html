@@ -67,8 +67,9 @@ input::placeholder{color: #c6c6c6; }
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-right w3-teal"><i class="fa fa-home w3-margin-right"></i>HOME</a>
   <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Tripamigo</a>
-  <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS">회원가입</button>
-  <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS">로그인</button>
+	<button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="회원가입"/>
+  	<button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="로그인"/>
+  	<a href="logout"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:unless="${session.loginUser eq null}" th:text="로그아웃"/></a>
   <a href="community/home" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white">커뮤니티</a>
     <!-- 
     <div class="w3-dropdown-hover w3-hide-small">
@@ -186,18 +187,20 @@ input::placeholder{color: #c6c6c6; }
     <div class="w3-container" style="text-align:center;">
     	<br><br><br><br>
     	<div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form method="post" name="f">
+			<form id="loginform" action="/login" th:object="${userFormDTO}" method="post">
 			<table>
 				<tr>
-					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
+					<td><input type="text" th:field="*{id}" placeholder="아이디 입력 "></td>
+					<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</td>
 				</tr>
 				<tr>
-					<td><br><input type="password" name="pass" placeholder="비밀번호 입력"></td>
+					<td><br><input type="password" th:field="*{password}" placeholder="비밀번호 입력"></td>
+					<td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">id Error</td>
 				</tr>
 				<tr>
 					<td>
 					<br><br>
-						<input type="button" class="dologin" value="로그인" onclick="this.form.action='login'; this.form.submit()">
+						<input type="submit" value="로그인" class="dologin">
 					</td>
 				</tr>
 				<tr>
