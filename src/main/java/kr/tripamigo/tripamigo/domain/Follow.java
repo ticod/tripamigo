@@ -10,15 +10,18 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class Follow {
 
-    @Id
+//    @Id
 //    @ManyToOne
-    @Column(name = "USER_SEQ")
-    private Long user;
+//    @Column(name = "USER_SEQ")
+//    private Long user;
 
 //    @Id
 //    @ManyToOne
-    @Column(name = "FOLLOW_USER_SEQ")
-    private int followUser;
+//    @Column(name = "FOLLOW_USER_SEQ")
+//    private int followUser;
+
+    @EmbeddedId
+    private FollowId followId;
 
     @Column(name = "FOLLOW_STATUS")
     private boolean followStatus;

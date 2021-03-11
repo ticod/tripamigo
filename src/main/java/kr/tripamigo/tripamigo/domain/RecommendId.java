@@ -4,22 +4,24 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Embeddable
 @Getter @Setter
 @EqualsAndHashCode
-public class FollowId implements Serializable {
+public class RecommendId implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "USER_SEQ")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "FOLLOW_USER_SEQ")
-    private User followUser;
+    @Enumerated
+    @Column(name = "RECOMMEND_TYPE")
+    private RecommendType recommendType;
+
+    @Column(name = "RECOMMEND_SEQ")
+    private int contentSeq;
 
 }

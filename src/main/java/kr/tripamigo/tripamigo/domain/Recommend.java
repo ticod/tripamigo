@@ -10,15 +10,8 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class Recommend {
 
-    @Id
-    @Column(name = "USER_SEQ")
-    private Long userSeq;
-
-    @Column(name = "RECOMMEND_TYPE")
-    private int contentType;
-
-    @Column(name = "RECOMMEND_SEQ")
-    private int contentSeq;
+    @EmbeddedId
+    private RecommendId recommendId;
 
     @Column(name = "RECOMMEND_STATUS")
     private boolean status;
