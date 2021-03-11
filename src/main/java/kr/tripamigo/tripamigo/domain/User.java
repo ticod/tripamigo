@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity @Table(name = "USER")
 @Getter @Setter @ToString
@@ -34,7 +34,7 @@ public class User {
     private String userNickname;
 
     @Column(name = "USER_BIRTH")
-    private Date userBirth;
+    private LocalDateTime userBirth;
 
     @Column(name = "USER_GENDER")
     private int userGender;
@@ -49,12 +49,12 @@ public class User {
     private String userRefreshToken;
 
     @Column(name = "USER_REGDATE", insertable=false)
-    private Date userRegdate;
+    private LocalDateTime userRegdate;
 
     @Column(name = "USER_RECENT_DATE", insertable=false)
-    private Date userRecentDate;
+    private LocalDateTime userRecentDate;
 
     @Column(name = "USER_ALERT_CHK_DATE", insertable=false)
-    private Date userAlertChkDate;
+    private LocalDateTime userAlertChkDate;
 
 }
