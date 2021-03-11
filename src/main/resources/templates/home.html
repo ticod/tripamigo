@@ -27,6 +27,11 @@ input::placeholder{color: #c6c6c6; }
 <script type="text/javascript">
 	function overlap(){
 		var id = document.getElementById('f').id.value;
+		if(id==null || id==''){
+			alert("아이디를 입력하시고 중복확인 버튼을 클릭하세요")
+			document.getElementById('f').id.focus();
+			return false;
+		}
 		console.log(id)
 		$.ajax({
 			type:"POST",
@@ -34,14 +39,40 @@ input::placeholder{color: #c6c6c6; }
 			data:{"id":id},
 			success : function(data){
 				if($.trim(data)=="y"){
-					alert("사용가능한 아이디");
+					alert(id+"사용가능한 아이디입니다.");
+					document.getElementById('f').ovChkValue.value=1;
 				}else{
-					alert("중복아이디");
+					alert("중복되는 아이디입니다.");
+					document.getElementById('f').ovChkValue.value=0;
 				}
 			}
 		})
-		
+	}
 	
+	function submitChk(){
+		form = document.getElementById('f');
+		ovChk = form.ovChkValue.value;
+		console.log(ovChk)
+		if(ovChk==0){
+			alert("아이디 중복확인을 클릭하세요")
+		}
+		if(ovChk==1){
+			/*
+			$.ajax({
+				type:"POST",
+				url:"submitChk",
+				data:{
+						
+					}
+			
+			})
+			*/
+			//success시.
+			form.action='signup';
+			form.submit();
+		}
+		
+		/*this.form.action='signup'; this.form.submit()*/
 	}
 
 </script>
@@ -118,7 +149,7 @@ input::placeholder{color: #c6c6c6; }
     </header>
     <div class="w3-container">
       <div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form method="post" id="f" name="f">
+			<form method="post" id="f" name="f" th:object="${userFormDTO}" >
 			<table>
 				<tr>
 					<td colspan="3">
@@ -129,14 +160,21 @@ input::placeholder{color: #c6c6c6; }
 					</td>
 				</tr>
 				<tr>
+				<!-- 
+				ajax valid
+				hidden값으로 아이디중복확인여부v
+				-->
 					<td>아이디</td>
-					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
-					<td><a href="javascript:overlap()">중복확인</a></td>
+					<td><input type="text" name="id" placeholder="아이디 입력 "><div id="idchk"></div></td>
+					<td><a href="javascript:overlap()">중복확인</a>
+						<input type="hidden" name="ovChkValue" value="0">
+					</td>
+					
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td><input type="password" name="password" placeholder="비밀번호 입력"></td>
-					<td></td>
+					<td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">id Error</td>
 				</tr>
 				<tr>
 					<td>이메일</td>
@@ -167,7 +205,7 @@ input::placeholder{color: #c6c6c6; }
 				</tr>
 				<tr>
 					<td colspan="3">
-						<input type="button" value="회원가입" onclick="this.form.action='signup'; this.form.submit()" class="signup">
+						<input type="button" value="회원가입" onclick="javascript:submitChk()" class="signup">
 					</td>
 				</tr>
 				

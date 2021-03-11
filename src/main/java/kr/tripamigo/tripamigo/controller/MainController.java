@@ -1,7 +1,5 @@
 package kr.tripamigo.tripamigo.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -38,6 +36,7 @@ public class MainController {
         return "login";
     }
     
+    /*
     @PostMapping("/signup")
     String signup(@RequestParam Map<String, Object> param, Model model) throws Exception {
     	UserFormDTO dto = new UserFormDTO();
@@ -55,11 +54,25 @@ public class MainController {
     	
     	return "redirect:/home";
     }
+    */
+    
+    @PostMapping("/signup")
+    String signup(@Valid UserFormDTO userFormDTO, BindingResult bindingResult, Model model) throws Exception {
+    	
+    	if(bindingResult.hasErrors()) {
+    		return "home::#f";
+    	}
+    	
+    	svc.join(userFormDTO);
+    	
+    	return "redirect:/home";
+    	//이넘타입으로 y / n 넘겨주는 방법?
+    }
     
     @PostMapping("login")
     String login(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception{
     	
-    	if(bindingResult.hasErrors()) {
+    	if(bindingResult.hasFieldErrors("id")||bindingResult.hasFieldErrors("password")) {
     		return "login";
     	}
     	
