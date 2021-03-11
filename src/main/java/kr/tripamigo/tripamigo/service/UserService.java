@@ -40,5 +40,9 @@ public class UserService {
         System.out.println(user);
         userRepository.save(user);
     }
+    
+    public User selectUserOne(String userid) {
+    	return userJpaRepository.findByUserId(userid);
+    }
 
 }

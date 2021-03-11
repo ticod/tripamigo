@@ -41,13 +41,18 @@
 			</tr>
 			<tr>
 			<td>
-			<form action="login" method="post" name="f" onsubmit="return inputcheck(this)">
+			<form id="loginform" action="/login" th:object="${userFormDTO}" method="post">
 			<table>
 				<tr>
-					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
+					<td><input type="text" th:field="*{id}" placeholder="아이디 입력 "><br>
+					<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</p>
+					</td>
 				</tr>
 				<tr>
-					<td><br><input type="password" name="pass" placeholder="비밀번호 입력"></td>
+					<td><br><input type="password" th:field="*{password}" placeholder="비밀번호 입력"><br>
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">id Error</p>
+					</td>
+					
 				</tr>
 				<tr>
 					<td>

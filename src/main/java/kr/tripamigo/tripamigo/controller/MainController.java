@@ -2,14 +2,20 @@ package kr.tripamigo.tripamigo.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.service.UserService;
 
@@ -20,12 +26,13 @@ public class MainController {
 	private UserService svc;
 
     @RequestMapping("/home")
-    String home(Model model) {
+    String home(UserFormDTO userFormDTO, Model model) {
+    	
         return "home";
     }
 
     @GetMapping("/login")
-    String login(Model model) {
+    String login(UserFormDTO userFormDTO, Model model) {
         return "login";
     }
     
@@ -47,13 +54,31 @@ public class MainController {
     	return "redirect:/home";
     }
     
-    @PostMapping("/login")
-    String login(@RequestParam Map<String, Object> param, Model model) {
+    @PostMapping("login")
+    String login(@ModelAttribute @Valid UserFormDTO userFormDTO, HttpSession session, BindingResult bindingResult, Model model) throws Exception{
     	
+    	if(bindingResult.hasErrors()) {
+    		return "login";
+    	}
     	
+    	User dbuser = svc.selectUserOne(userFormDTO.getId());
+    	System.out.println("dbuser password : " + dbuser.getUserPw());
     	
-    	
-    	return "home";
+    	if(dbuser.getUserPw().equals(userFormDTO.getPassword())) {
+    		model.addAttribute("loginUser", dbuser);
+    		session.setAttribute("loginUser", dbuser);
+    		return "redirect:home";
+    		
+    	}else {
+    		model.addAttribute("exception", "로그인 실패, 아이디와 비밀번호 확인.");
+    		return "alert";
+    	}
+    
+    }
+    @RequestMapping("logout")
+    String logout(HttpSession session, Model model) {
+    	session.invalidate();
+    	return "redirect:home";
     }
 
 }
