@@ -5,24 +5,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import kr.tripamigo.tripamigo.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
-import kr.tripamigo.tripamigo.repository.UserJpaRepository;
 
-@Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserJpaRepository userJpaRepository;
-
-    @Autowired
-    public UserService(UserJpaRepository userJpaRepository) {
-        this.userJpaRepository = userJpaRepository;
-    }
+    private final UserRepository userRepository;
 
     public void join(UserFormDTO userFormDTO) {
     	User user = new User();
@@ -44,7 +38,7 @@ public class UserService {
         user.setUserSalt("");
         
         System.out.println(user);
-        userJpaRepository.save(user);
+        userRepository.save(user);
     }
 
 }
