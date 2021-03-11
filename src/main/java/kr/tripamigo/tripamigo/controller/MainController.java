@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import kr.tripamigo.tripamigo.exception.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,7 +71,8 @@ public class MainController {
     }
     
     @PostMapping("login")
-    String login(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception{
+    String login(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model)
+			throws Exception {
     	
     	if(bindingResult.hasFieldErrors("id")||bindingResult.hasFieldErrors("password")) {
     		return "login";
@@ -79,9 +81,7 @@ public class MainController {
     	User dbuser = svc.selectUserOne(userFormDTO.getId());
 
     	if (dbuser == null) {
-			model.addAttribute("message", "로그인 실패, 아이디확인.");
-			model.addAttribute("url", "/login");
-			return "/alert";
+    		throw new LoginException("로그인 실패, 아이디 확인", "/login");
 		}
     	
     	if(dbuser.getUserPw().equals(userFormDTO.getPassword())) {
@@ -89,10 +89,8 @@ public class MainController {
     		session.setAttribute("loginUser", dbuser);
     		return "redirect:home";
     		
-    	}else {
-    		model.addAttribute("message", "로그인 실패,비밀번호 확인.");
-    		model.addAttribute("url", "/login");
-    		return "/alert";
+    	} else {
+			throw new LoginException("로그인 실패, 아이디 확인", "/login");
     	}
     
     }
