@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity @Table(name = "BOARD")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "BOARD_TYPE")
+@DiscriminatorColumn(name = "BOARD_TYPE", discriminatorType = DiscriminatorType.INTEGER)
 @Getter @Setter @ToString
 public abstract class Board {
 
@@ -18,7 +18,7 @@ public abstract class Board {
     @Column(name = "BOARD_SEQ")
     private Long boardSeq;
 
-    @Column(name = "BOARD_STATUS")
+    @Column(name = "BOARD_STATUS", insertable = false)
     private boolean boardStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,10 +34,10 @@ public abstract class Board {
     @Column(name = "BOARD_THUMBNAIL")
     private String boardThumbnail;
 
-    @Column(name = "BOARD_REGDATE")
+    @Column(name = "BOARD_REGDATE", insertable = false)
     private LocalDateTime boardRegdate;
 
-    @Column(name = "BOARD_HITS")
+    @Column(name = "BOARD_HITS", insertable = false)
     private int boardHits;
 
     @Column(name = "BOARD_TAG")
