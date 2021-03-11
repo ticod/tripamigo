@@ -42,7 +42,7 @@ public class UserService {
     }
     
     public User selectUserOne(String userid) {
-    	return userJpaRepository.findByUserId(userid);
+    	return userRepository.findByUserId(userid).orElseGet(() -> null);
     }
 
 }
