@@ -1,9 +1,7 @@
 package kr.tripamigo.tripamigo.service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.repository.UserJpaRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserJpaRepository userJpaRepository;
-
-    @Autowired
-    public UserService(UserJpaRepository userJpaRepository) {
-        this.userJpaRepository = userJpaRepository;
-    }
+    private final UserJpaRepository userJpaRepository;
+    
 
     public void join(UserFormDTO userFormDTO) {
     	User user = new User();

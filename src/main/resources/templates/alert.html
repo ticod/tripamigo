@@ -1,4 +1,10 @@
-<script>
-	alert("${exception.message}");
-	location.href="${exception.url}";
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:inline="javascript">
+	alert("${exception}");
+	location.href="/login";
+
 </script>
+<body>
+</body>
+</html>

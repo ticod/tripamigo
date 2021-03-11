@@ -62,6 +62,12 @@ public class MainController {
     	}
     	
     	User dbuser = svc.selectUserOne(userFormDTO.getId());
+    	
+    	if(dbuser == null) {
+    		model.addAttribute("exception", "로그인 실패, 아이디 확인.");
+    		return "alert";
+    	}
+    	
     	System.out.println("dbuser password : " + dbuser.getUserPw());
     	
     	if(dbuser.getUserPw().equals(userFormDTO.getPassword())) {
