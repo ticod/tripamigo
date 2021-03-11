@@ -22,28 +22,28 @@ input::placeholder{color: #c6c6c6; }
 .kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
 .signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
 </style>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-	function inputcheck(f) {
-		if(f.id.value == '') {
-			alert("아이디를 입력하세요");
-			f.id.focus();
-			return false;
-		}
-		if(f.id.value.length < 4) {
-			alert("아이디는 4자리 이상 입력하세요");
-		}
-		if(f.pass.value == ''){
-			alert("비밀번호를 입력하세요");
-			f.pass.focus();
-			return false;
-		}
-		return true;
-	}	
+	function overlap(){
+		var id = document.getElementById('f').id.value;
+		console.log(id)
+		$.ajax({
+			type:"POST",
+			url:"idOverlapChk",
+			data:{"id":id},
+			success : function(data){
+				if($.trim(data)=="y"){
+					alert("사용가능한 아이디");
+				}else{
+					alert("중복아이디");
+				}
+			}
+		})
+		
 	
-	function win_open(page) {
-		var op = "width=500, height=350, left=50, top=150";
-		open(page+".jsp","",op);
 	}
+
 </script>
 
 
@@ -118,7 +118,7 @@ input::placeholder{color: #c6c6c6; }
     </header>
     <div class="w3-container">
       <div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form method="post" name="f">
+			<form method="post" id="f" name="f">
 			<table>
 				<tr>
 					<td colspan="3">
@@ -131,7 +131,7 @@ input::placeholder{color: #c6c6c6; }
 				<tr>
 					<td>아이디</td>
 					<td><input type="text" name="id" placeholder="아이디 입력 "></td>
-					<td></td>
+					<td><a href="javascript:overlap()">중복확인</a></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
