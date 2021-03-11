@@ -62,7 +62,12 @@ public class MainController {
     	}
     	
     	User dbuser = svc.selectUserOne(userFormDTO.getId());
-    	System.out.println("dbuser password : " + dbuser.getUserPw());
+
+    	if (dbuser == null) {
+			model.addAttribute("message", "로그인 실패, 아이디와 비밀번호 확인.");
+			model.addAttribute("url", "/login");
+			return "/alert";
+		}
     	
     	if(dbuser.getUserPw().equals(userFormDTO.getPassword())) {
     		model.addAttribute("loginUser", dbuser);
@@ -70,8 +75,9 @@ public class MainController {
     		return "redirect:home";
     		
     	}else {
-    		model.addAttribute("exception", "로그인 실패, 아이디와 비밀번호 확인.");
-    		return "alert";
+    		model.addAttribute("message", "로그인 실패, 아이디와 비밀번호 확인.");
+    		model.addAttribute("url", "/login");
+    		return "/alert";
     	}
     
     }
