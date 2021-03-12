@@ -5,6 +5,7 @@ import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import kr.tripamigo.tripamigo.repository.UserRepository;
 import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.UserService;
+import kr.tripamigo.tripamigo.util.CipherUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,13 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class SpringConfig {
 
+    /* Repository */
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final MagazineRepository magazineRepository;
+
+    /* Util */
+    private final CipherUtil cipherUtil;
 
     @Bean
     public HandlerExceptionResolver exceptionResolver() {
@@ -32,9 +37,10 @@ public class SpringConfig {
         return ser;
     }
 
+    /* Service */
     @Bean
     public UserService userService() {
-        return new UserService(userRepository);
+        return new UserService(userRepository, cipherUtil);
     }
 
     @Bean

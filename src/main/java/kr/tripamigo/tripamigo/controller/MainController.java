@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,12 @@ import kr.tripamigo.tripamigo.service.UserService;
 
 @Controller
 public class MainController {
-	
+
 	@Autowired
-	private UserService svc;
+	private UserService userService;
+
+	@Autowired
+	private CipherUtil cipherUtil;
 
     @RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
@@ -51,15 +55,17 @@ public class MainController {
     		return "login";
     	}
     	
-    	User dbuser = svc.selectUserOne(userFormDTO.getId());
+    	User dbUser = userService.selectUserOne(userFormDTO.getId());
 
-    	if (dbuser == null) {
+    	if (dbUser == null) {
     		throw new LoginException("로그인 실패, 아이디 확인", "/login");
 		}
     	
-    	if(dbuser.getUserPw().equals(userFormDTO.getPassword())) {
-    		model.addAttribute("loginUser", dbuser);
-    		session.setAttribute("loginUser", dbuser);
+    	if(dbUser.getUserPw().equals(
+    			cipherUtil.hashEncoding(
+    					userFormDTO.getPassword(), dbUser.getUserSalt()))) {
+    		model.addAttribute("loginUser", dbUser);
+    		session.setAttribute("loginUser", dbUser);
     		return "redirect:home";
     		
     	} else {
@@ -76,7 +82,7 @@ public class MainController {
     @RequestMapping(value="/idOverlapChk", method=RequestMethod.POST)
     public @ResponseBody String idOverlapChk(@RequestParam("id") String id) {
     	String idchk = "n";
-    	User dbuser = svc.selectUserOne(id);
+    	User dbuser = userService.selectUserOne(id);
     	if(dbuser==null) {
     		idchk="y";
     	}
@@ -90,7 +96,7 @@ public class MainController {
     	if(bindingResult.hasErrors()) {
     		return "signup";
     	}
-    	svc.join(userFormDTO);
+    	userService.join(userFormDTO);
     	
     	throw new LoginException(userFormDTO.getId()+"님 회원가입 완료", "/home");
     

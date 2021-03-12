@@ -1,8 +1,10 @@
 package kr.tripamigo.tripamigo.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
@@ -15,29 +17,25 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CipherUtil cipherUtil;
 
-    public void join(UserFormDTO userFormDTO) {
+    public void join(UserFormDTO userFormDTO) throws Exception {
+
     	User user = new User();
-
-    	//userseq / userstatus
         
     	user.setUserId(userFormDTO.getId());
     	user.setUserStatus(true);
-        user.setUserPw(userFormDTO.getPassword());
-        
-        user.setUserSalt("");
+
+    	user.setUserSalt(cipherUtil.generateSalt());
+    	user.setUserPw(cipherUtil.hashEncoding(userFormDTO.getPassword(), user.getUserSalt()));
         
         user.setUserEmail(userFormDTO.getEmail());
         user.setUserNickname(userFormDTO.getNickname());
-        String birth = userFormDTO.getYear()+"-"+userFormDTO.getMonth()+"-"+userFormDTO.getDay();
-        System.out.println("birth : ======="+birth);
-        LocalDateTime ldt = LocalDate.parse(birth).atStartOfDay();
-        System.out.println(ldt);
-        user.setUserBirth(ldt);
+        String birthString = userFormDTO.getYear()+"-"+userFormDTO.getMonth()+"-"+userFormDTO.getDay();
+        LocalDateTime birth = LocalDate.parse(birthString).atStartOfDay();
+        user.setUserBirth(birth);
         user.setUserGender(userFormDTO.getGender());
-        user.setUserSalt("");
-        
-        System.out.println(user);
+
         userRepository.save(user);
     }
     
