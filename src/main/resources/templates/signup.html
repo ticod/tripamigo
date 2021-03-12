@@ -13,14 +13,15 @@
 	th, td {border:none;}
 	.w3-half img {	margin-bottom: -6px;	margin-top: 16px;	opacity: 0.8;	cursor: pointer}
 	.w3-half img:hover {	opacity: 1}
-	td{height:60px; text-align:center;}
-	input[type=text]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
-	input[type=password]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+	td{height:100px; text-align:center;}
+	input[type=text]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:40px; padding-left: 30px;}
+	input[type=password]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:40px; padding-left: 30px;}
 	input::placeholder{color: #c6c6c6; }
 	.dologin{width:400px; height:70px; font-weight:bold; font-size:20px; background-color:#434a5d; color:white; border:none;}
 	.googlelogin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:red; color:white; border:none;}
 	.kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
-	.signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+	.signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:#434a5d; color:white; border:none;}
+	.overlap{width:90px;height:40px; font-weight:bold; font-size:15px; background-color:#434a5d; color:white; border:none; border-radius: 20px;}
 	h2 {
 	font-weight: bold;
 	}
@@ -112,34 +113,38 @@
 				</tr>
 				<tr>
 				
-					<td>아이디</td>
-					<td><input type="text" th:field="*{id}" placeholder="아이디 입력 "><div id="idchk"></div>
+					<td style="width:15%">
+						<img src="imgs/icons/id.png">
+					</td>
+					<td style="width:70%"><input type="text" th:field="*{id}" placeholder="아이디 입력 "><div id="idchk"></div>
 					<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</p>
 					</td>
-					<td><a href="javascript:overlap()">중복확인</a>
+					<td style="width:15%"><a href="javascript:overlap()"><input type="button" class="overlap" value="중복확인"></a>
 						<input type="hidden" name="ovChkValue" value="0">
 						<input type="hidden" name="tmpID" value="">
 					</td>
 					
 				</tr>
 				<tr>
-					<td>비밀번호</td>
+					<td><img src="imgs/icons/password.png"></td>
 					<td><input type="password" th:field="*{password}" placeholder="비밀번호 입력">
 					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</p>
 					</td>
+					<td></td>
 					<!-- <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">id Error</td>-->
 				</tr>
 				<tr>
-					<td>이메일</td>
+					<td><img src="imgs/icons/email.png"></td>
 					<td><input type="text" th:field="*{email}" placeholder="이메일 입력">
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</p>
 					</td>
+					<td></td>
 					<!-- <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">id Error</td>-->
 				</tr>
 				<tr>
-					<td>생년월일</td>
+					<td><img src="imgs/icons/birth.png"></td>
 					<td>
-						<input type="text" th:field="*{year}" placeholder="년">
+						<input type="text" th:field="*{year}" placeholder="생년">
 						<p th:if="${#fields.hasErrors('year')}" th:errors="*{year}">year Error</p>
 						<input type="text" th:field="*{month}" placeholder="월">
 						<p th:if="${#fields.hasErrors('month')}" th:errors="*{month}">month Error</p>
@@ -149,14 +154,15 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td>별명</td>
+					<td><img src="imgs/icons/nickname.png"></td>
 					<td><input type="text" th:field="*{nickname}" placeholder="별명 입력 ">
 					<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">nickname Error</p>
 					</td>
+					<td></td>
 					<!-- <td th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">id Error</td>-->
 				</tr>
 				<tr>
-					<td>성별</td>
+					<td><img src="imgs/icons/gender.png"></td>
 					<td>
 						<input type="radio" th:field="*{gender}" value="0">남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="radio" th:field="*{gender}" value="1">여
