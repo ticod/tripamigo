@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <title>Tripamigo | SIGNUP</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" th:href="@{/css/layout.css}">
+  <style>
+	body, h1, h2, h3, h4, h5 {	font-family: "Poppins", sans-serif}
+	body {	font-size: 16px;}
+	table {	width:650px;	border: none;	border-collapse: collapse;}
+	th, td {border:none;}
+	.w3-half img {	margin-bottom: -6px;	margin-top: 16px;	opacity: 0.8;	cursor: pointer}
+	.w3-half img:hover {	opacity: 1}
+	td{height:60px; text-align:center;}
+	input[type=text]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+	input[type=password]{border:1px solid #dbdbdb; font-size:14px; font-weight:bold; width:400px; height:60px; padding-left: 30px;}
+	input::placeholder{color: #c6c6c6; }
+	.dologin{width:400px; height:70px; font-weight:bold; font-size:20px; background-color:#434a5d; color:white; border:none;}
+	.googlelogin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:red; color:white; border:none;}
+	.kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+	.signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
+	h2 {
+	font-weight: bold;
+	}
+	</style>
+	<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+	function overlap(){
+		form = document.getElementById('f');
+		
+		var id = form.id.value;
+		form.tmpID.value=id;
+		
+		if(id==null || id==''){
+			alert("아이디를 입력하시고 중복확인 버튼을 클릭하세요")
+			document.getElementById('f').id.focus();
+			return false;
+		}
+		
+		console.log(id)
+		
+		$.ajax({
+			type:"POST",
+			url:"idOverlapChk",
+			data:{"id":id},
+			success : function(data){
+				if($.trim(data)=="y"){
+					alert(id+"사용가능한 아이디입니다.");
+					document.getElementById('f').ovChkValue.value=1;
+					console.log("ovChk=1")
+				}else{
+					alert("중복되는 아이디입니다.");
+					document.getElementById('f').ovChkValue.value=0;
+					console.log("ovChk=0")
+				}
+			}
+		})
+	}
+	
+	function submitChk(f){
+		form = f;
+		
+		if(form.id.value != form.tmpID.value){
+			form.ovChkValue.value=0;
+		}
+		
+		ovChk = form.ovChkValue.value;
+		console.log(ovChk)
+		
+		if(ovChk==0){
+			alert("아이디 중복확인을 클릭하세요")
+			console.log("ovChk=0")
+			return false;
+		}
+		
+		if(ovChk==1){
+			console.log("ovChk==1")
+			
+			f.action='signup';
+			f.submit();
+						
+		}
+	}
+
+</script>
+<body>
+
+<!-- Sidebar -->
+<div th:insert="~{/layout/layout :: sidebar}"></div>
+<!-- Sidebar END -->
+
+<!-- Main Contents -->
+<div class="w3-center w3-container main">
+	<div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
+			<form method="post" id="f" name="f" th:object="${userFormDTO}" onsubmit="return submitChk(this)">
+			<table>
+				<tr>
+					<td colspan="3"><h2>회원가입</h2></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+					<br>
+						<input type="submit" value="Google" class="googlelogin">
+						<input type="submit" value="Kakao" class="kakaologin">
+						<br><br>
+					</td>
+				</tr>
+				<tr>
+				
+					<td>아이디</td>
+					<td><input type="text" th:field="*{id}" placeholder="아이디 입력 "><div id="idchk"></div>
+					<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</p>
+					</td>
+					<td><a href="javascript:overlap()">중복확인</a>
+						<input type="hidden" name="ovChkValue" value="0">
+						<input type="hidden" name="tmpID" value="">
+					</td>
+					
+				</tr>
+				<tr>
+					<td>비밀번호</td>
+					<td><input type="password" th:field="*{password}" placeholder="비밀번호 입력">
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</p>
+					</td>
+					<!-- <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">id Error</td>-->
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" th:field="*{email}" placeholder="이메일 입력">
+					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</p>
+					</td>
+					<!-- <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">id Error</td>-->
+				</tr>
+				<tr>
+					<td>생년월일</td>
+					<td>
+						<input type="text" th:field="*{year}" placeholder="년">
+						<p th:if="${#fields.hasErrors('year')}" th:errors="*{year}">year Error</p>
+						<input type="text" th:field="*{month}" placeholder="월">
+						<p th:if="${#fields.hasErrors('month')}" th:errors="*{month}">month Error</p>
+						<input type="text" th:field="*{day}" placeholder="일">
+						<p th:if="${#fields.hasErrors('day')}" th:errors="*{day}">day Error</p>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>별명</td>
+					<td><input type="text" th:field="*{nickname}" placeholder="별명 입력 ">
+					<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">nickname Error</p>
+					</td>
+					<!-- <td th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">id Error</td>-->
+				</tr>
+				<tr>
+					<td>성별</td>
+					<td>
+						<input type="radio" th:field="*{gender}" value="0">남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" th:field="*{gender}" value="1">여
+					</td>
+					<td><p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">gender Error</p></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<input type="submit" value="회원가입" class="signup">
+					</td>
+				</tr>
+				
+			</table>
+			</form>
+		</div>
+</div>
+		<!-- 
+  <form class="w3-container main" style="height:100vh">
+    <label>아이디</label>
+    <input class="w3-input" type="text">
+    <label>비밀번호</label>
+    <input class="w3-input" type="text">
+  </form>
+   -->
+
+<!-- Main Contents END -->
+
+<!-- Footer -->
+<footer th:insert="~{/layout/layout :: footer}"></footer>
+<!-- Footer END -->
+
+</body>
+</html>
+
+

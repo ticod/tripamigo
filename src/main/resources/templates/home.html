@@ -22,67 +22,6 @@ input::placeholder{color: #c6c6c6; }
 .kakaologin{width:200px; height:50px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
 .signup{width:150px; height:40px; font-weight:bold; font-size:20px; background-color:yellow; color:black; border:none;}
 </style>
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script th:inline="javascript">
-	function overlap(){
-		var id = document.getElementById('f').id.value;
-		if(id==null || id==''){
-			alert("아이디를 입력하시고 중복확인 버튼을 클릭하세요")
-			document.getElementById('f').id.focus();
-			return false;
-		}
-		console.log(id)
-		$.ajax({
-			type:"POST",
-			url:"idOverlapChk",
-			data:{"id":id},
-			success : function(data){
-				if($.trim(data)=="y"){
-					alert(id+"사용가능한 아이디입니다.");
-					document.getElementById('f').ovChkValue.value=1;
-				}else{
-					alert("중복되는 아이디입니다.");
-					document.getElementById('f').ovChkValue.value=0;
-				}
-			}
-		})
-	}
-	
-	function submitChk(){
-		form = document.getElementById('f');
-		ovChk = form.ovChkValue.value;
-		console.log(ovChk)
-		if(ovChk==0){
-			alert("아이디 중복확인을 클릭하세요")
-		}
-		if(ovChk==1){
-			console.log([[${userFormDTO}]])
-			$.ajax({
-				type:"POST",
-				url:"submitChk",
-				data:[[${userFormDTO}]],
-				success : function(data){
-					if($.trim(data)=="y"){
-						form.action='signup';
-						form.submit();					
-					}else{
-						
-					}
-				=====================================================회원가입 페이지 분리.=======================================
-				}
-				
-			
-			})
-			
-			//success시.
-			
-		}
-		
-		/*this.form.action='signup'; this.form.submit()*/
-	}
-
-</script>
 
 
 <body id="myPage">
@@ -105,7 +44,7 @@ input::placeholder{color: #c6c6c6; }
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-right w3-teal"><i class="fa fa-home w3-margin-right"></i>HOME</a>
   <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Tripamigo</a>
-	<button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="회원가입"/>
+	<a href="signup"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="회원가입"/></a>
   	<button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="로그인"/>
   	<a href="logout"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:unless="${session.loginUser eq null}" th:text="로그아웃"/></a>
   <a href="community/home" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white">커뮤니티</a>
@@ -156,7 +95,7 @@ input::placeholder{color: #c6c6c6; }
     </header>
     <div class="w3-container">
       <div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form method="post" id="f" name="f" th:object="${userFormDTO}" >
+			<form method="post" id="f" name="f" th:object="${userFormDTO}" onsubmit="return submitChk(this)">
 			<table>
 				<tr>
 					<td colspan="3">
@@ -186,7 +125,7 @@ input::placeholder{color: #c6c6c6; }
 				<tr>
 					<td>이메일</td>
 					<td><input type="text" name="email" placeholder="이메일 입력"></td>
-					<td></td>
+					<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">id Error</td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
@@ -200,7 +139,7 @@ input::placeholder{color: #c6c6c6; }
 				<tr>
 					<td>별명</td>
 					<td><input type="text" name="nickname" placeholder="별명 입력 "></td>
-					<td></td>
+					<td th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">id Error</td>
 				</tr>
 				<tr>
 					<td>성별</td>
@@ -212,7 +151,7 @@ input::placeholder{color: #c6c6c6; }
 				</tr>
 				<tr>
 					<td colspan="3">
-						<input type="button" value="회원가입" onclick="javascript:submitChk()" class="signup">
+						<input type="submit" value="회원가입" class="signup">
 					</td>
 				</tr>
 				

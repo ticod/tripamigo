@@ -3,7 +3,6 @@ package kr.tripamigo.tripamigo.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import kr.tripamigo.tripamigo.exception.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
+import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.UserService;
 
 @Controller
@@ -37,40 +37,13 @@ public class MainController {
         return "login";
     }
     
-    /*
-    @PostMapping("/signup")
-    String signup(@RequestParam Map<String, Object> param, Model model) throws Exception {
-    	UserFormDTO dto = new UserFormDTO();
-    	
-    	dto.setId((String)param.get("id"));
-    	dto.setPassword((String)param.get("password"));
-    	dto.setEmail((String)param.get("email"));
-    	dto.setYear((String)param.get("year"));
-    	dto.setMonth((String)param.get("month"));
-    	dto.setDay((String)param.get("day"));
-    	dto.setNickname((String)param.get("nickname"));
-    	dto.setGender(Integer.parseInt((String)param.get("gender")));
-    	
-    	svc.join(dto);
-    	
-    	return "redirect:/home";
-    }
-    */
-    
-    @PostMapping("/signup")
-    String signup(@Valid UserFormDTO userFormDTO, BindingResult bindingResult, Model model) throws Exception {
-    	
-    	if(bindingResult.hasErrors()) {
-    		return "home::#f";
-    	}
-    	
-    	svc.join(userFormDTO);
-    	
-    	return "redirect:/home";
-    	//이넘타입으로 y / n 넘겨주는 방법?
+    @GetMapping("/signup")
+    String signupForm(UserFormDTO userFormDTO, Model model) {
+    	System.out.println("signupForm메서드");
+    	return "signup";
     }
     
-    @PostMapping("login")
+    @PostMapping("/login")
     String login(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model)
 			throws Exception {
     	
@@ -94,7 +67,7 @@ public class MainController {
     	}
     
     }
-    @RequestMapping("logout")
+    @RequestMapping("/logout")
     String logout(HttpSession session, Model model) {
     	session.invalidate();
     	return "redirect:home";
@@ -110,14 +83,17 @@ public class MainController {
     	return idchk;
     	
     }
-    @RequestMapping(value="/submitChk", method=RequestMethod.POST)
-    public @ResponseBody String submitChk(@RequestParam("userFormDTO") UserFormDTO userFormDTO) {
+    
+    @PostMapping("/signup")
+    String signup(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception {
     	
-    	System.out.println(userFormDTO);
+    	if(bindingResult.hasErrors()) {
+    		return "signup";
+    	}
+    	svc.join(userFormDTO);
     	
-    	
-    	return "y";
-    	
+    	throw new LoginException(userFormDTO.getId()+"님 회원가입 완료", "/home");
+    
     }
 
 }

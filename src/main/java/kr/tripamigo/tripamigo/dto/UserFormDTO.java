@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class UserFormDTO {
 	@Email(message="email형식으로 입력")
     private String email;
 	
-	
+	@NotEmpty(message="년도 입력")
     private String year;
     
     @Size(min=1, max=12, message="1월부터 12월까지만 입력가능")
@@ -37,6 +38,7 @@ public class UserFormDTO {
     @NotEmpty(message="별명 필수 입력")
     private String nickname;
     
+    @NotNull(message="dfldkfj")
     private int gender;
 
 }
