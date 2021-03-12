@@ -4,6 +4,7 @@ import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.repository.BoardRepository;
+import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MagazineRepository magazineRepository;
 
     public void writeMagazine(MagazineFormDTO magazineFormDTO, User user) {
         Magazine magazine = new Magazine();

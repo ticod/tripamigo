@@ -1,6 +1,7 @@
 package kr.tripamigo.tripamigo;
 
 import kr.tripamigo.tripamigo.repository.BoardRepository;
+import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import kr.tripamigo.tripamigo.repository.UserRepository;
 import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.UserService;
@@ -20,6 +21,7 @@ public class SpringConfig {
 
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+    private final MagazineRepository magazineRepository;
 
     @Bean
     public HandlerExceptionResolver exceptionResolver() {
@@ -37,7 +39,7 @@ public class SpringConfig {
 
     @Bean
     public BoardService boardService() {
-        return new BoardService(boardRepository);
+        return new BoardService(boardRepository, magazineRepository);
     }
 
 }
