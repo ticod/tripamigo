@@ -1,12 +1,15 @@
 package kr.tripamigo.tripamigo.service;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.repository.BoardRepository;
 import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 여행 후기, 매거진, 여행 홍보 게시글
@@ -27,5 +30,11 @@ public class BoardService {
         magazine.setBoardTag(magazineFormDTO.getTags());
         boardRepository.save(magazine);
     }
+    
+    public List<Magazine> magazineList(){
+    	List<Magazine> magazineList;
+    	magazineList = magazineRepository.findAll();
+    	return magazineList;
+    } 
 
 }
