@@ -1,31 +1,24 @@
 package kr.tripamigo.tripamigo.util;
 
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-
+@Component
 public class MailSendUtil {
 
-    private MailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
+    public final static String DEFAULT_FROM_ADDRESS = "tripamigo@tripamigo.com";
 
-    public void sendMailFromAdmin(String recipient, String sender, String message) throws Exception {
-        MimeMessagePreparator preparator = mimeMessage -> {
-            mimeMessage.setRecipient(Message.RecipientType.TO,
-                    new InternetAddress(recipient));
-            mimeMessage.setFrom(new InternetAddress(sender));
-            mimeMessage.setText(message);
-        };
-
-        try {
-            this.mailSender.send((SimpleMailMessage) preparator);
-        } catch (MailException ex) {
-            // simply log it and go on...
-            System.err.println(ex.getMessage());
-        }
+    public void sendMail(String recipient, String sender, String subject, String message) throws Exception {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(recipient);
+        simpleMailMessage.setFrom(sender);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(message);
+        mailSender.send(simpleMailMessage);
     }
 
 }
