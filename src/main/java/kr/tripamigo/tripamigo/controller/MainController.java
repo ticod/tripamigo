@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,8 @@ import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.UserService;
 
+import java.util.Locale;
+
 @Controller
 public class MainController {
 
@@ -29,6 +32,9 @@ public class MainController {
 
 	@Autowired
 	private CipherUtil cipherUtil;
+
+	@Autowired
+	private MessageSource messageSource;
 
     @RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
@@ -43,7 +49,6 @@ public class MainController {
     
     @GetMapping("/signup")
     String signupForm(UserFormDTO userFormDTO, Model model) {
-    	System.out.println("signupForm메서드");
     	return "signup";
     }
     
@@ -56,9 +61,9 @@ public class MainController {
     	}
     	
     	User dbUser = userService.selectUserOne(userFormDTO.getId());
-
     	if (dbUser == null) {
-    		throw new LoginException("로그인 실패, 아이디 확인", "/login");
+    		throw new LoginException(messageSource
+					.getMessage("error.login.id", null, Locale.getDefault()), "/login");
 		}
     	
     	if(dbUser.getUserPw().equals(
@@ -69,7 +74,8 @@ public class MainController {
     		return "redirect:home";
     		
     	} else {
-			throw new LoginException("로그인 실패, 아이디 확인", "/login");
+			throw new LoginException(messageSource
+					.getMessage("error.login.pw", null, Locale.getDefault()), "/login");
     	}
     
     }
