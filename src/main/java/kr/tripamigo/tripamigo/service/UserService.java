@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CipherUtil cipherUtil;
 
     public void join(UserFormDTO userFormDTO) throws Exception {
 
@@ -26,8 +25,8 @@ public class UserService {
     	user.setUserId(userFormDTO.getId());
     	user.setUserStatus(true);
 
-    	user.setUserSalt(cipherUtil.generateSalt());
-    	user.setUserPw(cipherUtil.hashEncoding(userFormDTO.getPassword(), user.getUserSalt()));
+    	user.setUserSalt(CipherUtil.generateSalt());
+    	user.setUserPw(CipherUtil.hashEncoding(userFormDTO.getPassword(), user.getUserSalt()));
         
         user.setUserEmail(userFormDTO.getEmail());
         user.setUserNickname(userFormDTO.getNickname());
@@ -40,7 +39,7 @@ public class UserService {
     }
     
     public User selectUserOne(String userid) {
-    	return userRepository.findByUserId(userid).orElseGet(() -> null);
+    	return userRepository.findByUserId(userid).orElse(null);
     }
 
 }

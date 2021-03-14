@@ -14,7 +14,7 @@ public class CipherUtil {
 
     private static final int SALT_SIZE = 16;
 
-    private String byteToHexString(byte[] data) {
+    private static String byteToHexString(byte[] data) {
         StringBuilder sb = new StringBuilder();
         for (byte b : data) {
             sb.append(Integer.toString((b & 0xFF) + 0x100, 16).substring(1));
@@ -22,14 +22,14 @@ public class CipherUtil {
         return sb.toString();
     }
 
-    public String generateSalt() {
+    public static String generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_SIZE];
         random.nextBytes(salt);
         return byteToHexString(salt);
     }
 
-    public String hashEncoding(String msg, String salt) throws NoSuchAlgorithmException {
+    public static String hashEncoding(String msg, String salt) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(EncodingType.HASH.getValue());
         String target = msg + salt;
         md.update(target.getBytes());

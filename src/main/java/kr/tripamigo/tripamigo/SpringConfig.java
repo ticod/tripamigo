@@ -40,7 +40,7 @@ public class SpringConfig {
     /* Service */
     @Bean
     public UserService userService() {
-        return new UserService(userRepository, cipherUtil);
+        return new UserService(userRepository);
     }
 
     @Bean
