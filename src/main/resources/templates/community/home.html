@@ -1,21 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-    <!-- css -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <title>Community</title>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div th:insert="~{/layout/layout :: sidebar}"></div>
-<!-- Sidebar END -->
-
 <!-- Main Contents -->
-<div class="main w3-padding">
+<section class="w3-padding">
     <div class="w3-row w3-margin">
         <div class="w3-col s6">
             <h5>여행 계획</h5>
@@ -61,12 +52,8 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 <!-- Main Contents END -->
-
-<!-- Footer -->
-<footer th:insert="~{/layout/layout :: footer}"></footer>
-<!-- Footer END -->
 
 </body>
 </html>

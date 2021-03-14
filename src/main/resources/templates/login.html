@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <title>Tripamigo | LOGIN</title>
+<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>LOGIN</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,12 +27,8 @@
 	</style>
 <body>
 
-<!-- Sidebar -->
-<div th:insert="~{/layout/layout :: sidebar}"></div>
-<!-- Sidebar END -->
-
 <!-- Main Contents -->
-<div class="w3-center w3-container main">
+<section class="w3-center w3-container">
 
 	<div style="display:flex; justify-content: center; vertical-align: middle; height:100%; margin-top: 20vh; margin-bottom: 40vh">
 		<table>
@@ -82,12 +78,8 @@
   </form>
    -->
 
-</div>
+</section>
 <!-- Main Contents END -->
-
-<!-- Footer -->
-<footer th:insert="~{/layout/layout :: footer}"></footer>
-<!-- Footer END -->
 
 </body>
 </html>

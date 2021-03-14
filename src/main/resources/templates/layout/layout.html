@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout (title, content, style)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Tripamigo | '
+            + ${#strings.substring(title, #strings.indexOf(title, '>') + 1, #strings.indexOf(title, '</'))}">
+        TITLE
+    </title>
+    <!-- css -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <style th:replace="${style} ? ${style} : _"></style>
+</head>
 <body>
 
-<div th:fragment="sidebar" class="w3-sidebar w3-bar-block w3-border w3-pale-blue w3-card sidebar">
+<!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block w3-border w3-pale-blue w3-card sidebar">
     <!--  LOGO  -->
     <a href="/home" class="w3-bar-item w3-button w3-red w3-hover-black">Tripamigo</a>
     <!--  LOGO END -->
@@ -34,10 +47,15 @@
     <a href="promotion" class="w3-bar-item w3-button w3-hover-blue">홍보</a>
     <!-- Menu 2 END -->
 </div>
+<!-- Sidebar END -->
 
-<div th:fragment="footer" class="w3-container w3-center w3-border w3-margin-top footer">
+<div class="w3-container main" th:insert="${content}"></div>
+
+<!-- Footer -->
+<div class="w3-container w3-center w3-border w3-margin-top footer">
     &copy; 2021 Tripamigo
 </div>
+<!-- Footer END -->
 
 </body>
 </html>
