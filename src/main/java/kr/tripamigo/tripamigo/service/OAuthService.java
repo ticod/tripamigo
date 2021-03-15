@@ -1,8 +1,11 @@
 package kr.tripamigo.tripamigo.service;
 
-public interface OAuthService {
+import kr.tripamigo.tripamigo.dto.OAuthInfoDTO;
+import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
 
-    String getAccessToken(String authCode);
-    String getUserId(String accessToken);
+public interface OAuthService<T extends OAuthInfoDTO> {
+
+    OAuthTokenDTO getTokens(String authCode);
+    T getUserId(String accessToken);
 
 }
