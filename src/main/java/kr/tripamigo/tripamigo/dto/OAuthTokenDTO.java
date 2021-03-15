@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter @Setter @ToString
 @Builder
-public class KakaoTokenDTO {
+public class OAuthTokenDTO {
 
     private String accessToken;
     private String refreshToken;
