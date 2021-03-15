@@ -36,5 +36,13 @@ public class BoardService {
     	magazineList = magazineRepository.findAll();
     	return magazineList;
     } 
+    
+    public Magazine readMagazine(Long boardSeq) {
+    	Magazine magazine = magazineRepository.findById(boardSeq);
+    	
+    	return magazine;
+    	
+    	
+    }
 
 }

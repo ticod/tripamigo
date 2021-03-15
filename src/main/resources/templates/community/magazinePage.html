@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>MAGAZINE</title>
+  <style>
+	  table{border:solid 1px black;}
+	  a{text-decoration:none;}
+  </style>
+<body>
+<!-- Main Contents -->
+<section class="w3-center w3-container" >
+	<h2 class="w3-center">Magazines</h2>
+				boardSubject
+				boardContent
+				boardThumbnail
+				boardRegdate
+				boardHits
+				boardTag
+	<div th:object="${magazine}">
+		<table>
+			<tr>
+				<td th:text="'제목 : ' + ${magazine.boardSubject}"></td>
+				<td th:text="'조회수 : ' + ${magazine.boardHits}"></td>
+			</tr>
+			<tr>
+				<td colspan="2" th:text="'작성자명 : '+${magazine.user.userId} + '| 작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}">
+			</tr>
+		</table>
+		<br>
+		<table>
+			<tr>
+				<td th:text="${magazine.boardContent}"></td>
+			<tr>
+		
+		</table>
+	
+		<p th:text="${magazine.BoardSubject}"></p>
+	
+	</div>
+	
+</section>
+
+</body>
+</html>

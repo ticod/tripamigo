@@ -71,6 +71,8 @@ public class MainController {
     					userFormDTO.getPassword(), dbUser.getUserSalt()))) {
     		model.addAttribute("loginUser", dbUser);
     		session.setAttribute("loginUser", dbUser);
+    		
+    		System.out.println(dbUser.getUserRank());
     		return "redirect:home";
     		
     	} else {
