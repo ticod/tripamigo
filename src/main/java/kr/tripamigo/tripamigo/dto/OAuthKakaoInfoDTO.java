@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter @Setter @ToString
 @Builder
-public class OAuthKakaoInfoDTO {
+public class OAuthKakaoInfoDTO extends OAuthInfoDTO {
 
     private Integer id;
     private String nickname;
