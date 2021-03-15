@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo;
 import java.util.Properties;
 
 import kr.tripamigo.tripamigo.repository.*;
+import kr.tripamigo.tripamigo.service.RecommendService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -50,10 +51,15 @@ public class SpringConfig {
     public BoardService boardService() {
         return new BoardService(boardRepository, magazineRepository);
     }
-    
+
     @Bean
     public CommentService commentService() {
     	return new CommentService(commentRepository);
+    }
+
+    @Bean
+    public RecommendService recommendService() {
+    	return new RecommendService(recommendRepository);
     }
 
 }
