@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface MagazineRepository {
 
     List<Magazine> findAll();
-    Magazine findById(Long boardSeq);
+    Optional<Magazine> findById(Long boardSeq);
 
 }

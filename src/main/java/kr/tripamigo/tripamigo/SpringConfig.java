@@ -33,6 +33,7 @@ public class SpringConfig {
         SimpleMappingExceptionResolver ser = new SimpleMappingExceptionResolver();
         Properties props = new Properties();
         props.put("exception.LoginException", "error/alert");
+        props.put("exception.NoPageException", "error/alert");
         ser.setExceptionMappings(props);
         return ser;
     }

@@ -1,7 +1,11 @@
 package kr.tripamigo.tripamigo.service;
 
 import java.util.List;
+import java.util.Locale;
 
+import kr.tripamigo.tripamigo.exception.NoPageException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
@@ -21,6 +25,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MagazineRepository magazineRepository;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public void writeMagazine(MagazineFormDTO magazineFormDTO, User user) {
         Magazine magazine = new Magazine();
         magazine.setUser(user);
@@ -38,7 +45,12 @@ public class BoardService {
     } 
     
     public Magazine readMagazine(Long boardSeq) {
-    	Magazine magazine = magazineRepository.findById(boardSeq);
+    	Magazine magazine = magazineRepository
+                .findById(boardSeq)
+                .orElseGet(() -> {
+                    throw new NoPageException(messageSource
+                    .getMessage("error.404", null, Locale.getDefault()), "/community/home");
+                });
     	
     	return magazine;
     	
