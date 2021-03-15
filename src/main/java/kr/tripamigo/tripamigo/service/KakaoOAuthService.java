@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.service;
 import kr.tripamigo.tripamigo.dto.OAuthKakaoInfoDTO;
 import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,6 +25,9 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
 
     @Value("${kakao.restapi.redirect-uri}")
     private String REDIRECT_URI;
+
+    @Value("${kakao.admin.key}")
+    private String ADMIN_KEY;
 
     private final String KAUTH_HOST = "https://kauth.kakao.com";
     private final String KAPI_HOST = "https://kapi.kakao.com";
@@ -65,6 +69,8 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
         ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
 
+        System.out.println(responseBody);
+
         if (responseBody == null) {
             throw new LoginException("서버 에러", "/home");
         }
@@ -86,13 +92,14 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
         params.add("property_keys", "[\"properties.nickname\"]");
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "bearer " + accessToken);
-        headers.set("KakaoAK", REST_API_KEY);
+        headers.set("Authorization", "Bearer " + accessToken);
 
         HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(params, headers);
 
         ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
+
+        System.out.println(responseBody);
 
         if (responseBody == null) {
             throw new LoginException("서버 에러", "/home");
@@ -102,6 +109,27 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
                 .id((Integer) responseBody.get("id"))
                 .nickname((String) ((Map) responseBody.get("properties")).get("nickname"))
                 .build();
+
+    }
+
+    public void unlink(String accessToken) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create(KAPI_HOST + "/v1/user/unlink");
+
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("target_id_type", "user_id");
+        params.add("target_id", getUserId(accessToken).getId());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(params, headers);
+
+        ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
+        JSONObject responseBody = apiResponse.getBody();
+
+        System.out.println(responseBody);
 
     }
 }

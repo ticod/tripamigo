@@ -32,4 +32,10 @@ public class OAuthController {
         return "redirect:/home";
     }
 
+    @RequestMapping("/kakao_unlink")
+    public String kakaoUnlink(String accessToken) {
+        kakaoOauthService.unlink(accessToken);
+        return "redirect:/home";
+    }
+
 }
