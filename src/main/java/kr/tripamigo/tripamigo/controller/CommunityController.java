@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.tripamigo.tripamigo.domain.Comment;
+import kr.tripamigo.tripamigo.domain.RecommendType;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.CommentService;
+import kr.tripamigo.tripamigo.service.RecommendService;
 
 @Controller
 @RequestMapping("/community")
@@ -32,6 +34,9 @@ public class CommunityController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private RecommendService recommendService;
 	
 	
     @RequestMapping("/home")
@@ -85,17 +90,31 @@ public class CommunityController {
     public String magazineDetail(HttpSession session, HttpServletRequest request, Model model) {
     	
     	Long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
-    	System.out.println(boardSeq);
     	Magazine magazine = boardService.readMagazine(boardSeq);
-    	model.addAttribute("magazine",magazine);
-    	System.out.println(magazine);
-    	
     	List<Comment> commentList = commentService.commentList(1, magazine.getBoardSeq());
+    	model.addAttribute("magazine",magazine);
     	model.addAttribute("commentList", commentList);
-    	System.out.println(commentList.toString());
+    	
+//    	System.out.println(recommendService.recommendCount(RecommendType.COMMENT, magazine.getBoardSeq().intValue()));
     	
     	
     	return "community/magazinePage";
+    }
+    
+    @RequestMapping("/deleteBoard")/////수정 필요
+    public String deleteBoard(HttpSession session, HttpServletRequest request, Model model) {
+    	Long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
+    	try{
+    		boardService.delete(boardSeq);
+    		System.out.println("삭제 성공");
+    		return "/community/home";
+    	}catch(Exception e) {
+    		System.out.println("삭제 실패");
+    		throw new LoginException("글삭제실패","/community/home");
+    	}
+    	
+    	
+    	
     }
     
 }

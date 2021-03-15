@@ -35,6 +35,10 @@
 	</div>
 	<br>
 	<div class="w3-container" th:if="${session.loginUser != null}">
+		<div class="w3-button w3-blue" th:if="${session.loginUser.userId == magazine.user.userId}">
+			<a href="#" th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
+		</div>
+		<br><br>
 		<div class="w3-left" th:text="${session.loginUser.userId}"></div>
 		<div class="w3-left" style="width:80%; text-align: left">
 			<textarea placeholder="댓글내용" style="width:100%"></textarea>
@@ -46,8 +50,10 @@
 	<div th:each="comment : ${commentList}">
 		<div class="w3-left" th:text="${comment.user.userId}"></div>
 		<div class="w3-left" th:text="${comment.commentContent}"></div>
+		
+		<!-- 신고//추천 기능 구현 필요 -->
 		<div class="w3-button w3-right w3-yellow" th:text="신고"></div>
-		<a th:href="recommand?userSeq=${loginUser.userSeq}&type=1&recseq=${magazine.boardSeq}"><div class="w3-button w3-right w3-pink" th:text="추천"></div></a>
+		<div class="w3-button w3-right w3-pink" th:text="추천"></div>
 	</div>
 	
 </section>

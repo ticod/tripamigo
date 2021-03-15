@@ -12,4 +12,5 @@ public interface BoardRepository {
     Optional<Board> findById(Long id);
     List<Board> findAll();
     List<Board> findByBoardSubject(String subject);
+	void deleteById(Long boardSeq);
 }

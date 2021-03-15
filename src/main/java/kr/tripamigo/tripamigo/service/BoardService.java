@@ -58,4 +58,8 @@ public class BoardService {
     	
     }
 
+	public void delete(Long boardSeq) {
+		boardRepository.deleteById(boardSeq);
+	}
+
 }
