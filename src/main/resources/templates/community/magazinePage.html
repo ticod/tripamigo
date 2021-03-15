@@ -28,15 +28,22 @@
 		<br>
 		<table>
 			<tr>
-				<td th:text="${magazine.boardContent}"></td>
+				<td th:utext="${magazine.boardContent}"></td>
 			<tr>
-		
 		</table>
-	
-		<p th:text="${magazine.BoardSubject}"></p>
-	
 	</div>
-	
+	<div>
+		<div class="w3-left w3-button">목록</div> 
+		<div class="w3-right w3-button">★</div>
+		<div class="w3-right w3-button">신고</div>
+	</div>
+	<br>
+	<div>
+		<div class="w3-right w3-dark-grey" th:text="${magazine.user.userId}"></div>
+		<div class="w3-center">
+			<textarea placeholder="댓글내용"></textarea>
+		</div>
+	</div>
 </section>
 
 </body>

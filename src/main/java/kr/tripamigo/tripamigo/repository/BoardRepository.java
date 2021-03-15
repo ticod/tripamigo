@@ -11,5 +11,5 @@ public interface BoardRepository {
     Board save(Board board);
     Optional<Board> findById(Long id);
     List<Board> findAll();
-    List<Board> findByBoardSubject(String 제목);
+    List<Board> findByBoardSubject(String subject);
 }

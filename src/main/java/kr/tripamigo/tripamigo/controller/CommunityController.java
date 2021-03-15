@@ -69,7 +69,7 @@ public class CommunityController {
     	System.out.println("asdlkfjalsdkfjasdlkfjasdlkfj");
     	User user = (User)session.getAttribute("loginUser");
     	
-//    	svc.writeMagazine(magazineFormDTO, user);
+    	svc.writeMagazine(magazineFormDTO, user);
     	
     	throw new LoginException("글쓰기 완료","home");
     }
