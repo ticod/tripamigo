@@ -28,7 +28,7 @@ import kr.tripamigo.tripamigo.service.BoardService;
 public class CommunityController {
 
 	@Autowired
-	private BoardService svc;
+	private BoardService boardService;
 	
     @RequestMapping("/home")
     public String home(Model model) {
@@ -38,7 +38,7 @@ public class CommunityController {
     @GetMapping("/magazine")
     public String magazine(HttpSession session, Model model) {
     	
-    	List<Magazine> magazineList = svc.magazineList();
+    	List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
     	
     	
@@ -69,7 +69,7 @@ public class CommunityController {
     	System.out.println("asdlkfjalsdkfjasdlkfjasdlkfj");
     	User user = (User)session.getAttribute("loginUser");
     	
-    	svc.writeMagazine(magazineFormDTO, user);
+    	boardService.writeMagazine(magazineFormDTO, user);
     	
     	throw new LoginException("글쓰기 완료","home");
     }
@@ -79,7 +79,7 @@ public class CommunityController {
     	
     	Long boardSeq = Long.parseLong(request.getParameter("boardSeq"));
     	System.out.println(boardSeq);
-    	Magazine magazine = svc.readMagazine(boardSeq);
+    	Magazine magazine = boardService.readMagazine(boardSeq);
     	model.addAttribute("magazine",magazine);
     	System.out.println(magazine);
     	

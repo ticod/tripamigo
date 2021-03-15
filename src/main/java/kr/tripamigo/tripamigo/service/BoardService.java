@@ -3,7 +3,6 @@ package kr.tripamigo.tripamigo.service;
 import java.util.List;
 import java.util.Locale;
 
-import kr.tripamigo.tripamigo.exception.NoPageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
+import kr.tripamigo.tripamigo.exception.NoPageException;
 import kr.tripamigo.tripamigo.repository.BoardRepository;
+import kr.tripamigo.tripamigo.repository.CommentRepository;
 import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
 
