@@ -20,7 +20,7 @@
   	}
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-	<form id="magazineForm" enctype="multipart/form-data" action="magazineForm" th:object="${magazineFormDTO}" method="post">
+	<form id="magazineForm" action="magazineForm" th:object="${magazineFormDTO}" method="post">
 		<table>
 			<tr>
 				<td>
@@ -48,8 +48,6 @@
 			<tr>
 				<td>
 					<input type="submit" value="작성완료">
-					<!-- 수정필요. 버그. ↓ 뒤로가기 시 두 페이지 뒤로 가야함-->
-					<!--<input type="button" onclick="location.href='/community/magazine'" value="작성취소">-->
 					<input type="button" onclick="cancel()" value="작성취소">
 				</td>
 			</tr>

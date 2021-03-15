@@ -16,34 +16,40 @@
 				boardHits
 				boardTag
 	<div th:object="${magazine}">
-		<table>
-			<tr>
-				<td th:text="'제목 : ' + ${magazine.boardSubject}"></td>
-				<td th:text="'조회수 : ' + ${magazine.boardHits}"></td>
-			</tr>
-			<tr>
-				<td colspan="2" th:text="'작성자명 : '+${magazine.user.userId} + '| 작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}">
-			</tr>
-		</table>
-		<br>
-		<table>
-			<tr>
-				<td th:utext="${magazine.boardContent}"></td>
-			<tr>
-		</table>
-	</div>
-	<div>
-		<div class="w3-left w3-button">목록</div> 
-		<div class="w3-right w3-button">★</div>
-		<div class="w3-right w3-button">신고</div>
-	</div>
-	<br>
-	<div>
-		<div class="w3-right w3-dark-grey" th:text="${magazine.user.userId}"></div>
-		<div class="w3-center">
-			<textarea placeholder="댓글내용"></textarea>
+		<div class="w3-container" style="border:solid 1px;">
+			<div class="w3-left" th:text="'제목 : ' + ${magazine.boardSubject}"></div>
+			<div class="w3-right" th:text="'조회수 : ' + ${magazine.boardHits}"></div>
+		</div>
+		<div class="w3-container" style="border:solid 1px;">
+			<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
+			<div class="w3-right" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
+		</div>
+		<div class="w3-container" style="border:solid 1px; height:500px;">
+			<div class="w3-left" th:utext="${magazine.boardContent}"></div>
 		</div>
 	</div>
+	<div class="w3-container">
+		<a href="/community/magazine"><div class="w3-left w3-button w3-dark-grey" th:text="목록"/></a> 
+		<div class="w3-right w3-button w3-dark-grey">★</div>
+		<div class="w3-right w3-button w3-yellow" th:text="신고"/>
+	</div>
+	<br>
+	<div class="w3-container" th:if="${session.loginUser != null}">
+		<div class="w3-left" th:text="${session.loginUser.userId}"></div>
+		<div class="w3-left" style="width:80%; text-align: left">
+			<textarea placeholder="댓글내용" style="width:100%"></textarea>
+		</div>
+		<div class="w3-right w3-button " th:text="댓글작성"></div>
+	</div>
+	<div class="w3-container" th:text="댓글목록">
+	<hr></div>
+	<div th:each="comment : ${commentList}">
+		<div class="w3-left" th:text="${comment.user.userId}"></div>
+		<div class="w3-left" th:text="${comment.commentContent}"></div>
+		<div class="w3-button w3-right w3-yellow" th:text="신고"></div>
+		<a th:href="recommand?userSeq=${loginUser.userSeq}&type=1&recseq=${magazine.boardSeq}"><div class="w3-button w3-right w3-pink" th:text="추천"></div></a>
+	</div>
+	
 </section>
 
 </body>

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
+import kr.tripamigo.tripamigo.domain.Comment;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.BoardService;
+import kr.tripamigo.tripamigo.service.CommentService;
 
 @Controller
 @RequestMapping("/community")
@@ -29,6 +29,10 @@ public class CommunityController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private CommentService commentService;
+	
 	
     @RequestMapping("/home")
     public String home(Model model) {
@@ -66,12 +70,15 @@ public class CommunityController {
     		return "community/magazineForm";
     	}
     	
-    	System.out.println("asdlkfjalsdkfjasdlkfjasdlkfj");
+    	System.out.println(magazineFormDTO);
     	User user = (User)session.getAttribute("loginUser");
     	
+    	if(user == null) {
+    		throw new LoginException("로그인하세요", "/login");
+    	}
     	boardService.writeMagazine(magazineFormDTO, user);
     	
-    	throw new LoginException("글쓰기 완료","home");
+    	throw new LoginException("글쓰기 완료","magazine");
     }
     
     @GetMapping("/magazinePage")
@@ -83,6 +90,12 @@ public class CommunityController {
     	model.addAttribute("magazine",magazine);
     	System.out.println(magazine);
     	
+    	List<Comment> commentList = commentService.commentList(1, magazine.getBoardSeq());
+    	model.addAttribute("commentList", commentList);
+    	System.out.println(commentList.toString());
+    	
+    	
     	return "community/magazinePage";
     }
+    
 }
