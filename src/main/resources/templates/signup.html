@@ -35,7 +35,8 @@
 					<td colspan="3">
 					<br>
 						<input type="image" id="google" src="imgs/icons/btn_google_signin_light_focus_web.png" alt="error">
-						<input type="image" id="kakao" src="imgs/icons/kakao_login_medium_narrow.png" alt="error">
+						<input type="image" id="kakao" src="imgs/icons/kakao_login_medium_narrow.png"
+							   alt="error" onclick="loginWithKaKao()">
 					</td>
 				</tr>
 				<form method="post" id="f" name="f" th:object="${userFormDTO}" onsubmit="return submitChk(this)">
@@ -106,8 +107,6 @@
 			</table>
 
 		</div>
-	<script type="text/javascript"
-			src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script th:inline="javascript">
 		function overlap(){
 			form = document.getElementById('f');
@@ -167,6 +166,8 @@
 		}
 
 	</script>
+
+	<script th:inline="javascript" src="script/kakao_login.js"></script>
 
 		<!-- 
   <form class="w3-container main" style="height:100vh">

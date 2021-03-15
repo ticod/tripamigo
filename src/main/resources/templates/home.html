@@ -171,8 +171,9 @@ input::placeholder{color: #c6c6c6; }
     <div class="w3-container" style="text-align:center;">
     	<br><br><br><br>
     	<div style=" display:flex; justify-content: center; vertical-align: middle; height:100%">
-			<form id="loginform" action="/login" th:object="${userFormDTO}" method="post">
+
 			<table>
+				<form id="loginform" action="/login" th:object="${userFormDTO}" method="post">
 				<tr>
 					<td><input type="text" th:field="*{id}" placeholder="아이디 입력 "></td>
 					<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</td>
@@ -187,15 +188,17 @@ input::placeholder{color: #c6c6c6; }
 						<input type="submit" value="로그인" class="dologin">
 					</td>
 				</tr>
+			</form>
 				<tr>
 					<td>
 						<br>
-						<input type="submit" value="Google" class="googlelogin">
-						<input type="submit" value="Kakao" class="kakaologin">
+						<input type="image" id="google" src="imgs/icons/btn_google_signin_light_focus_web.png" alt="error">
+						<input type="image" id="kakao" src="imgs/icons/kakao_login_medium_narrow.png"
+							   alt="error" onclick="loginWithKaKao()">
 					</td>
 				</tr>
 			</table>
-			</form>
+
 		</div>
     </div>
   </div>
@@ -443,7 +446,9 @@ function openNav() {
   }
 }
 </script>
-
+<script th:inline="javascript" src="script/kakao_login.js"></script>
+<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>
 
