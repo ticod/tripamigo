@@ -140,6 +140,31 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
 
     }
 
+    public int logout(String accessToken) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create(KAPI_HOST + "/v1/user/logout");
+
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("target_id_type", "user_id");
+        params.add("target_id", getUserId(accessToken).getId());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(params, headers);
+
+        ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
+        JSONObject responseBody = apiResponse.getBody();
+
+        if (responseBody == null) {
+            throw new LoginException("서버 에러", "/home");
+        }
+
+        return (int) responseBody.get("id");
+
+    }
+
     public void unlink(String accessToken) {
 
         RestTemplate restTemplate = new RestTemplate();
