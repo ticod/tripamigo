@@ -1,5 +1,7 @@
 package kr.tripamigo.tripamigo.domain;
 
+import kr.tripamigo.tripamigo.dto.OAuthKakaoInfoDTO;
+import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,10 +44,13 @@ public class User {
     @Column(name = "USER_RANK")
     private int userRank;
 
-    @Column(name = "USER_ACCESS_TOKEN", insertable=false)
+    @Column(name = "USER_PROFILE_IMAGE")
+    private String userProfileImage;
+
+    @Column(name = "USER_ACCESS_TOKEN")
     private String userAccessToken;
 
-    @Column(name = "USER_REFRESH_TOKEN", insertable=false)
+    @Column(name = "USER_REFRESH_TOKEN")
     private String userRefreshToken;
 
     @Column(name = "USER_REGDATE", insertable=false)
@@ -56,5 +61,20 @@ public class User {
 
     @Column(name = "USER_ALERT_CHK_DATE", insertable=false)
     private LocalDateTime userAlertChkDate;
+
+    public User joinOAuthUser(String userId, OAuthKakaoInfoDTO infoDTO,
+                              int gender, int rank, OAuthTokenDTO tokens) {
+        this.userId = userId;
+        this.userPw = "";
+        this.userSalt = "";
+        this.userEmail = infoDTO.getEmail();
+        this.userNickname = infoDTO.getNickname();
+        this.userBirth = infoDTO.getBirth();
+        this.userGender = gender;
+        this.userRank = rank;
+        this.userAccessToken = tokens.getAccessToken();
+        this.userRefreshToken = tokens.getRefreshToken();
+        return this;
+    }
 
 }

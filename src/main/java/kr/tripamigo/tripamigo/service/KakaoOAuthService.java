@@ -5,6 +5,9 @@ import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,10 +18,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
+
+    @Autowired
+    private JSONParser jsonParser;
 
     @Value("${kakao.restapi.key}")
     public String REST_API_KEY;
@@ -89,7 +96,6 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
         URI uri = URI.create(getUserIdURI());
 
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("property_keys", "[\"properties.nickname\"]");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
@@ -105,9 +111,31 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
             throw new LoginException("서버 에러", "/home");
         }
 
+        JSONObject kakaoAccount = null;
+        LocalDateTime birth = null;
+        String profileImage = null;
+        String nickname = null;
+        String email = null;
+
+        try {
+            kakaoAccount = (JSONObject) jsonParser.parse("kakao_account");
+            email = (String) kakaoAccount.get("email");
+            String birthday = (String) kakaoAccount.get("birthday");
+            birth = LocalDate.parse(birthday).atStartOfDay();
+            JSONObject profile = null;
+            try {
+                profile = (JSONObject) jsonParser.parse("kakao_account");
+                profileImage = (String) profile.get("profile_image_url");
+                nickname = (String) profile.get("nickname");
+            } catch(ParseException e) {}
+        } catch (ParseException e) {}
+
         return OAuthKakaoInfoDTO.builder()
                 .id((Integer) responseBody.get("id"))
-                .nickname((String) ((Map) responseBody.get("properties")).get("nickname"))
+                .nickname(nickname != null ? nickname : "Tripamigo")
+                .birth(birth != null ? birth : LocalDateTime.now())
+                .email(email != null ? email : "kakao account")
+                .profileImage(profileImage)
                 .build();
 
     }

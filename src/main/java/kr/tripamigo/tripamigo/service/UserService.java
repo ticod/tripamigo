@@ -1,9 +1,11 @@
 package kr.tripamigo.tripamigo.service;
 
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import kr.tripamigo.tripamigo.dto.OAuthKakaoInfoDTO;
+import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
+import kr.tripamigo.tripamigo.dto.UserIdOAuthType;
 import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +42,13 @@ public class UserService {
     
     public User selectUserOne(String userid) {
     	return userRepository.findByUserId(userid).orElse(null);
+    }
+
+    public void joinByKakao(OAuthTokenDTO tokens, OAuthKakaoInfoDTO infoDTO) {
+        String userId = UserIdOAuthType.KAKAO.getValue() + infoDTO.getId();
+        User user = new User();
+        user.joinOAuthUser(userId, infoDTO, 1, 0, tokens);
+        userRepository.save(user);
     }
 
 }
