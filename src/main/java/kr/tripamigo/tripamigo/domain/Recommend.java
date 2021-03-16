@@ -8,10 +8,21 @@ import java.time.LocalDateTime;
 
 @Entity @Table(name = "RECOMMEND")
 @Getter @Setter
+@IdClass(RecommendId.class)
 public class Recommend {
 
-    @EmbeddedId
-    private RecommendId recommendId;
+    @Id
+    @Column(name = "USER_SEQ")
+    private Long userSeq;
+
+    @Id
+    @Enumerated
+    @Column(name = "RECOMMEND_TYPE")
+    private RecommendType recommendType;
+
+    @Id
+    @Column(name = "RECOMMEND_SEQ")
+    private Long contentSeq;
 
     @Column(name = "RECOMMEND_STATUS")
     private boolean status;
