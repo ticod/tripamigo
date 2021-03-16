@@ -39,7 +39,11 @@ public class OAuthController {
         User findUser = userService.selectUserOne(userId);
 
         if (findUser == null) {
+            // 회원 가입
             userService.joinByKakao(tokens, infoDTO);
+        } else {
+            // 로그인
+            findUser = userService.loginByKakao(findUser, tokens);
         }
         session.setAttribute("loginUser", findUser);
 
@@ -49,6 +53,15 @@ public class OAuthController {
     @RequestMapping("/kakao_unlink")
     public String kakaoUnlink(String accessToken) {
         kakaoOauthService.unlink(accessToken);
+        return "redirect:/home";
+    }
+
+    @RequestMapping("/kakao_logout")
+    public String kakaoLogout(HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        kakaoOauthService.logout(user.getUserId().replace(UserIdOAuthType.KAKAO.getValue(), ""),
+                user.getUserAccessToken());
+        session.invalidate();
         return "redirect:/home";
     }
 

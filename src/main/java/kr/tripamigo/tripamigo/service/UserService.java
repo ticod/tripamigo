@@ -51,4 +51,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User loginByKakao(User user, OAuthTokenDTO tokens) {
+        user.setUserAccessToken(tokens.getAccessToken());
+        user.setUserRefreshToken(tokens.getRefreshToken());
+        return userRepository.save(user);
+    }
+
 }
