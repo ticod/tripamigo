@@ -3,6 +3,8 @@ package kr.tripamigo.tripamigo.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import kr.tripamigo.tripamigo.dto.UserIdOAuthType;
+import kr.tripamigo.tripamigo.service.KakaoOAuthService;
 import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -29,6 +31,9 @@ public class MainController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private KakaoOAuthService kakaoOAuthService;
 
 	@Autowired
 	private CipherUtil cipherUtil;
@@ -83,6 +88,10 @@ public class MainController {
     }
     @RequestMapping("/logout")
     String logout(HttpSession session, Model model) {
+    	User user = (User) session.getAttribute("loginUser");
+    	if (user.getUserId().startsWith(UserIdOAuthType.KAKAO.getValue())) {
+			kakaoOAuthService.logout(user.getUserId().replace(UserIdOAuthType.KAKAO.getValue(), ""), user.getUserAccessToken());
+		}
     	session.invalidate();
     	return "redirect:home";
     }
@@ -99,7 +108,10 @@ public class MainController {
     }
     
     @PostMapping("/signup")
-    String signup(@ModelAttribute @Valid UserFormDTO userFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception {
+    String signup(@ModelAttribute @Valid UserFormDTO userFormDTO,
+				  BindingResult bindingResult, HttpSession session,
+				  Model model)
+			throws Exception {
     	
     	if(bindingResult.hasErrors()) {
     		return "signup";
