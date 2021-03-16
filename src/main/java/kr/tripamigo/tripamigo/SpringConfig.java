@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import kr.tripamigo.tripamigo.repository.*;
 import kr.tripamigo.tripamigo.service.RecommendService;
+import org.json.simple.parser.JSONParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -31,6 +32,8 @@ public class SpringConfig {
     /* Util */
     private final CipherUtil cipherUtil;
 
+    /*** Bean ***/
+    /* Exception */
     @Bean
     public HandlerExceptionResolver exceptionResolver() {
         SimpleMappingExceptionResolver ser = new SimpleMappingExceptionResolver();
@@ -60,6 +63,12 @@ public class SpringConfig {
     @Bean
     public RecommendService recommendService() {
     	return new RecommendService(recommendRepository);
+    }
+
+    /* Etc */
+    @Bean
+    public JSONParser jsonParser() {
+        return new JSONParser();
     }
 
 }
