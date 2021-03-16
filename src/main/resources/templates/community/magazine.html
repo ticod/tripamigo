@@ -8,7 +8,7 @@
 <body>
 <!-- Main Contents -->
 <section class="w3-center w3-container" >
-	<h2 class="w3-center">Magazines</h2>
+	<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
 	<div th:if="${session.loginUser != null}">
 		<a href="magazineForm"><button th:if="${session.loginUser.userRank}!='00'" class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button></a>
 	</div>

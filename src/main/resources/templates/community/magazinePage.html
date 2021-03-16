@@ -1,89 +1,104 @@
 <!DOCTYPE html>
-<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
-  <title>MAGAZINE</title>
-  <style>
-	  table{border:solid 1px black;}
-	  a{text-decoration:none;}
-  </style>
+<html
+	th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<title>MAGAZINE</title>
+<style>
+table {
+	border: solid 1px black;
+}
+
+a {
+	text-decoration: none;
+}
+</style>
 <body>
-<!-- Main Contents -->
-<section class="w3-center w3-container" >
-	<h2 class="w3-center">Magazines</h2>
-				boardSubject
-				boardContent
-				boardThumbnail
-				boardRegdate
-				boardHits
-				boardTag
-	<div th:object="${magazine}">
-		<div>
-			<div class="w3-container" style="border:solid 1px;">
-				<div class="w3-left" th:text="'제목 : ' + ${magazine.boardSubject}"></div>
-				<div class="w3-right" th:text="'조회수 : ' + ${magazine.boardHits}"></div>
-			</div>
-			<div class="w3-container" style="border:solid 1px;">
-				<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
-				<div class="w3-right" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
-			</div>
-			<div class="w3-container" style="border:solid 1px; height:500px;">
-				<div class="w3-left" th:utext="${magazine.boardContent}"></div>
-			</div>
-		</div>
+	<!-- Main Contents -->
+	<section class="w3-center w3-container">
 	
-	<div class="w3-container">
-		<a href="/community/magazine"><div class="w3-left w3-button w3-dark-grey" th:text="목록"/></a> 
-		<div class="w3-right w3-button w3-dark-grey">★</div>
-		<div class="w3-right w3-button w3-yellow" th:text="신고"/>
-	</div>
-	<br>
-	<div class="w3-container" th:if="${session.loginUser != null}">
-		<div class="w3-button w3-blue" th:if="${session.loginUser.userId == magazine.user.userId}">
-			<a href="#" th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
-		</div>
-		<br><br>
-		
-		<!-- 댓글 -->
-		<div>
-		<form id="comment" action="comment" th:object="${commentFormDTO}" method="post">
-				<input type="hidden" name="id" th:value="${session.loginUser.userId}">
-				<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
-				<input type="hidden" name="boardType" value="1">
-			<div class="w3-left" th:text="${session.loginUser.userId}"></div>
-			<div class="w3-left" style="width:80%; text-align: left">
-				<textarea name="content" placeholder="댓글내용" style="width:100%"></textarea>
+		<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
+
+		<div th:object="${magazine}">
+			<div>
+				<div class="w3-panel w3-card-4 w3-round-xxlarge" style="height: 50px;">
+					<div class="w3-padding w3-left w3-xlarge w3-sans-serif"
+						th:text="'제목 : ' + ${magazine.boardSubject}"></div>
+					<div class="w3-padding w3-right"
+						th:text="'조회수 : ' + ${magazine.boardHits}"></div>
+				</div>
+				<div class="w3-container" style="border: solid 1px;">
+					<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
+					<div class="w3-right"
+						th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
+				</div>
+				<div class="w3-container" style="border: solid 1px; height: 100%;">
+					<div class="w3-left" th:utext="${magazine.boardContent}"></div>
+				</div>
 			</div>
-			<div class="w3-right w3-button">
-				<input type="submit" value="댓글작성">
+			<br>
+			<div class="w3-container">
+				<a href="/community/magazine">
+					<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
+				</a>
+				<div class="w3-right w3-button w3-dark-grey">★</div>
+				<div class="w3-right w3-button w3-yellow" th:text="신고" />
 			</div>
-		</form>
+			<br>
+			<div class="w3-container" th:if="${session.loginUser != null}">
+				<div class="w3-button w3-blue"
+					th:if="${session.loginUser.userId == magazine.user.userId}">
+					<a href="#"
+						th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
+				</div>
+				<br>
+				<br>
+				<!-- 댓글달기 -->
+				<div>
+					<form id="comment" action="comment" th:object="${commentFormDTO}" method="post">
+						<input type="hidden" name="id" th:value="${session.loginUser.userId}"> 
+						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
+						<input type="hidden" name="boardType" value="1">
+						<div class="w3-card w3-left" style="width:10% ;height:100px;" th:text="${session.loginUser.userId}"></div>
+						<div class="w3-left" style="width: 80%; text-align: left">
+							<textarea class="w3-card" name="content" placeholder="댓글내용" style="width: 100%; height:100px; resize:none;border:none"></textarea>
+						</div>
+						<div class="w3-right" style="width:10%">
+							<input type="submit" value="댓글작성" class="w3-button w3-blue">
+						</div>
+					</form>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<!-- 댓글목록 -->
+			<div style="width: 100%;">
+				<table style="width: 100%" class="w3-small w3-table-all">
+					<tr>
+						<th class="w3-large" colspan="3" style="text-align: center">댓글
+							목록</th>
+					</tr>
+					<tr th:each="comment : ${commentList}">
+						<td style="width: 10%; text-align: center"><span
+							class="w3-panel w3-border-none" th:text="${comment.user.userId}"></span>
+						</td>
+						<td><span class="w3-panel w3-border-left"
+							th:text="${comment.commentContent}"
+							style="float: left; text-align: left; width: 95%"></span> <span
+							style="float: right; text-align: center; width: 5%"
+							th:if="(${session.loginUser!=null} and ${comment.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
+								<a
+								th:href="@{'deleteComment?commentSeq='+${comment.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}"><img
+									src="/imgs/icons/del_cmt.png"></a>
+						</span></td>
+						<td style="width: 15%">추천(수) / 신고</td>
+					</tr>
+				</table>
+			</div>
 		</div>
-	</div>
-	<div class="w3-container" th:text="댓글목록">
-	<hr></div>
-	<div style="width:100%;">
-	<style>
-		td,tr{border:solid 1px black}
-	</style>
-		<table style="width:100%">
-			<tr th:each="comment : ${commentList}">
-				<td th:text="${comment.user.userId}" style="width:15%"></td>
-				<td>
-					<span th:text="${comment.commentContent}" style="float:left; text-align:left; width:95%"></span>
-					<span style="float:right; text-align:left; width:5%"
-					th:if="(${session.loginUser!=null} and ${comment.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})"
-					>
-						<a th:href="@{'deleteComment?commentSeq='+${comment.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}"><img src="/imgs/icons/del_cmt.png"></a>
-					</span>
-					
-				</td>
-				<td style="width:15%">추천(수) / 신고</td>
-			</tr>
-		
-		</table>
-	</div>
-	</div>
-	
-</section>
+
+	</section>
 
 </body>
 </html>
