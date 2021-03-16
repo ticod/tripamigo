@@ -14,7 +14,7 @@ public class Comment {
     @Column(name = "COMMENT_SEQ")
     private Long commentSeq;
 
-    @Column(name = "COMMENT_STATUS")
+    @Column(name = "COMMENT_STATUS", insertable=false)
     private boolean commentStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +27,7 @@ public class Comment {
     @Column(name = "COMMENT_CONTENT_SEQ")
     private Long commentContentSeq;
 
-    @Column(name = "COMMENT_REGDATE")
+    @Column(name = "COMMENT_REGDATE", insertable=false)
     private LocalDateTime commentRegdate;
 
     @Column(name = "COMMENT_CONTENT")
