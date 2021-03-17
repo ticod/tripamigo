@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "PLAN")
@@ -51,6 +52,9 @@ public class Plan {
             )
     })
     private Period period;
+
+    @OneToMany(mappedBy = "plan")
+    private List<PlanDetail> planDetails;
     
     public void createFrom(PlanFormDTO planFormDTO) {
         this.subject = planFormDTO.getSubject();

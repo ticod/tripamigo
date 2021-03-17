@@ -13,6 +13,10 @@ public class PlanDetail {
     @Column(name = "DETAIL_PLAN_SEQ")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAN_SEQ")
+    private Plan plan;
+
     @Column(name = "DETAIL_PLAN_AREA")
     private String area;
 
