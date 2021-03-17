@@ -47,6 +47,7 @@ input::placeholder{color: #c6c6c6; }
 	<a href="signup"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="회원가입"/></a>
   	<button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:if="${session.loginUser eq null}" th:text="로그인"/>
   	<a href="logout"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:unless="${session.loginUser eq null}" th:text="로그아웃"/></a>
+  <a href="mypage/home"><button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white" title="Go To W3.CSS" th:unless="${session.loginUser eq null}" th:text="마이페이지"/></a>
   <a href="community/home" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-white">커뮤니티</a>
     <!-- 
     <div class="w3-dropdown-hover w3-hide-small">
