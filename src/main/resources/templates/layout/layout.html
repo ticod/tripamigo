@@ -22,16 +22,24 @@
 
     <!-- Profile -->
     <div class="w3-card-2 w3-center w3-padding w3-margin">
+
+        <!-- Lgoin -->
         <div th:if="${session.loginUser != null}">
             <a href="/mypage/home">
-                <img src="/imgs/mainbar.jpg" alt="X" style="width: 95%" class="w3-center w3-margin-top w3-circle">
+                <img th:src="${session.loginUser.userProfileImage} ?: _" src="/imgs/icons/id.png" alt="X"
+                     style="width: 95%" class="w3-center w3-margin-top w3-circle">
             </a>
             <p th:text="${session.loginUser.userNickname != null ? session.loginUser.userNickname : '닉네임을 설정하세요'}"></p>
         </div>
+        <!-- Lgoin END -->
+
+        <!-- Logout -->
         <div th:if="${session.loginUser == null}">
             <a th:href="@{/login}">로그인</a>
             <a th:href="@{/signup}">회원 가입</a>
         </div>
+        <!-- Logout END -->
+
     </div>
     <!-- Profile END -->
 
@@ -52,6 +60,10 @@
     <a href="/community/magazine" class="w3-bar-item w3-button w3-hover-blue">매거진</a>
     <a href="promotion" class="w3-bar-item w3-button w3-hover-blue">홍보</a>
     <!-- Menu 2 END -->
+
+    <hr style="border: 1px solid red; margin-left: 1em; margin-right: 1em;">
+
+    <a href="/withdrawal" class="w3-bar-item w3-button w3-hover-blue">회원 탈퇴</a>
 </div>
 <!-- Sidebar END -->
 
