@@ -10,5 +10,6 @@ public interface PlanRepository {
     Plan save(Plan plan);
     List<Plan> findAllByStatus(boolean status);
     int countByStatus(boolean status);
+    Optional<Plan> findById(Long planId);
 
 }
