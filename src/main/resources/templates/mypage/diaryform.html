@@ -1,28 +1,26 @@
 <!DOCTYPE html>
-<html th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
-  <title>Tripamigo | MAGAZINE</title>
-  <style>
+<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<head>
+    <title>mypage - diaryform</title>
+    <style>
   table{border:solid 1px black;}
   a{text-decoration:none;}
-  </style>
-
+    </style>
+</head>
 <body>
-
 <!-- Main Contents -->
-<section class="w3-center w3-container" >
-  <script th:inline="javascript">
+<section class="w3-padding">
+<script th:inline="javascript">
   	function cancel(){
   		if(confirm("작성을 취소하시겠습니까?") == true){
-			location.href="/community/magazine";	
+			location.href="/mypage/diary";	
 		}else {
 			return;
 		}
   	}
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-	<form id="magazineForm" role="form" action="magazineForm" th:object="${magazineFormDTO}" method="post"
-	enctype="multipart/form-data"
-	>
+	<form id="diaryForm" action="diaryForm" th:object="${diaryFormDTO}" method="post">
 		<table>
 			<tr>
 				<td>
@@ -45,7 +43,6 @@
 			<tr>
 				<td>
 					<input type="file" th:field="*{thumbnail}">
-					<p th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">content Error</p>
 				</td>
 			</tr>
 			<tr>
@@ -58,5 +55,7 @@
 	
 	</form>
 </section>
+<!-- Main Contents END -->
+
 </body>
 </html>

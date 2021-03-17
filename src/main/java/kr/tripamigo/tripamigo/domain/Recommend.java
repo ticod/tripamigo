@@ -24,10 +24,15 @@ public class Recommend {
     @Column(name = "RECOMMEND_SEQ")
     private Long contentSeq;
 
-    @Column(name = "RECOMMEND_STATUS")
+    @Column(name = "RECOMMEND_STATUS", insertable=false)
     private boolean status;
 
-    @Column(name = "RECOMMEND_DATE")
+    @Column(name = "RECOMMEND_DATE", insertable=false)
     private LocalDateTime date;
-
+    
+    public void createRecommend(Long userSeq, RecommendType type, Long contentSeq) {
+    	this.userSeq=userSeq;
+    	this.recommendType = type;
+    	this.contentSeq = contentSeq;
+    }
 }

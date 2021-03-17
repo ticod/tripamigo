@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import kr.tripamigo.tripamigo.domain.board.Board;
+
 import java.util.List;
 
 @Entity @Table(name = "DIARY")
 @Getter @Setter
-public class Diary {
+public class Diary{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DIARY_SEQ")
