@@ -15,7 +15,7 @@ public class PlanController {
 
     @RequestMapping("/plan")
     public String planHome(Model model) {
-        model.addAttribute(planService.listAll());
+        model.addAttribute("planList", planService.listAll());
         return "/plan/list";
     }
 
