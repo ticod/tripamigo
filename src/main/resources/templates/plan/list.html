@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org" th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>PLAN</title>
+<body>
+<!-- Main Contents -->
+<section class="w3-center w3-container" >
+	<h1>여행 계획</h1>
+	<div th:each="plan : ${planList}">
+		<div class="">
+			<p th:text="${plan.subject}"></p>
+			<p th:text="${plan.period.start}"></p>
+			<p th:text="${plan.user.userNickname}"></p>
+			<p th:text="${plan.content}"></p>
+		</div>
+	</div>
+</section>
+
+</body>
+</html>
