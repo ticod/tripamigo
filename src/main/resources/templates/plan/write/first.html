@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>WRITE PLAN 1</title>
+<body>
+<!-- Main Contents -->
+<section class="w3-center w3-center-align w3-container">
+
+	<!-- Calendar -->
+	<div>
+
+	</div>
+
+	<!-- 전체 일정 입력 폼 (Period Form) -->
+	<form th:object="${planFormDTO}" th:action="@{second}">
+
+	</form>
+
+</section>
+
+</body>
+</html>
