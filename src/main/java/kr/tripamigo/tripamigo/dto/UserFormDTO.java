@@ -1,24 +1,21 @@
 package kr.tripamigo.tripamigo.dto;
 
-import java.util.Date;
-
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter @ToString
 public class UserFormDTO {
 
+    @Length(max=16, message = "최대 16자까지 입력해주세요")
+    @Pattern(regexp = "^[a-z0-9]*", message = "영어 소문자, 숫자만 입력해주세요")
 	@NotEmpty(message="아이디를 입력해주세요")
     private String id;
 	
