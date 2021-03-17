@@ -170,8 +170,6 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
         URI uri = URI.create(KAPI_HOST + "/v1/user/unlink");
 
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("target_id_type", "user_id");
-        params.add("target_id", getUserId(accessToken).getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
