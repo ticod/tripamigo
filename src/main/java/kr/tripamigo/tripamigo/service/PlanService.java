@@ -25,4 +25,7 @@ public class PlanService {
         return planRepository.countByStatus(true);
     }
 
+    public Object getPlanBy(Long planId) {
+        return planRepository.findById(planId).orElseThrow();
+    }
 }
