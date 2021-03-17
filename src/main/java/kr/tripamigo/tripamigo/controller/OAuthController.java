@@ -51,8 +51,13 @@ public class OAuthController {
     }
 
     @RequestMapping("/kakao_unlink")
-    public String kakaoUnlink(String accessToken) {
-        kakaoOauthService.unlink(accessToken);
+    public String kakaoUnlink(HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        kakaoOauthService.unlink(loginUser.getUserAccessToken());
+        // 탈퇴 처리
+        userService.withdrawal(loginUser);
+        session.invalidate();
         return "redirect:/home";
     }
 
