@@ -51,8 +51,8 @@ public class Plan {
             )
     })
     private Period period;
-
-    public void createBy(PlanFormDTO planFormDTO) {
+    
+    public void createFrom(PlanFormDTO planFormDTO) {
         this.subject = planFormDTO.getSubject();
         this.user = planFormDTO.getUser();
         this.content = planFormDTO.getContent();
