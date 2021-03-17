@@ -3,7 +3,7 @@ package kr.tripamigo.tripamigo;
 import java.util.Properties;
 
 import kr.tripamigo.tripamigo.repository.*;
-import kr.tripamigo.tripamigo.service.RecommendService;
+import kr.tripamigo.tripamigo.service.*;
 import org.json.simple.parser.JSONParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +11,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
-import kr.tripamigo.tripamigo.service.BoardService;
-import kr.tripamigo.tripamigo.service.CommentService;
-import kr.tripamigo.tripamigo.service.UserService;
 import kr.tripamigo.tripamigo.util.CipherUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +25,7 @@ public class SpringConfig {
     private final MagazineRepository magazineRepository;
     private final CommentRepository commentRepository;
     private final RecommendRepository recommendRepository;
+    private final PlanRepository planRepository;
 
     /* Util */
     private final CipherUtil cipherUtil;
@@ -63,6 +61,11 @@ public class SpringConfig {
     @Bean
     public RecommendService recommendService() {
     	return new RecommendService(recommendRepository);
+    }
+
+    @Bean
+    public PlanService planService() {
+        return new PlanService(planRepository);
     }
 
     /* Etc */
