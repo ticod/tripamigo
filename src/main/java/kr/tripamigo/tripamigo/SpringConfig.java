@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo;
 
 import java.util.Properties;
 
+import kr.tripamigo.tripamigo.interceptor.LoginCheckInterceptor;
 import kr.tripamigo.tripamigo.repository.*;
 import kr.tripamigo.tripamigo.service.*;
 import org.json.simple.parser.JSONParser;
@@ -9,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import kr.tripamigo.tripamigo.util.CipherUtil;
@@ -17,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableAspectJAutoProxy
 @RequiredArgsConstructor
-public class SpringConfig {
+public class SpringConfig implements WebMvcConfigurer {
 	
     /* Repository */
     private final UserRepository userRepository;
@@ -72,6 +75,14 @@ public class SpringConfig {
     @Bean
     public JSONParser jsonParser() {
         return new JSONParser();
+    }
+
+    /* Interceptor */
+    public void addInterceptors(InterceptorRegistry registry) {
+        LoginCheckInterceptor loginCheckInterceptor = new LoginCheckInterceptor();
+        registry.addInterceptor(loginCheckInterceptor)
+                .addPathPatterns(loginCheckInterceptor.getAddPath())
+                .excludePathPatterns(loginCheckInterceptor.getExcludePath());
     }
 
 }
