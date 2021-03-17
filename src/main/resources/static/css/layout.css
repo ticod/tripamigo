@@ -17,7 +17,7 @@
 }
 
 .sidebar * {
-    /*font-weight: bold;*/
+    transition: .3s;
 }
 
 .sidebar-item {
