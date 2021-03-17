@@ -57,4 +57,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void withdrawal(User loginUser) {
+        loginUser.withdrawal();
+        userRepository.save(loginUser);
+    }
 }
