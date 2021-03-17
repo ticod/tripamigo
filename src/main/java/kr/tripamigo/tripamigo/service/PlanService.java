@@ -14,7 +14,7 @@ public class PlanService {
     private final PlanRepository planRepository;
 
     public Plan createAndReturn(Plan plan) {
-        return planRepository.save(plan).orElseThrow();
+        return planRepository.save(plan);
     }
 
     public List<Plan> listAll() {

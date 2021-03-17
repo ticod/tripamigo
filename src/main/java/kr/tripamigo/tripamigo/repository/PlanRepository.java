@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PlanRepository {
 
-    Optional<Plan> save(Plan plan);
+    Plan save(Plan plan);
     List<Plan> findAllByStatus(boolean status);
     int countByStatus(boolean status);
 
