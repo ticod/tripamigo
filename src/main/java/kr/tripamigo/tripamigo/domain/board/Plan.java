@@ -17,7 +17,7 @@ public class Plan {
     private Long seq;
 
     @Column(name = "PLAN_STATUS")
-    private boolean deleted;
+    private boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ")
