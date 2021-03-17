@@ -8,11 +8,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Board;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.exception.NoPageException;
 import kr.tripamigo.tripamigo.repository.BoardRepository;
-import kr.tripamigo.tripamigo.repository.CommentRepository;
 import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +41,7 @@ public class BoardService {
     
     public List<Magazine> magazineList(){
     	List<Magazine> magazineList;
-    	magazineList = magazineRepository.findAll();
+    	magazineList = magazineRepository.findAllByBoardStatus(true);
     	return magazineList;
     } 
     
@@ -58,8 +58,12 @@ public class BoardService {
     	
     }
 
-	public void delete(Long boardSeq) {
-		boardRepository.deleteById(boardSeq);
+	public void delete(Board board) {
+		boardRepository.save(board);
 	}
 
+	public void boardHitsUp(Long boardSeq) {
+		boardRepository.boardHitsUp(boardSeq);
+	}
+	
 }

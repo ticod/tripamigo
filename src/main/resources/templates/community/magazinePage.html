@@ -8,7 +8,6 @@ table {
 }
 
 a {
-	text-decoration: none;
 }
 </style>
 <body>
@@ -25,16 +24,17 @@ a {
 					<div class="w3-padding w3-right"
 						th:text="'조회수 : ' + ${magazine.boardHits}"></div>
 				</div>
-				<div class="w3-container" style="border: solid 1px;">
+				<div class="w3-container w3-round-xxlarge" style="border: solid 1px;">
 					<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
-					<div class="w3-right"
-						th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
+					<div class="w3-right" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
 				</div>
-				<div class="w3-container" style="border: solid 1px; height: 100%;">
-					<div class="w3-left" th:utext="${magazine.boardContent}"></div>
+				<!-- 글 내용 -->
+				<div class="w3-container w3-panel" style="width:100%;height: 100%;">
+					<div class="w3-left w3-panel w3-leftbar w3-rightbar" th:utext="${magazine.boardContent}" style="width:100%; height:100%; text-align:left"></div>
 				</div>
 			</div>
 			<br>
+			<!-- 버튼 -->
 			<div class="w3-container">
 				<a href="/community/magazine">
 					<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
@@ -49,7 +49,6 @@ a {
 					<a href="#"
 						th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
 				</div>
-				<br>
 				<br>
 				<!-- 댓글달기 -->
 				<div>
@@ -67,8 +66,6 @@ a {
 					</form>
 				</div>
 			</div>
-			<br>
-			<br>
 			<br>
 			<br>
 
@@ -92,12 +89,37 @@ a {
 								th:href="@{'deleteComment?commentSeq='+${comment.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}"><img
 									src="/imgs/icons/del_cmt.png"></a>
 						</span></td>
-						<td style="width: 15%">추천(수) / 신고</td>
+				<!-- 추천/ 신고 -->
+						<td style="width: 15%">
+						
+						<button th:if="${session.loginUser!=null}" th:onclick="'recommend(4,'+${comment.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+						/ 신고
+						
+						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-
+	<script th:inline="javascript">
+		function recommend(type, contentSeq, userSeq){
+			console.log(type)
+			console.log(contentSeq)
+			console.log(userSeq)
+			
+			$.ajax({
+				type:"POST",
+				url:"recommend",
+				data:{"type":type, "contentSeq":contentSeq, "userSeq":userSeq},
+				success: function(data){
+							alert("통신성공")
+							console.log(data)
+						}
+			
+			
+			})
+			
+		}
+	</script>
 	</section>
 
 </body>

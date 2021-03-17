@@ -29,8 +29,12 @@ public class CommentService {
 		
 		commentRepository.save(comment);
 	}
-	public void deleteComment(Long commentSeq) {
-		commentRepository.deleteById(commentSeq);
+	public void deleteComment(Comment comment) {
+		commentRepository.save(comment);
+	}
+	
+	public Comment readComment(Long commentSeq) {
+		return commentRepository.findByCommentSeq(commentSeq);
 	}
 	
 	

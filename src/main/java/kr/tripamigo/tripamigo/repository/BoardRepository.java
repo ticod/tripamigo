@@ -1,10 +1,13 @@
 package kr.tripamigo.tripamigo.repository;
 
-import kr.tripamigo.tripamigo.domain.board.Board;
-import kr.tripamigo.tripamigo.domain.board.Magazine;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import kr.tripamigo.tripamigo.domain.board.Board;
 
 public interface BoardRepository {
 
@@ -12,5 +15,8 @@ public interface BoardRepository {
     Optional<Board> findById(Long id);
     List<Board> findAll();
     List<Board> findByBoardSubject(String subject);
-	void deleteById(Long boardSeq);
+	
+	@Modifying
+	@Query("update Board b set b.boardHits=b.boardHits+1 where b.boardSeq=:boardSeq")
+	void boardHitsUp(@Param("boardSeq") Long boardSeq);
 }

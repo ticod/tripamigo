@@ -10,12 +10,14 @@ import kr.tripamigo.tripamigo.domain.Comment;
 public interface CommentRepository {
 	
 	//jpql 테이블기준 x,  entity 기준o => _ 안씀. 낙타표기법.
-	@Query("select c from Comment as c where c.commentContentType=:type and c.commentContentSeq=:seq")
+	@Query("select c from Comment as c where c.commentContentType=:type and c.commentContentSeq=:seq and c.commentStatus=1")
 	List<Comment> findByBoard(@Param("type") int type, @Param("seq") Long seq);
 	
 	Comment save(Comment comment);
 
 	void deleteById(Long commentSeq);
+
+	Comment findByCommentSeq(Long commentSeq);
 	
 }
 
