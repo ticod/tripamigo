@@ -57,6 +57,7 @@ public class Plan {
         this.user = planFormDTO.getUser();
         this.content = planFormDTO.getContent();
         this.open = planFormDTO.isOpen();
+        this.period = new Period(planFormDTO.getPeriodStart(), planFormDTO.getPeriodEnd());
     }
 
 }
