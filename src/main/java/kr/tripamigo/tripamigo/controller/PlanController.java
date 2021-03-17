@@ -24,20 +24,22 @@ public class PlanController {
 
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
-    /* Read */
+    /*** Read ***/
+    // List page
     @RequestMapping("")
     public String planHome(Model model) {
         model.addAttribute("planList", planService.listAll());
         return "/plan/list";
     }
-
+    
     @GetMapping("/detail/{planId}")
     public String planDetail(@PathVariable("planId") Long planId, Model model) {
         model.addAttribute("plan", planService.getPlanBy(planId));
         return "/plan/detail";
     }
 
-    /* Create */
+    /*** Create ***/
+    // 전체 일정 입력 (Period)
     @GetMapping("/write/first")
     public String planWriteFirst(PlanFormDTO planFormDTO, Model model) {
         return "/plan/write/first";
@@ -50,6 +52,7 @@ public class PlanController {
         return REDIRECT_HOME + "/write/second";
     }
 
+    // 세부 일정 입력
     @GetMapping("/write/second")
     public String planWriteSecond(PlanFormDTO planFormDTO, Model model) {
         return "/plan/write/second";
@@ -62,6 +65,7 @@ public class PlanController {
         return REDIRECT_HOME + "/write/third";
     }
 
+    // 글 입력 (planFormDTO)
     @GetMapping("/write/third")
     public String planWriteThird(PlanFormDTO planFormDTO, Model model) {
         return "/plan/write/third";
@@ -80,7 +84,7 @@ public class PlanController {
         return REDIRECT_HOME + "/" + plan.getSeq();
     }
 
-    /* Update */
+    /*** Update ***/
     @GetMapping("/update/{planId}")
     public String planUpdate(@PathVariable("planId") Long planId, Model model) {
         return "/plan/update";
@@ -91,7 +95,7 @@ public class PlanController {
         return REDIRECT_HOME;
     }
 
-    /* Delete */
+    /*** Delete ***/
     @PostMapping("/delete/{planId}")
     public String planDelete(@PathVariable("planId") Long planId, Model model, HttpSession session) {
         return REDIRECT_HOME;
