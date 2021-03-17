@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/community")
+@RequestMapping("/community/plan")
 public class PlanController {
 
     @Autowired
@@ -25,44 +25,68 @@ public class PlanController {
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
     /* Read */
-    @RequestMapping("/plan")
+    @RequestMapping("")
     public String planHome(Model model) {
         model.addAttribute("planList", planService.listAll());
         return "/plan/list";
     }
 
-    @GetMapping("/plan/{planId}")
+    @GetMapping("/{planId}")
     public String planDetail(@PathVariable("planId") Long planId, Model model) {
         model.addAttribute("plan", planService.getPlanBy(planId));
         return "/plan/detail";
     }
 
     /* Create */
-    @GetMapping("/plan/write")
-    public String planWrite(PlanFormDTO planFormDTO, Model model) {
+    @GetMapping("/write/first")
+    public String planWriteFirst(PlanFormDTO planFormDTO, Model model) {
         return "/plan/write";
     }
 
-    @PostMapping("/plan/write")
-    public String planWrite(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
+    @PostMapping("/write/first")
+    public String planWriteFirst(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
         planFormDTO.setUser(loginUser);
-        return REDIRECT_HOME;
+        return REDIRECT_HOME + "/write/second";
+    }
+
+    @GetMapping("/write/second")
+    public String planWriteSecond(PlanFormDTO planFormDTO, Model model) {
+        return "/plan/write";
+    }
+
+    @PostMapping("/write/second")
+    public String planWriteSecond(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        planFormDTO.setUser(loginUser);
+        return REDIRECT_HOME + "/write/third";
+    }
+
+    @GetMapping("/write/third")
+    public String planWriteThird(PlanFormDTO planFormDTO, Model model) {
+        return "/plan/write";
+    }
+
+    @PostMapping("/write/third")
+    public String planWriteThird(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        planFormDTO.setUser(loginUser);
+        return REDIRECT_HOME + "";
     }
 
     /* Update */
-    @GetMapping("/plan/update/{planId}")
+    @GetMapping("/update/{planId}")
     public String planUpdate(@PathVariable("planId") Long planId, Model model) {
         return "/plan/update";
     }
 
-    @PostMapping("/plan/update/{planId}")
+    @PostMapping("/update/{planId}")
     public String planUpdate(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
         return REDIRECT_HOME;
     }
 
     /* Delete */
-    @PostMapping("/plan/delete/{planId}")
+    @PostMapping("/delete/{planId}")
     public String planDelete(@PathVariable("planId") Long planId, Model model, HttpSession session) {
         return REDIRECT_HOME;
     }
