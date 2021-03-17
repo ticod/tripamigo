@@ -16,7 +16,7 @@ public class Plan {
     @Column(name = "PLAN_SEQ")
     private Long seq;
 
-    @Column(name = "PLAN_STATUS")
+    @Column(name = "PLAN_STATUS", insertable = false)
     private boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +32,7 @@ public class Plan {
     @Column(name = "PLAN_REGDATE")
     private LocalDateTime regdate;
 
-    @Column(name = "PLAN_HITS")
+    @Column(name = "PLAN_HITS", insertable = false)
     private int hits;
 
     @Column(name = "PLAN_OPEN")
