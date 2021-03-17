@@ -14,29 +14,29 @@ public class Plan {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PLAN_SEQ")
-    private Long planSeq;
+    private Long seq;
 
     @Column(name = "PLAN_STATUS")
-    private boolean planStatus;
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ")
     private User user;
 
     @Column(name = "PLAN_SUBJECT")
-    private String planSubject;
+    private String subject;
 
     @Column(name = "PLAN_CONTENT")
-    private String planContent;
+    private String content;
 
     @Column(name = "PLAN_REGDATE")
-    private LocalDateTime planRegdate;
+    private LocalDateTime regdate;
 
     @Column(name = "PLAN_HITS")
-    private int planHits;
+    private int hits;
 
     @Column(name = "PLAN_OPEN")
-    private int planOpen;
+    private int open;
 
     @Embedded
     @AttributeOverrides({
