@@ -36,7 +36,7 @@ public class Plan {
     private int hits;
 
     @Column(name = "PLAN_OPEN")
-    private int open;
+    private boolean open;
 
     @Embedded
     @AttributeOverrides({
