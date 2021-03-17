@@ -16,19 +16,19 @@
 
 <!-- Sidebar -->
 <div class="w3-sidebar w3-bar-block w3-border w3-light-gray w3-card sidebar">
+
     <!--  LOGO  -->
     <a th:href="@{/home}" class="w3-bar-item w3-button w3-indigo w3-border-bottom w3-border-white w3-hover-black">Tripamigo</a>
     <!--  LOGO END -->
 
     <!-- Profile -->
-
     <!-- Lgoin -->
     <div th:if="${session.loginUser != null}" class="w3-left w3-padding w3-margin" style="width: 90%;">
         <img th:src="${session.loginUser.userProfileImage} ?: '/imgs/icons/id.png'" src="/imgs/icons/id.png" alt="X"
              style="width: 95%; height: 80px; object-fit: contain;">
         <div class="w3-dropdown-hover">
             <button th:text="${session.loginUser.userNickname ?: '닉네임을 설정하세요'} + ' ▼'"
-                    class="w3-button w3-round w3-border w3-border-gray w3-margin-top"></button>
+                    class="w3-button w3-round w3-border-bottom w3-border-gray w3-margin-top"></button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
                 <a th:href="@{/mypage/home}" class="w3-bar-item w3-button w3-hover-indigo">
                     마이 페이지
@@ -56,7 +56,6 @@
         </a>
     </div>
     <!-- Logout END -->
-
     <!-- Profile END -->
 
     <!-- Menu 1 -->
