@@ -43,12 +43,13 @@ a {
 				<div class="w3-right w3-button w3-yellow" th:text="신고" />
 			</div>
 			<br>
-			<div class="w3-container" th:if="${session.loginUser != null}">
-				<div class="w3-button w3-blue"
-					th:if="${session.loginUser.userId == magazine.user.userId}">
+			<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
+				<div class="w3-button w3-blue w3-round-xlarge"
+					th:if="${session.loginUser.userId == magazine.user.userId} or ${session.loginUser.userId=='admin'}">
 					<a href="#"
 						th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
 				</div>
+				<br>
 				<br>
 				<!-- 댓글달기 -->
 				<div>
@@ -70,7 +71,7 @@ a {
 			<br>
 
 			<!-- 댓글목록 -->
-			<div style="width: 100%;">
+			<div style="width: 100%;" th:if="${commentList.size > 0}">
 				<table style="width: 100%" class="w3-small w3-table-all">
 					<tr>
 						<th class="w3-large" colspan="3" style="text-align: center">댓글
@@ -91,33 +92,47 @@ a {
 						</span></td>
 				<!-- 추천/ 신고 -->
 						<td style="width: 15%">
+						<!-- th:if="${session.loginUser!=null}" -->
+						<button class="w3-button w3-blue" th:if="${session.loginUser!=null}" th:onclick="'commentRecommend('+${comment.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
 						
-						<button th:if="${session.loginUser!=null}" th:onclick="'recommend(4,'+${comment.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+						<button th:unless="${session.loginUser!=null}" th:onclick="'loginAlert()'">추천(수)</button>
+						
 						/ 신고
 						
 						</td>
 					</tr>
 				</table>
 			</div>
+			<div style="width: 100%;" th:unless="${commentList.size > 0}">
+				댓글이 없습니다.
+				<br><br>
+			</div>
 		</div>
 	<script th:inline="javascript">
-		function recommend(type, contentSeq, userSeq){
-			console.log(type)
+		function commentRecommend(contentSeq, userSeq){
 			console.log(contentSeq)
 			console.log(userSeq)
 			
+			
 			$.ajax({
 				type:"POST",
-				url:"recommend",
-				data:{"type":type, "contentSeq":contentSeq, "userSeq":userSeq},
+				url:"commentRecommend",
+				data:{"contentSeq":contentSeq, "userSeq":userSeq},
 				success: function(data){
-							alert("통신성공")
-							console.log(data)
+							if(data==true){
+								alert("추천 완료")
+								console.log(data)
+							}else{
+								alert("추천 취소")
+								console.log(data)
+							}
 						}
-			
-			
 			})
 			
+		}
+		function loginAlert(){
+			alert("로그인하세요")
+			location.href="/login";
 		}
 	</script>
 	</section>
