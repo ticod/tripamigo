@@ -1,15 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
 :root {
-    --sidebar-length: 20%;
+    --sidebar-length: 25%;
+    --color-indigo: #3F51B5;
+}
+
+* {
+    font-family: 'Noto Sans KR', 'Do Hyeon', 'Poor Story', 'Roboto', sans-serif;
+    font-size: 16px;
 }
 
 .sidebar {
     width: var(--sidebar-length);
 }
 
+.sidebar * {
+    /*font-weight: bold;*/
+}
+
+.sidebar-item {
+    width: 90% !important;
+}
+
 .footer {
     margin-left: var(--sidebar-length);
+    height: 200px;
+    padding-top: 40px;
 }
 
 .main {
     margin-left: var(--sidebar-length);
+}
+
+.menu-hr {
+    padding: 0;
+    margin: 1em 1em;
+    height: 0;
+
+    border-bottom: 2px solid var(--color-indigo);
+}
+
+.menu-hover-border {
+    border: 8px solid gray;
 }
