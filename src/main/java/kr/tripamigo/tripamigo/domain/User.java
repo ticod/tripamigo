@@ -75,6 +75,13 @@ public class User {
         this.userAccessToken = tokens.getAccessToken();
         this.userRefreshToken = tokens.getRefreshToken();
         return this;
+
+    }
+
+    public void withdrawal() {
+        this.userStatus = false;
+        this.userAccessToken = null;
+        this.userRefreshToken = null;
     }
 
 }
