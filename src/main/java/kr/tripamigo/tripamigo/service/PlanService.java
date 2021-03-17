@@ -13,6 +13,10 @@ public class PlanService {
 
     private final PlanRepository planRepository;
 
+    public Plan createAndReturn(Plan plan) {
+        return planRepository.save(plan).orElseThrow();
+    }
+
     public List<Plan> listAll() {
         return planRepository.findAllByStatus(true);
     }
