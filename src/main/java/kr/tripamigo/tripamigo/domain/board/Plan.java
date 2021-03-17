@@ -1,6 +1,7 @@
 package kr.tripamigo.tripamigo.domain.board;
 
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.dto.PlanFormDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,5 +51,12 @@ public class Plan {
             )
     })
     private Period period;
+
+    public void createBy(PlanFormDTO planFormDTO) {
+        this.subject = planFormDTO.getSubject();
+        this.user = planFormDTO.getUser();
+        this.content = planFormDTO.getContent();
+        this.open = planFormDTO.isOpen();
+    }
 
 }
