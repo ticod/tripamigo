@@ -40,7 +40,7 @@ public class PlanController {
     /* Create */
     @GetMapping("/write/first")
     public String planWriteFirst(PlanFormDTO planFormDTO, Model model) {
-        return "/plan/write";
+        return "/plan/write/first";
     }
 
     @PostMapping("/write/first")
@@ -52,7 +52,7 @@ public class PlanController {
 
     @GetMapping("/write/second")
     public String planWriteSecond(PlanFormDTO planFormDTO, Model model) {
-        return "/plan/write";
+        return "/plan/write/second";
     }
 
     @PostMapping("/write/second")
@@ -64,14 +64,20 @@ public class PlanController {
 
     @GetMapping("/write/third")
     public String planWriteThird(PlanFormDTO planFormDTO, Model model) {
-        return "/plan/write";
+        return "/plan/write/third";
     }
 
     @PostMapping("/write/third")
     public String planWriteThird(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
+
         User loginUser = (User) session.getAttribute("loginUser");
         planFormDTO.setUser(loginUser);
-        return REDIRECT_HOME + "";
+
+        Plan plan = new Plan();
+        plan.createFrom(planFormDTO);
+        plan = planService.createAndReturn(plan);
+
+        return REDIRECT_HOME + "/" + plan.getSeq();
     }
 
     /* Update */
