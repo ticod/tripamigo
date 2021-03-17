@@ -29,7 +29,7 @@ public class Plan {
     @Column(name = "PLAN_CONTENT")
     private String content;
 
-    @Column(name = "PLAN_REGDATE")
+    @Column(name = "PLAN_REGDATE", insertable = false)
     private LocalDateTime regdate;
 
     @Column(name = "PLAN_HITS", insertable = false)
