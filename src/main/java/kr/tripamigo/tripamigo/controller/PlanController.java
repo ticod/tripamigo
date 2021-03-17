@@ -31,7 +31,7 @@ public class PlanController {
         return "/plan/list";
     }
 
-    @GetMapping("/{planId}")
+    @GetMapping("/detail/{planId}")
     public String planDetail(@PathVariable("planId") Long planId, Model model) {
         model.addAttribute("plan", planService.getPlanBy(planId));
         return "/plan/detail";

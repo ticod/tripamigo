@@ -19,7 +19,7 @@
 	</div>
 
 	<div th:each="plan : ${planList}" class="w3-row">
-		<a class="w3-col s4" th:text="${plan.subject}" th:href="@{'/community/plan/' + ${plan.seq}}"></a>
+		<a class="w3-col s4" th:text="${plan.subject}" th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
 		<div class="w3-col s4" th:text="${#strings.replace(plan.period.start, 'T', ' ')} + ' - ' + ${#strings.replace(plan.period.end, 'T', ' ')}"></div>
 		<div class="w3-col s2" th:text="${plan.user.userNickname}"></div>
 		<div class="w3-col s2" th:text="${#strings.replace(plan.regdate, 'T', ' ')}"></div>
