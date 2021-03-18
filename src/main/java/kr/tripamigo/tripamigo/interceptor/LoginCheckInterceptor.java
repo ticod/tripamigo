@@ -44,7 +44,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     // 인터셉터 적용 제외할 url 설정
     public List<String> getExcludePath() {
-        return Arrays.asList();
+        return Arrays.asList("/community/magazine", "/community/magazinePage**");
     }
 
 }
