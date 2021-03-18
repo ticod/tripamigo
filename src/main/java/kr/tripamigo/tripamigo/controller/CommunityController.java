@@ -118,7 +118,8 @@ public class CommunityController {
 			uploadFileCreate(magazineFormDTO.getFile(),request, "community/file/");
 		}
 		magazineFormDTO.setThumbnail(magazineFormDTO.getFile().getOriginalFilename());
-		
+		String tags = magazineFormDTO.getTags();
+		magazineFormDTO.setTags(tags.replaceAll("#", ""));
 		
 		System.out.println(magazineFormDTO);
 		
@@ -164,6 +165,20 @@ public class CommunityController {
 
 		model.addAttribute("magazine", magazine);
 		model.addAttribute("commentList", commentList);
+		
+		String tagList="";
+		
+		if(magazine.getBoardTag()!=null) {
+			String[] tags = magazine.getBoardTag().split(",");
+			for(int i =0; i<tags.length; i++) {
+				tagList += "#"+tags[i];
+				if(i<tags.length-1) {
+					tagList += ",";
+				}
+			}
+		}
+		System.out.println(tagList);
+		model.addAttribute("tagList",tagList);
 
 		boardHitsUp(request, response, boardSeq);
 

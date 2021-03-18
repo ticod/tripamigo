@@ -41,7 +41,7 @@ public class BoardService {
     
     public List<Magazine> magazineList(){
     	List<Magazine> magazineList;
-    	magazineList = magazineRepository.findAllByBoardStatus(true);
+    	magazineList = magazineRepository.findAllByBoardStatusOrderByBoardSeqDesc(true);
     	return magazineList;
     } 
     
