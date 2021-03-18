@@ -69,7 +69,9 @@ public class PlanController {
     @GetMapping("/write/second")
     public String planWriteSecond(Model model, HttpSession session) {
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
-        System.out.println(planFormDTO);
+        if (planFormDTO == null) {
+            return REDIRECT_HOME + "/write/first";
+        }
         return "/plan/write/second";
     }
 
@@ -82,7 +84,11 @@ public class PlanController {
 
     // 글 입력 (planFormDTO)
     @GetMapping("/write/third")
-    public String planWriteThird(PlanFormDTO planFormDTO, Model model) {
+    public String planWriteThird(Model model, HttpSession session) {
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        if (planFormDTO == null) {
+            return REDIRECT_HOME + "/write/first";
+        }
         return "/plan/write/third";
     }
 
