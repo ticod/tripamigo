@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>WRITE PLAN 2</title>
+  <style>
+	  .map {
+		  height: 100%;
+	  }
+	  section {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-content: center;
+	  }
+
+	  .property {
+		  margin-top: 100px;
+		  height: 300px;
+
+		  display: flex;
+		  flex-direction: column;
+		  align-content: center;
+	  }
+
+	  .property > div {
+		  width: 60%;
+	  }
+
+	  .sidebar-plan {
+		  z-index: 1;
+
+		  position:fixed;
+		  top: 1rem;
+		  right: 1rem;
+
+		  padding: 1rem;
+	  }
+
+	  .sidebar-plan * {
+		  font-size: 0.75rem;
+	  }
+  </style>
+<body>
+<!-- Main Contents -->
+<section class="w3-container">
+
+	<!-- Plan Detail Table -->
+	<div class="w3-dropdown-click">
+		<button class="w3-button" onclick="detailPlanDropDown()">지금까지 작성한 일정 보기</button>
+		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content">
+			<div>
+				<p>asdf</p>
+				<p>asdf</p>
+			</div>
+		</div>
+	</div>
+	<!-- Plan Detail Table END -->
+
+	<!-- 세부 일정 입력 폼 (Period Form) -->
+	<form th:action="@{second}" method="post">
+
+		<h3>세부 일정 시작 시간을 선택하세요!</h3>
+
+		<select name="startYear" id="startYear">
+			<option value="">연도</option>
+		</select>
+		<label for="startYear" class="w3-margin-right">년</label>
+
+		<select name="startMonth" id="startMonth">
+			<option value="">월</option>
+		</select>
+		<label for="startMonth" class="w3-margin-right">월</label>
+
+		<select name="startDay" id="startDay">
+			<option value="">일</option>
+		</select>
+		<label for="startDay" class="w3-margin-right">일</label>
+
+		<select name="startTime" id="startTime">
+			<option value="">시각</option>
+		</select>
+		<label for="startTime">시</label>
+
+		<br> <br> <br>
+
+		<h3>세부 일정 종료 시간을 선택하세요!</h3>
+
+		<select name="endYear" id="endYear">
+			<option value="">연도</option>
+		</select>
+		<label for="endYear" class="w3-margin-right">년</label>
+
+		<select name="endMonth" id="endMonth">
+			<option value="">월</option>
+		</select>
+		<label for="endMonth" class="w3-margin-right">월</label>
+
+		<select name="endDay" id="endDay">
+			<option value="">일</option>
+		</select>
+		<label for="endDay" class="w3-margin-right">일</label>
+
+		<select name="endTime" id="endTime">
+			<option value="">시각</option>
+		</select>
+		<label for="endTime">시</label>
+
+		<div class="property w3-border w3-row w3-margin w3-padding">
+			<div class="map w3-col s2 w3-border" id="map">구글 맵 api 들어갈 자리</div>
+			<div class="w3-col s10">
+				<div>현재 선택 장소 예산</div>
+				<div>000,000원</div>
+				<div>추천지 리스트</div>
+				<div class="w3-row">
+					<div>추천지 1</div>
+					<div>추천지 2</div>
+					<div>추천지 3</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="property w3-border w3-row w3-margin w3-padding">
+			<div class="map w3-col s2 w3-border">구글 맵 api 들어갈 자리</div>
+			<div class="map w3-col s2 w3-border">구글 맵 api 들어갈 자리</div>
+			<div class="map w3-col s2 w3-border">교통편 (direction api)</div>
+		</div>
+
+		<div>
+			<label for="budget">예상 지출액: </label>
+			<input type="text" id="budget" name="budget">
+		</div>
+
+		<div>
+			<label for="memo">해당 일정에 대한 메모를 입력해주세요! <br></label>
+			<textarea name="memo" id="memo" cols="40" rows="8" style="resize: none;"></textarea>
+		</div>
+
+		<br> <br> <br>
+
+		<div class="w3-card sidebar-plan">
+
+			<div class="w3-container">
+				<p>1. 전체 일정 고르기</p>
+				<b>2. 세부 일정 쌓기</b>
+				<p>3. 글 작성하기</p>
+			</div>
+
+			<input type="button" class="w3-button w3-round w3-border"
+				   value="이전 단계로" onclick="location.href='first'">
+			<br>
+			<input type="button" class="w3-button w3-round w3-border"
+				   value="일정 추가 작성">
+			<br>
+			<input type="submit" class="w3-button w3-round w3-border"
+				   value="다음 단계로">
+
+		</div>
+
+	</form>
+
+	<script>
+		function detailPlanDropDown() {
+			var table = document.getElementById("detail_plan_table");
+			if (table.className.indexOf("w3-show") === -1) {
+				table.className += " w3-show";
+			} else {
+				table.className = table.className.replace(" w3-show", "");
+			}
+		}
+		class App {
+			constructor() {
+				this.idStartYear = document.getElementById("startYear");
+				this.idStartMonth = document.getElementById("startMonth");
+				this.idStartDay = document.getElementById("startDay");
+				this.idStartTime = document.getElementById("startTime")
+
+				this.idEndYear = document.getElementById("endYear");
+				this.idEndMonth = document.getElementById("endMonth");
+				this.idEndDay = document.getElementById("endDay");
+				this.idEndTime = document.getElementById("endTime")
+
+				const now = new Date();
+				this.years = this.range(now.getFullYear(), now.getFullYear() + 1);
+				this.valueAppendChildTo(this.idStartYear, this.years);
+				this.valueAppendChildTo(this.idEndYear, this.years);
+
+				this.times = this.range(1, 24);
+				this.valueAppendChildTo(this.idStartTime, this.times);
+				this.valueAppendChildTo(this.idEndTime, this.times);
+
+				this.idStartYear.addEventListener('change', this.changeMonthByYear.bind(this));
+				this.idStartMonth.addEventListener('change', this.changeDayByMonth.bind(this));
+
+				this.idEndYear.addEventListener('change', this.changeEndMonthByYear.bind(this));
+				this.idEndMonth.addEventListener('change', this.changeEndDayByMonth.bind(this));
+
+				let map;
+
+				map = new google.maps.Map(document.getElementById("map"), {
+					center: { lat: -34.397, lng: 150.644 },
+					zoom: 8,
+				});
+			}
+
+			range(start, end) {
+				return Array(end - start + 1).fill(start).map((x, y) => x + y)
+			}
+
+			valueAppendChildTo(target, values) {
+				target.options.length = 1;
+				for (const value in values) {
+					const option = document.createElement("option");
+					option.text = values[value].toString();
+					option.value = values[value].toString();
+					target.appendChild(option)
+				}
+			}
+
+			changeMonthByYear(event) {
+				if (!isNaN(event.target.value) || event.target.value === "") {
+					const now = new Date();
+					let months;
+					// 연이 같으면 이번 달 부터 출력
+					if (now.getFullYear() === parseInt(event.target.value)) {
+						months = this.range(now.getMonth() + 1, 12);
+					} else {
+						months = this.range(1, 12);
+					}
+					this.valueAppendChildTo(this.idStartMonth, months);
+				}
+			}
+
+			changeDayByMonth(event) {
+				if (!isNaN(event.target.value) || event.target.value === "") {
+					const selectYear = parseInt(this.idStartYear.value);
+					const selectMonth = parseInt(event.target.value);
+					const now = new Date();
+					let days;
+					// 연, 월이 같으면 오늘 날짜부터 출력
+					// 월의 경우 0 ~ 11이므로 +1부터 비교
+					if (now.getFullYear() === selectYear
+							&& (now.getMonth() + 1) === selectMonth) {
+						days = this.range(now.getDate(), this.getLastDay(selectYear, selectMonth) + 1)
+					} else {
+						days = this.range(1, this.getLastDay(selectYear, selectMonth) + 1)
+					}
+
+					this.valueAppendChildTo(this.idStartDay, days);
+				}
+			}
+
+			changeEndMonthByYear(event) {
+				if (!isNaN(event.target.value) || event.target.value === "") {
+					const now = new Date();
+					let months;
+					// 연이 같으면 이번 달 부터 출력
+					if (now.getFullYear() === parseInt(event.target.value)) {
+						months = this.range(now.getMonth() + 1, 12);
+					} else {
+						months = this.range(1, 12);
+					}
+					this.valueAppendChildTo(this.idEndMonth, months);
+				}
+			}
+
+			changeEndDayByMonth(event) {
+				if (!isNaN(event.target.value) || event.target.value === "") {
+					const selectYear = parseInt(this.idEndYear.value);
+					const selectMonth = parseInt(event.target.value);
+					const now = new Date();
+					let days;
+					// 연, 월이 같으면 오늘 날짜부터 출력
+					// 월의 경우 0 ~ 11이므로 +1부터 비교
+					if (now.getFullYear() === selectYear
+							&& (now.getMonth() + 1) === selectMonth) {
+						days = this.range(now.getDate(), this.getLastDay(selectYear, selectMonth) + 1)
+					} else {
+						days = this.range(1, this.getLastDay(selectYear, selectMonth) + 1)
+					}
+
+					this.valueAppendChildTo(this.idEndDay, days);
+				}
+			}
+
+			getLastDay(year, month) {
+				return new Date(year, month, -1).getDate()
+			}
+		}
+
+		window.onload = () => new App();
+
+	</script>
+	<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz1W2lasXllO19MekQuhZgVKYRYAGQYdg&callback=initMap&libraries=&v=weekly"
+			async>
+	</script>
+</section>
+
+</body>
+</html>

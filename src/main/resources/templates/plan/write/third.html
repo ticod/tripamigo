@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>WRITE PLAN 2</title>
+  <style>
+	  section {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-content: center;
+	  }
+
+	  .sidebar-plan {
+		  z-index: 1;
+
+		  position:fixed;
+		  top: 1rem;
+		  right: 1rem;
+
+		  padding: 1rem;
+	  }
+
+	  .sidebar-plan * {
+		  font-size: 0.75rem;
+	  }
+  </style>
+<body>
+<!-- Main Contents -->
+<section class="w3-center w3-center-align w3-container">
+
+	<!-- Plan Detail Table -->
+	<div class="w3-dropdown-click">
+		<button class="w3-button" onclick="detailPlanDropDown()">지금까지 작성한 일정 보기</button>
+		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content">
+			<div>
+				<p>asdf</p>
+				<p>asdf</p>
+			</div>
+		</div>
+	</div>
+	<!-- Plan Detail Table END -->
+
+	<!-- 세부 일정 입력 폼 (Period Form) -->
+	<form th:action="@{thrid}" method="post">
+
+		<input type="text" placeholder="제목 입력">
+		<br>
+		<textarea name="content" id="content" cols="40" rows="20" style="resize:none;"></textarea>
+		<br>
+		<label for="public">전체 공개</label>
+		<input type="radio" id="public" name="open" value="0">
+		<label for="follow">팔로워 공개</label>
+		<input type="radio" id="follow" name="open" value="1">
+		<label for="private">비 공개</label>
+		<input type="radio" id="private" name="open" value="2">
+
+		<div class="w3-card sidebar-plan">
+
+			<div class="w3-container">
+				<p>1. 전체 일정 고르기</p>
+				<p>2. 세부 일정 쌓기</p>
+				<b>3. 글 작성하기</b>
+			</div>
+
+			<input type="button" class="w3-button w3-round w3-border"
+				   style="" value="이전 단계로" onclick="location.href='first'">
+			<br>
+			<input type="submit" class="w3-button w3-round w3-border"
+				   style="" value="여행 계획 작성 완료">
+
+		</div>
+
+	</form>
+
+	<script>
+	</script>
+</section>
+
+</body>
+</html>
