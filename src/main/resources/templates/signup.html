@@ -128,7 +128,7 @@
 				data:{"id":id},
 				success : function(data){
 					if($.trim(data)=="y"){
-						alert(id+"사용가능한 아이디입니다.");
+						alert(id+"\n사용가능한 아이디입니다.");
 						document.getElementById('f').ovChkValue.value=1;
 						console.log("ovChk=1")
 					}else{
