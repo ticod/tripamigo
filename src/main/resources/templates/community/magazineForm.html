@@ -21,8 +21,7 @@
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
 	<form id="magazineForm" role="form" action="magazineForm" th:object="${magazineFormDTO}" method="post"
-	enctype="multipart/form-data"
-	>
+	enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>
@@ -44,8 +43,8 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="file" th:field="*{thumbnail}">
-					<p th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">content Error</p>
+					<input type="file" name="file">
+					
 				</td>
 			</tr>
 			<tr>
