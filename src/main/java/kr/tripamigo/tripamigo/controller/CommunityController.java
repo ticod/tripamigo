@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -106,25 +107,50 @@ public class CommunityController {
 
 	@PostMapping("/magazineForm")
 	public String magazineWrite(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
-			,@RequestPart MultipartFile thumbnail, HttpServletRequest request, HttpSession session, Model model) throws Exception {
-
-		System.out.println(thumbnail.getOriginalFilename());
+			,@RequestPart MultipartFile file, HttpServletRequest request, HttpSession session, Model model) throws Exception {
 		
-		System.out.println("바인딩리절트 전");
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getFieldError());
 			return "community/magazineForm";
 		}
-		System.out.println("바인딩리절트 후");
+		
+		if(magazineFormDTO.getFile() != null && !magazineFormDTO.getFile().isEmpty()) {
+			uploadFileCreate(magazineFormDTO.getFile(),request, "community/file/");
+		}
+		magazineFormDTO.setThumbnail(magazineFormDTO.getFile().getOriginalFilename());
+		
+		
 		System.out.println(magazineFormDTO);
+		
 		User user = (User) session.getAttribute("loginUser");
 
 		if (user == null) {
 			throw new LoginException("로그인하세요", "/login");
 		}
-//		boardService.writeMagazine(magazineFormDTO, user);
+		boardService.writeMagazine(magazineFormDTO, user);
 
 		throw new LoginException("글쓰기 완료", "magazine");
+	}
+	
+	// MultipartFile의 데이터를 파일로 저장
+	private void uploadFileCreate(MultipartFile picture, HttpServletRequest request, String path) {
+			
+		String orgFile = picture.getOriginalFilename();  // : 업로드 된 파일의 원래 이름.
+//		String uploadPath = request.getServletContext().getRealPath("/") + path; // 프로젝트의 루트 바로 밑에 img라는 것을 업로드 패쓰로 가져왔고,
+		String uploadPath = "C:/Users/2016005/git/tripamigo/src/main/resources/static/uploadFiles/";
+		System.out.println(uploadPath);
+		
+		File fpath = new File(uploadPath);   	
+		if(!fpath.exists()) fpath.mkdirs();  // 그런폴더가 없으면 만들어. 
+			
+		try {
+			picture.transferTo(new File(uploadPath + orgFile)); 
+				// picture : 업로드 된 파일의 내용 저장함. 
+				//transferTo : 업로드 된 파일의 내용을 실제 File로 저장.★ 이거하나로 끝난것.
+				
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@GetMapping("/magazinePage")
@@ -182,9 +208,11 @@ public class CommunityController {
 		User user = (User) session.getAttribute("loginUser");
 
 		try {
-			boardService.delete(magazine);
-
-			if (user == null || !user.getUserId().equals(magazine.getUser().getUserId())) {
+			
+			if(user != null || user.getUserId().equals(magazine.getUser().getUserId()) || user.getUserId().equals("admin")) {
+				boardService.delete(magazine);
+				System.out.println("삭제 성공");
+			}else {
 				throw new Exception();
 			}
 		} catch (Exception e) {

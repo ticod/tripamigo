@@ -2,6 +2,8 @@ package kr.tripamigo.tripamigo.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +24,7 @@ public class MagazineFormDTO {
     private String tags;
     
     private String thumbnail;
+    
+    private MultipartFile file;
 
 }

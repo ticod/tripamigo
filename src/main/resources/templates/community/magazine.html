@@ -10,14 +10,14 @@
 <section class="w3-center w3-container" >
 	<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
 	<div th:if="${session.loginUser != null}">
-		<a href="magazineForm"><button th:if="${session.loginUser.userRank}!='00'" class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button></a>
+		<a href="magazineForm"><button th:if="${session.loginUser.userRank}!=0" class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button></a>
 	</div>
 	
 	<div class="w3-row" style="padding:100px;">
 		<div th:each="magazine : ${magazineList}" class="w3-col s4 w3-center w3-card" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:31%;" >
 			<div class="w3-row" style="padding:0px;">
 				<a href="" th:href="@{'/community/magazinePage?boardSeq='+${magazine.boardSeq}}">
-					<img th:if="${magazine.boardThumbnail != ''}" th:src="@{'/imgs/'+${magazine.boardThumbnail}}" width="100%"/>
+					<img th:if="${magazine.boardThumbnail != ''}" th:src="@{'/uploadFiles/'+${magazine.boardThumbnail}}" width="100%"/>
 					<img th:unless="${magazine.boardThumbnail != ''}" th:src="@{'/imgs/noimage.png'}" width="100%"/>
 				</a>
 			</div>		
