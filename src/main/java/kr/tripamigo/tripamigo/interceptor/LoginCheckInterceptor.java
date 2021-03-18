@@ -39,7 +39,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     
     // 인터셉터 적용할 url 설정
     public List<String> getAddPath() {
-        return Arrays.asList("/community/**");
+        return Arrays.asList("/community/**", "/mypage/**");
     }
 
     // 인터셉터 적용 제외할 url 설정
