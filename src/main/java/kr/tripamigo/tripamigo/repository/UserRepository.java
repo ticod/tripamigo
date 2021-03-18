@@ -12,4 +12,7 @@ public interface UserRepository {
     Optional<User> findByUserId(String name);
     List<User> findAll();
 
+    List<User> findAllByUserStatus(boolean status);
+    int countByUserStatus(boolean status);
+
 }
