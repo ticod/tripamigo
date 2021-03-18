@@ -141,10 +141,12 @@
 			valueAppendChildTo(target, values) {
 				target.options.length = 1;
 				for (const value in values) {
-					const option = document.createElement("option");
-					option.text = values[value].toString();
-					option.value = values[value].toString();
-					target.appendChild(option)
+					if(values.hasOwnProperty(value)) {
+						const option = document.createElement("option");
+						option.text = values[value].toString();
+						option.value = values[value].toString();
+						target.appendChild(option)
+					}
 				}
 			}
 
