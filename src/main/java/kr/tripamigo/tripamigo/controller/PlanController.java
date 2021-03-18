@@ -2,11 +2,13 @@ package kr.tripamigo.tripamigo.controller;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
+import kr.tripamigo.tripamigo.dto.PeriodDTO;
 import kr.tripamigo.tripamigo.dto.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/community/plan")
@@ -41,20 +45,31 @@ public class PlanController {
     /*** Create ***/
     // 전체 일정 입력 (Period)
     @GetMapping("/write/first")
-    public String planWriteFirst(PlanFormDTO planFormDTO, Model model) {
+    public String planWriteFirst(PeriodDTO periodDTO, Model model, HttpSession session) {
+        session.setAttribute("planFormDTO", new PlanFormDTO());
         return "/plan/write/first";
     }
 
     @PostMapping("/write/first")
-    public String planWriteFirst(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
-        User loginUser = (User) session.getAttribute("loginUser");
-        planFormDTO.setUser(loginUser);
+    public String planWriteFirstToSecond(@Valid PeriodDTO periodDTO, BindingResult bindingResult, Model model, HttpSession session) {
+
+        LocalDateTime start = LocalDateTime.of(periodDTO.getStartYear(), periodDTO.getStartMonth(), periodDTO.getStartDay(), periodDTO.getStartTime(), 0);
+        LocalDateTime end = LocalDateTime.of(periodDTO.getEndYear(), periodDTO.getEndMonth(), periodDTO.getEndDay(), periodDTO.getEndTime(), 0);
+
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        planFormDTO.setPeriodStart(start);
+        planFormDTO.setPeriodEnd(end);
+
+        session.setAttribute("planFormDTO", planFormDTO);
+
         return REDIRECT_HOME + "/write/second";
     }
 
     // 세부 일정 입력
     @GetMapping("/write/second")
-    public String planWriteSecond(PlanFormDTO planFormDTO, Model model) {
+    public String planWriteSecond(Model model, HttpSession session) {
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        System.out.println(planFormDTO);
         return "/plan/write/second";
     }
 

@@ -10,14 +10,14 @@ import lombok.*;
 @Builder
 public class PeriodDTO {
 
-    private String startYear;
-    private String startMonth;
-    private String startDay;
-    private String startTime;
+    private int startYear;
+    private int startMonth;
+    private int startDay;
+    private int startTime;
 
-    private String endYear;
-    private String endMonth;
-    private String endDay;
-    private String endTime;
+    private int endYear;
+    private int endMonth;
+    private int endDay;
+    private int endTime;
 
 }
