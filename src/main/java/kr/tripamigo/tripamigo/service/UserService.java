@@ -44,11 +44,11 @@ public class UserService {
     	return userRepository.findByUserId(userid).orElse(null);
     }
 
-    public void joinByKakao(OAuthTokenDTO tokens, OAuthKakaoInfoDTO infoDTO) {
+    public User joinByKakao(OAuthTokenDTO tokens, OAuthKakaoInfoDTO infoDTO) {
         String userId = UserIdOAuthType.KAKAO.getValue() + infoDTO.getId();
         User user = new User();
-        user.joinOAuthUser(userId, infoDTO, 1, 0, tokens);
-        userRepository.save(user);
+        user.joinOAuthUser(userId, 1, 0, tokens);
+        return userRepository.save(user);
     }
 
     public User loginByKakao(User user, OAuthTokenDTO tokens) {
