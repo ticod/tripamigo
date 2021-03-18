@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.service;
 
+import kr.tripamigo.tripamigo.domain.OpenScope;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.dto.PlanFormDTO;
@@ -33,7 +34,7 @@ public class PlanServiceTest {
         planFormDTO.setSubject("테스트용 제목");
         planFormDTO.setUser(user);
         planFormDTO.setContent("내용 내용 내용 내용");
-        planFormDTO.setOpen(true);
+        planFormDTO.setOpen(OpenScope.PUBLIC);
         planFormDTO.setPeriodStart(LocalDateTime.now());
         planFormDTO.setPeriodEnd(LocalDateTime.now());
 

@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.domain.board;
 
+import kr.tripamigo.tripamigo.domain.OpenScope;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.PlanFormDTO;
 import lombok.Getter;
@@ -37,8 +38,9 @@ public class Plan {
     @Column(name = "PLAN_HITS", insertable = false)
     private int hits;
 
+    @Enumerated
     @Column(name = "PLAN_OPEN")
-    private boolean open;
+    private OpenScope open;
 
     @Embedded
     @AttributeOverrides({
@@ -60,7 +62,7 @@ public class Plan {
         this.subject = planFormDTO.getSubject();
         this.user = planFormDTO.getUser();
         this.content = planFormDTO.getContent();
-        this.open = planFormDTO.isOpen();
+        this.open = planFormDTO.getOpen();
         this.period = new Period(planFormDTO.getPeriodStart(), planFormDTO.getPeriodEnd());
     }
 

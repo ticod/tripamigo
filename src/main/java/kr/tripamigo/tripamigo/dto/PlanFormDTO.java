@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.dto;
 
+import kr.tripamigo.tripamigo.domain.OpenScope;
 import kr.tripamigo.tripamigo.domain.User;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class PlanFormDTO {
     private String subject;
     private User user;
     private String content;
-    private boolean open;
+    private OpenScope open;
 
     private LocalDateTime periodStart;
     private LocalDateTime periodEnd;
