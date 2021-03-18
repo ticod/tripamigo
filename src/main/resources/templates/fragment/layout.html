@@ -9,6 +9,8 @@
     </title>
     <!-- css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <style th:replace="${style} ? ${style} : _"></style>
 </head>
@@ -20,8 +22,8 @@
     <!--  LOGO  -->
     <a th:href="@{/home}"
        class="w3-bar-item w3-button w3-indigo w3-border-bottom
-       w3-border-white w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
-        Tripamigo
+       w3-border-white w3-hover-white w3-hover-text-indigo w3-hover-border-indigo" style="padding-left: 1.5rem; transition: .2s;">
+        <i class="fas fa-plane-departure"></i>&nbsp;&nbsp;&nbsp;&nbsp; Tripamigo
     </a>
     <!--  LOGO END -->
 
@@ -31,8 +33,8 @@
         <img th:src="${session.loginUser.userProfileImage} ?: '/imgs/icons/id.png'" src="/imgs/icons/id.png" alt="X"
              style="width: 95%; height: 80px; object-fit: contain;">
         <div class="w3-dropdown-hover">
-            <button th:text="${session.loginUser.userNickname ?: '닉네임을 설정하세요'} + ' ▼'"
-                    class="w3-button w3-round w3-border-bottom w3-border-gray w3-margin-top"></button>
+            <button th:text="${session.loginUser.userNickname ?: '닉네임을 설정하세요'} + '&nbsp;&nbsp; ▼'"
+                    class="w3-button w3-round w3-center w3-border-bottom w3-border-gray w3-margin-top"></button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
                 <a th:href="@{/mypage/home}" class="w3-bar-item w3-button w3-hover-indigo">
                     마이 페이지
@@ -49,70 +51,79 @@
     <!-- Lgoin END -->
 
     <!-- Logout -->
-    <div th:if="${session.loginUser == null}" class="w3-center w3-padding w3-margin">
-        <a th:href="@{/login}"
-           class="w3-button w3-indigo w3-border w3-border-black w3-hover-black w3-margin">
+    <div th:if="${session.loginUser == null}" class="w3-center w3-margin" style="padding-top: 2rem;">
+        <a th:href="@{/login}" class="w3-button w3-round
+        w3-indigo w3-hover-white w3-hover-text-indigo
+        w3-border w3-border-gray w3-hover-border-indigo
+        w3-margin-left w3-margin-right">
             로그인
         </a>
-        <a th:href="@{/signup}"
-           class="w3-button w3-indigo w3-border w3-border-black w3-hover-black w3-margin">
-            회원 가입
+        <a th:href="@{/signup}" class="w3-button w3-round
+        w3-indigo w3-hover-white w3-hover-text-indigo
+        w3-border w3-border-gray w3-hover-border-indigo
+        w3-margin-left w3-margin-right">
+            회원가입
         </a>
     </div>
     <!-- Logout END -->
     <!-- Profile END -->
 
-    <!-- Menu 1 -->
-    <div class="w3-center w3-margin-top">
-        <a th:href="@{/mypage/diary}" class="w3-button w3-round
-        w3-indigo w3-hover-white w3-hover-text-indigo
-        w3-border w3-border-gray w3-hover-border-indigo
-        w3-margin-left w3-margin-right">
-            다이어리
-        </a>
-        <a th:href="@{/community/plan}" class="w3-button w3-round
-        w3-indigo w3-hover-white w3-hover-text-indigo
-        w3-border w3-border-gray w3-hover-border-indigo
-        w3-margin-left w3-margin-right">
-            여행 계획
-        </a>
-    </div>
-    <!-- Menu 1 END -->
+    <!-- Core Menu -->
 
+    <!-- Core Menu END -->
+
+    <br>
     <div class="menu-hr"></div>
 
     <!-- Menu 2 -->
     <div>
         <a th:href="@{/community/home}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            메인
+           class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+           w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
+            <i class="fa fa-home"></i>&nbsp;&nbsp;&nbsp;&nbsp; 메인
         </a>
+
         <div class="menu-hr"></div>
-        <a th:href="@{/community/search}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            종합 검색
-        </a>
+
+        <div class="w3-center w3-margin-top">
+            <a th:href="@{/mypage/diary}"
+               class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+                w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
+                <i class="far fa-heart"></i>&nbsp;&nbsp;&nbsp;&nbsp; 다이어리
+            </a>
+            <a th:href="@{/community/plan}"
+               class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+                w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
+                <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp; 여행 계획
+            </a>
+            <a th:href="@{/community/search}"
+               class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+                w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
+                <i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp; 종합 검색
+            </a>
+        </div>
+
+        <div class="menu-hr"></div>
+
         <a th:href="@{/community/info}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            여행 정보
+           class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+           w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 300;">
+            <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp; 여행 정보
         </a>
         <a th:href="@{/community/review}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            여행 후기
+           class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+           w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 300;">
+            <i class="far fa-comment-dots"></i>&nbsp;&nbsp;&nbsp;&nbsp; 여행 후기
         </a>
         <a th:href="@{/community/magazine}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            매거진
+           class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+           w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 300;">
+            <i class="fas fa-book-open"></i>&nbsp;&nbsp;&nbsp;&nbsp; 매거진
         </a>
         <a th:href="@{/community/promotion}"
-           class="w3-bar-item w3-round w3-margin-left w3-button w3-leftbar w3-border-light-gray
-           w3-hover-white w3-hover-border-indigo w3-hover-text-indigo sidebar-item">
-            홍보
+           class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
+           w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 300;">
+            <i class="far fa-thumbs-up"></i>&nbsp;&nbsp;&nbsp;&nbsp; 홍보
         </a>
     </div>
     <!-- Menu 2 END -->
