@@ -15,4 +15,6 @@ public interface UserRepository {
     List<User> findAllByUserStatus(boolean status);
     int countByUserStatus(boolean status);
 
+    Optional<User> findByUserIdAndUserStatus(String userId, boolean status);
+
 }
