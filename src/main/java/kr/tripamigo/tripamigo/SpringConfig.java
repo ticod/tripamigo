@@ -30,9 +30,6 @@ public class SpringConfig implements WebMvcConfigurer {
     private final RecommendRepository recommendRepository;
     private final PlanRepository planRepository;
 
-    /* Util */
-    private final CipherUtil cipherUtil;
-
     /*** Bean ***/
     /* Exception */
     @Bean

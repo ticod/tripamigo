@@ -32,9 +32,6 @@ public class MainController {
 	private UserService userService;
 
 	@Autowired
-	private CipherUtil cipherUtil;
-
-	@Autowired
 	private MessageSource messageSource;
 
     @RequestMapping("/home")
@@ -68,7 +65,7 @@ public class MainController {
 		}
     	
     	if(dbUser.getUserPw().equals(
-    			cipherUtil.hashEncoding(
+    			CipherUtil.hashEncoding(
     					userFormDTO.getPassword(), dbUser.getUserSalt()))) {
     		model.addAttribute("loginUser", dbUser);
     		session.setAttribute("loginUser", dbUser);
