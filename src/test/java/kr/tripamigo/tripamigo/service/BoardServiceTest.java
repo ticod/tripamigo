@@ -23,7 +23,7 @@ public class BoardServiceTest {
     void writeMagazineTest() {
         User user = userRepository.findById(1L).get();
         MagazineFormDTO magazineFormDTO = new MagazineFormDTO(
-                "제목", "내용", "지역1,지역2", "썸네일"
+                "제목", "내용", "지역1,지역2", "썸네일", null
         );
         boardService.writeMagazine(magazineFormDTO, user);
 
