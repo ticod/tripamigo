@@ -88,9 +88,15 @@ public class MainController {
     	session.invalidate();
     	return "redirect:home";
     }
-    
+
+    // 중복 검사
     @RequestMapping(value="/idOverlapChk", method=RequestMethod.POST)
-    public @ResponseBody String idOverlapChk(@RequestParam("id") String id) {
+    public @ResponseBody String idOverlapChk(@Valid UserFormDTO userFormDTO,
+											 BindingResult bindingResult) {
+    	String id = userFormDTO.getId();
+		if(bindingResult.hasFieldErrors("id")) {
+			return "c";
+		}
     	String idchk = "n";
     	User dbuser = userService.selectUserOne(id);
     	if(dbuser==null) {
