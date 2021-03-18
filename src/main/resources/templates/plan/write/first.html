@@ -3,8 +3,25 @@
 	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>WRITE PLAN 1</title>
   <style>
+	  section {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-content: center;
+	  }
+
 	  .calendar {
+		  margin-top: 100px;
 		  height: 400px;
+
+		  display: flex;
+		  flex-direction: column;
+		  align-content: center;
+	  }
+
+	  .calendar > div {
+		  align-self: center;
+		  width: 60%;
 	  }
 
 	  .sidebar-plan {
@@ -24,16 +41,27 @@
 <section class="w3-center w3-center-align w3-container">
 
 	<!-- Calendar -->
-	<div id="calendar" class="calendar">
-		<div class="w3-row">
+	<div id="calendar" class="w3-container w3-centered calendar">
+		<div class="w3-cell-row w3-border w3-border-black">
 
-			<div class="w3-col s1">일</div>
-			<div class="w3-col s1">월</div>
-			<div class="w3-col s1">화</div>
-			<div class="w3-col s1">수</div>
-			<div class="w3-col s1">목</div>
-			<div class="w3-col s1">금</div>
-			<div class="w3-col s1">토</div>
+			<div class="w3-cell w3-border">일</div>
+			<div class="w3-cell w3-border">월</div>
+			<div class="w3-cell w3-border">화</div>
+			<div class="w3-cell w3-border">수</div>
+			<div class="w3-cell w3-border">목</div>
+			<div class="w3-cell w3-border">금</div>
+			<div class="w3-cell w3-border">토</div>
+
+		</div>
+		<div class="w3-cell-row w3-border w3-border-black">
+
+			<div class="w3-cell w3-border">1</div>
+			<div class="w3-cell w3-border">2</div>
+			<div class="w3-cell w3-border">3</div>
+			<div class="w3-cell w3-border">4</div>
+			<div class="w3-cell w3-border">5</div>
+			<div class="w3-cell w3-border">6</div>
+			<div class="w3-cell w3-border">7</div>
 
 		</div>
 	</div>
