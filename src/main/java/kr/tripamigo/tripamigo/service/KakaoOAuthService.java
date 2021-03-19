@@ -111,31 +111,8 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
             throw new LoginException("서버 에러", "/home");
         }
 
-        JSONObject kakaoAccount = null;
-        LocalDateTime birth = null;
-        String profileImage = null;
-        String nickname = null;
-        String email = null;
-
-        try {
-            kakaoAccount = (JSONObject) jsonParser.parse("kakao_account");
-            email = (String) kakaoAccount.get("email");
-            String birthday = (String) kakaoAccount.get("birthday");
-            birth = LocalDate.parse(birthday).atStartOfDay();
-            JSONObject profile = null;
-            try {
-                profile = (JSONObject) jsonParser.parse("kakao_account");
-                profileImage = (String) profile.get("profile_image_url");
-                nickname = (String) profile.get("nickname");
-            } catch(ParseException e) {}
-        } catch (ParseException e) {}
-
         return OAuthKakaoInfoDTO.builder()
                 .id((Integer) responseBody.get("id"))
-                .nickname(nickname != null ? nickname : "Tripamigo")
-                .birth(birth != null ? birth : LocalDateTime.now())
-                .email(email != null ? email : "kakao account")
-                .profileImage(profileImage)
                 .build();
 
     }

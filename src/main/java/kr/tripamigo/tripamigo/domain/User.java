@@ -62,14 +62,14 @@ public class User {
     @Column(name = "USER_ALERT_CHK_DATE", insertable=false)
     private LocalDateTime userAlertChkDate;
 
-    public User joinOAuthUser(String userId, OAuthKakaoInfoDTO infoDTO,
-                              int gender, int rank, OAuthTokenDTO tokens) {
+    public User joinOAuthUser(String userId, int gender, int rank, OAuthTokenDTO tokens) {
+        this.userStatus = true;
         this.userId = userId;
         this.userPw = "";
         this.userSalt = "";
-        this.userEmail = infoDTO.getEmail();
-        this.userNickname = infoDTO.getNickname();
-        this.userBirth = infoDTO.getBirth();
+        this.userEmail = "kakao account";
+        this.userNickname = "trip amigo";
+        this.userBirth = LocalDateTime.now();
         this.userGender = gender;
         this.userRank = rank;
         this.userAccessToken = tokens.getAccessToken();

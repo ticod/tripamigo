@@ -37,7 +37,7 @@ a {
 		</style>
 	
 		<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
-		<br>
+		<p class="w3-center w3-sans-serif">상세글보기</p><hr><br>
 		
 		<div th:object="${magazine}">
 		<span id="c" class="w3-display-container w3-card w3-round-large">
@@ -49,7 +49,6 @@ a {
 						th:text="'조회수 : ' + ${magazine.boardHits}" ></div>
 			<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성ID : '+${magazine.user.userId}"></div>
 			<div class="w3-padding w3-display-topright" id="text" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
-			
 		</span>
 			<div>
 			<br>
@@ -71,6 +70,7 @@ a {
 					<div class="w3-left w3-panel w3-leftbar w3-rightbar" th:utext="${magazine.boardContent}" style="width:100%; height:100%; text-align:left"></div>
 				</div>
 			</div>
+			<div th:text="${tagList}" class="w3-text-blue"></div>
 			<hr>
 			<!-- 버튼 -->
 			<div class="w3-container">

@@ -11,12 +11,5 @@ import java.time.LocalDateTime;
 public class OAuthKakaoInfoDTO extends OAuthInfoDTO {
 
     private Integer id;
-    private String nickname;
-
-    // Nullable
-    private String email;
-    private String gender;
-    private LocalDateTime birth;
-    private String profileImage;
 
 }

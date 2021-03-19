@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MagazineRepository {
 
-    List<Magazine> findAllByBoardStatus(boolean status);
+    List<Magazine> findAllByBoardStatusOrderByBoardSeqDesc(boolean status);
     Optional<Magazine> findById(Long boardSeq);
 
 }

@@ -39,7 +39,8 @@
     margin: 1em 1em;
     height: 0;
 
-    border-bottom: 2px solid var(--color-indigo);
+    border-bottom: 1px solid lightgray;
+    opacity: .9;
 }
 
 .menu-hover-border {
