@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -47,11 +44,16 @@ public class PlanController {
     @GetMapping("/write/first")
     public String planWriteFirst(PeriodDTO periodDTO, Model model, HttpSession session) {
         session.setAttribute("planFormDTO", new PlanFormDTO());
+        model.addAttribute("periodDTO", periodDTO);
         return "/plan/write/first";
     }
 
     @PostMapping("/write/first")
     public String planWriteFirstToSecond(@Valid PeriodDTO periodDTO, BindingResult bindingResult, Model model, HttpSession session) {
+
+        if (bindingResult.hasErrors()) {
+            return "/plan/write/first";
+        }
 
         LocalDateTime start = LocalDateTime.of(periodDTO.getStartYear(), periodDTO.getStartMonth(), periodDTO.getStartDay(), periodDTO.getStartTime(), 0);
         LocalDateTime end = LocalDateTime.of(periodDTO.getEndYear(), periodDTO.getEndMonth(), periodDTO.getEndDay(), periodDTO.getEndTime(), 0);

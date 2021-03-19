@@ -35,6 +35,11 @@
 	  .sidebar-plan * {
 		  font-size: 0.75rem;
 	  }
+
+	  .error-message {
+		  font-size: 0.75rem;
+		  color: crimson;
+	  }
   </style>
 <body>
 <!-- Main Contents -->
@@ -68,53 +73,67 @@
 	<!-- Calendar END -->
 
 	<!-- 전체 일정 입력 폼 (Period Form) -->
-	<form th:action="@{first}" method="post">
+	<form th:action="@{first}" method="post" th:object="${periodDTO}">
 
 		<h3>일정 시작 시간을 선택하세요!</h3>
 
-		<select name="startYear" id="startYear">
-			<option value="">연도</option>
+		<select name="startYear" id="startYear" th:field="*{startYear}">
+			<option value="" disabled>연도</option>
 		</select>
 		<label for="startYear" class="w3-margin-right">년</label>
 
-		<select name="startMonth" id="startMonth">
-			<option value="">월</option>
+		<select name="startMonth" id="startMonth" th:field="*{startMonth}">
+			<option value="" disabled>월</option>
 		</select>
 		<label for="startMonth" class="w3-margin-right">월</label>
 
-		<select name="startDay" id="startDay">
-			<option value="">일</option>
+		<select name="startDay" id="startDay" th:field="*{startDay}">
+			<option value="" disabled>일</option>
 		</select>
 		<label for="startDay" class="w3-margin-right">일</label>
 
-		<select name="startTime" id="startTime">
-			<option value="">시각</option>
+		<select name="startTime" id="startTime" th:field="*{startTime}">
+			<option value="" disabled>시각</option>
 		</select>
 		<label for="startTime">시</label>
+
+		<br>
+
+		<p th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('startMonth')}" th:errors="*{startMonth}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('startDay')}" th:errors="*{startDay}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="error-message"></p>
 
 		<br> <br> <br>
 
 		<h3>일정 종료 시간을 선택하세요!</h3>
 
-		<select name="endYear" id="endYear">
-			<option value="">연도</option>
+		<select name="endYear" id="endYear" th:field="*{endYear}">
+			<option value="" disabled>연도</option>
 		</select>
 		<label for="endYear" class="w3-margin-right">년</label>
 
-		<select name="endMonth" id="endMonth">
-			<option value="">월</option>
+		<select name="endMonth" id="endMonth" th:field="*{endMonth}">
+			<option value="" disabled>월</option>
 		</select>
 		<label for="endMonth" class="w3-margin-right">월</label>
 
-		<select name="endDay" id="endDay">
-			<option value="">일</option>
+		<select name="endDay" id="endDay" th:field="*{endDay}">
+			<option value="" disabled>일</option>
 		</select>
 		<label for="endDay" class="w3-margin-right">일</label>
 
-		<select name="endTime" id="endTime">
-			<option value="">시각</option>
+		<select name="endTime" id="endTime" th:field="*{endTime}">
+			<option value="" disabled>시각</option>
 		</select>
 		<label for="endTime">시</label>
+
+		<br>
+
+		<p th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('endMonth')}" th:errors="*{endMonth}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('endDay')}" th:errors="*{endDay}" class="error-message"></p>
+		<p th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" class="error-message"></p>
 
 		<br> <br> <br>
 
