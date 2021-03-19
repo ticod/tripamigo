@@ -41,7 +41,7 @@ public class OAuthController {
         if (findUser == null) {
             // 회원 가입
             User user = userService.joinByKakao(tokens, infoDTO);
-            session.setAttribute("loginUser", user);
+            session.setAttribute("loginUser", userService.selectUserOne(userId));
         } else {
             // 로그인
             findUser = userService.loginByKakao(findUser, tokens);
