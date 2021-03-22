@@ -12,7 +12,10 @@ import java.util.List;
 @Entity @Table(name = "DIARY")
 @Getter @Setter
 public class Diary{
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_SEQ")
+	private User user;
+	 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DIARY_SEQ")
     private Long diarySeq;

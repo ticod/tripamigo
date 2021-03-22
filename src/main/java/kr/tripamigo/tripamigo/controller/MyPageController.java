@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,15 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
-//import kr.tripamigo.tripamigo.dto.DiaryFormDTO;
+import kr.tripamigo.tripamigo.dto.DiaryFormDTO;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
-//import kr.tripamigo.tripamigo.repository.DiaryRepository;
 import kr.tripamigo.tripamigo.service.BoardService;
-//import kr.tripamigo.tripamigo.service.DiaryService;
+import kr.tripamigo.tripamigo.service.DiaryService;
 
 @Controller
 @RequestMapping("/mypage")
@@ -31,7 +33,7 @@ public class MyPageController {
 	private BoardService svc;
 	/*
 	@Autowired
-	private DiaryService dsvc;
+	private DiaryService diaryService;
 	*/
 	@RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
@@ -46,30 +48,26 @@ public class MyPageController {
     	model.addAttribute(magazineList);
         return "mypage/diary";
     }
-	
-	@GetMapping("/diaryform")
-    String diaryform(UserFormDTO userFormDTO, Model model) {
-        return "mypage/diaryform";
+	@GetMapping("/diaryForm")
+    public String diaryForm(DiaryFormDTO diaryFormDTO, Model model) {
+        return "mypage/diaryForm";
     }
 	
 	
-	/*
 	@PostMapping("/diaryForm")
-    public String diaryWrite(/*@ModelAttribute @Valid DiaryFormDTO diaryFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception{
-    	if(bindingResult.hasErrors()) {
-    		return "community/diaryForm";
-    	}
-    	
-    	System.out.println(diaryFormDTO);
-    	User user = (User)session.getAttribute("loginUser");
-    	if(user == null) {
-    		throw new LoginException("로그인하세요", "/login");
-    	}
-    	dsvc.writeDiary(diaryFormDTO, user);
-    	throw new LoginException("글쓰기 완료","diary");
-		return "mypage/diaryform";
-    }
-*/
+	public String diaryWrite(@ModelAttribute @Valid DiaryFormDTO diaryFormDTO, BindingResult bindingResult
+			,@RequestPart MultipartFile thumbnail, HttpServletRequest request, HttpSession session, Model model) throws Exception {
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getFieldError());
+			return "mypage/diaryForm";
+		}
+		User user = (User) session.getAttribute("loginUser");
+		if (user == null) {
+			throw new LoginException("로그인하세요", "/login");
+		}
+		//diaryService.writeDiary(diaryFormDTO, user);
+		throw new LoginException("글쓰기 완료", "diary");
+	}
 	@RequestMapping("/plan")
     String plan(UserFormDTO userFormDTO, Model model) {
 		List<Magazine> magazineList = svc.magazineList();

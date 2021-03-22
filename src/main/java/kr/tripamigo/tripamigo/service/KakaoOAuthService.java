@@ -1,5 +1,5 @@
 package kr.tripamigo.tripamigo.service;
-
+/*
 import kr.tripamigo.tripamigo.dto.OAuthKakaoInfoDTO;
 import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
@@ -160,3 +160,4 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
 
     }
 }
+*/

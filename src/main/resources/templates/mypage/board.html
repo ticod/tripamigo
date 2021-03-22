@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<html th:replace="~{/fragment/mypagelayout :: layout(~{::title}, ~{::section}, ~{::style})}">
 <head>
-    <title>mypage - board</title>
+    <title>mypage</title>
     <style>
     	table {
   border-collapse: separate;
@@ -12,100 +12,7 @@
 <body>
 <!-- Main Contents -->
 <section class="w3-padding">
-	<table style="width:100%; background:#e1efd8;">
-		<tr>
-			<td align="center">
-				<a href="#"><img src="/imgs/mainbar.jpg" alt="X" style="width:100px; height:100px" class="w3-center w3-margin-top w3-circle"></a>
-			</td>
-			<td>
-			</td>
-			<td>
-			</td>
-			<td>
-				쪽지 : <a href="note">123</a>
-			</td>
-			<td>
-				<a href="addfollow">팔로우</a>
-			</td>
-		</tr>
-		<tr>
-			<td align="center">
-				<h2><span th:text="${session.loginUser.userNickname}"></span></h2>
-			</td>
-			<td>
-				팔로잉 : <a href="followingview">123</a>
-			</td>
-			<td>
-				팔로워 : <a href="followerview">123</a>
-			</td>
-			<td>
-				전체글수 : <a href="board">123</a>
-			</td>
-			<td>
-				전체댓글수 : <a href="comment">123</a>
-			</td>
-		</tr>
-	</table>
-	<table>
-		<tr>
-			<td style="width:80%">
-				<div class="w3-row" style="padding:100px;">
-		<div th:each="magazine : ${magazineList}" class="w3-col s4 w3-center w3-card" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:25%;" >
-			<div class="w3-row" style="padding:0px;">
-				<a href="" th:href="@{'/community/magazinePage?boardSeq='+${magazine.boardSeq}}">
-					<img th:src="@{'/imgs/'+${magazine.boardThumbnail}}" width="100%"/>
-				</a>
-			</div>		
-				<div class="w3-row w3-dark-grey" style="padding:10px; text-align:left; font-weight:bold; font-size:20px;">
-					<a href="#" th:href="@{'/community/magazinePage?boardSeq='+${magazine.boardSeq}}"
-					   th:text="'제목 : '+${#strings.substring(magazine.boardSubject,0,)}" >subject</a>
-				</div>
-			<div th:text="'작성자 : '+${magazine.boardSubject}" class="w3-row w3-dark-grey" style="padding:10px; text-align:right; font-size:13px;">subject</div>
-		</div>
-	</div>
-			</td>
-			
-			<td style="width:20%">
-				<table style="border:1px solid black; position: absolute;" >
-				<tr>
-				<td>
-					<a href="home">메인(있어도 그만 없어도 그만)</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="diary">다이어리</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="plan">내 여행 계획</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="board">게시물</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="favorite">스크랩</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="note">쪽지</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="alarm">알림 내역</a>
-				</td>
-			</tr>
-		</table>
-			</td>
-		</tr>
-	</table>
+	내 게시글 표시
 </section>
 <!-- Main Contents END -->
 

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html th:replace="~{/layout/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<html th:replace="~{/fragment/mypagelayout :: layout(~{::title}, ~{::section}, ~{::style})}">
 <head>
-    <title>mypage - diaryform</title>
+    <title>mypage - home</title>
     <style>
-  table{border:solid 1px black;}
-  a{text-decoration:none;}
+    	table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
     </style>
 </head>
 <body>
 <!-- Main Contents -->
-<section class="w3-padding">
-<script th:inline="javascript">
+<section class="w3-center w3-container" >
+  <script th:inline="javascript">
   	function cancel(){
   		if(confirm("작성을 취소하시겠습니까?") == true){
 			location.href="/mypage/diary";	
@@ -20,11 +22,11 @@
   	}
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-	<form id="diaryForm" action="diaryForm" th:object="${diaryFormDTO}" method="post">
+	<form id="diaryForm" role="form" action="diaryForm" th:object="${diaryFormDTO}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>
-					<input type="text" th:field="*{subject}" placeholder="제목 입력">
+					<input type="text" th:field="*{subject}" placeholder="제목 입력" style="width:100%">
 					<p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">subject Error</p>
 				</td>
 			</tr>
@@ -37,18 +39,14 @@
 			</tr>
 			<tr>
 				<td>
-					지역태그
+					<input type="file" th:field="*{thumbnail}" class="w3-input">
+					<p th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">content Error</p>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<input type="file" th:field="*{thumbnail}">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" value="작성완료">
-					<input type="button" onclick="cancel()" value="작성취소">
+					<input type="submit" value="작성완료" class="w3-button">
+					<input type="button" onclick="cancel()" value="작성취소" class="w3-button">
 				</td>
 			</tr>
 		</table>
