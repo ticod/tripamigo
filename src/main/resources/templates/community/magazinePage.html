@@ -48,7 +48,7 @@ a {
 			<div class="w3-padding w3-display-bottomright" id="text"
 						th:text="'조회수 : ' + ${magazine.boardHits}" ></div>
 			<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성ID : '+${magazine.user.userId}"></div>
-			<div class="w3-padding w3-display-topright" id="text" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
+			<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
 		</span>
 			<div>
 			<br>
@@ -82,16 +82,41 @@ a {
 			</div>
 			<br>
 			<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
-				<div class="w3-button w3-blue w3-round-xlarge"
+				<div
 					th:if="${session.loginUser.userId == magazine.user.userId} or ${session.loginUser.userId=='admin'}">
-					<a href="#"
-						th:href="@{'deleteBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}">글삭제</a>
+					<form name="f" method="post">
+						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
+						<input type="hidden" name="type" value="1">
+						<button type="button" onclick="deleteBoard()" class="w3-button w3-blue w3-round-xlarge">글삭제</button>
+						<a th:href="@{'updateBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}"><button type="button" class="w3-button w3-dark-grey w3-round-xlarge">글수정</button></a>
+					</form>
+					<script th:inline="javascript">
+						function deleteBoard(){
+							form = document.f;
+							if(confirm('삭제하시겠습니까?')==true){
+								f.action = "deleteBoard";
+								f.submit();
+							}else{
+								return;
+							}
+						}
+						function updateBoard(){
+							form = document.f;
+							if(confirm('수정하시겠습니까?')==true){
+								f.action="updateBoard";
+								f.submit();
+							}else{
+								return;
+							}
+						}
+					</script>
 				</div>
 				<br>
 				<br>
 				<!-- 댓글달기 -->
 				<div>
 					<script th:inline="javascript">
+						
 						function inputChk(){
 							form = document.getElementById('comment');
 							if(form.content.value==''||form.content.value.trim()==''){
@@ -104,6 +129,7 @@ a {
 							return true;
 						}
 					</script>
+					<!-- 댓글 폼 -->
 					<form id="comment" onsubmit="return inputChk()" action="comment" th:object="${commentFormDTO}" method="post">
 						<input type="hidden" name="id" th:value="${session.loginUser.userId}"> 
 						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
@@ -118,6 +144,9 @@ a {
 					</form>
 				</div>
 			</div>
+			<div class="w3-container w3-center" th:unless="${session.loginUser != null}"  style="text-decoration: none;">
+				댓글은 로그인후 가능합니다.
+			</div>
 			<br>
 			<br>
 
@@ -128,21 +157,65 @@ a {
 						<th class="w3-large" colspan="3" style="text-align: center">댓글
 							목록</th>
 					</tr>
+					
+					<tr th:each="comment : ${commentListMap}">
+								<td style="width: 10%; text-align: center"><span
+									class="w3-panel w3-border-none" th:text="${comment.key.user.userId}"></span>
+								</td>
+								<td><span class="w3-panel w3-border-left" th:text="${comment.key.commentContent}" style="float: left; text-align: left; width: 95%"></span>
+								<p class="w3-tiny w3-right" th:text="${#strings.replace(comment.key.commentRegdate,'T',' ')}"><p> 
+									<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.key.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
+										<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}">
+										<img src="/imgs/icons/del_cmt.png"></a>
+								</span></td>
+						<!-- 추천/ 신고 -->
+								<td style="width: 15%">
+								<!-- th:if="${session.loginUser!=null}" -->
+								<button th:if="${session.loginUser!=null} and ${!comment.value}" class="w3-button w3-blue w3-round-xlarge" 
+									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+								
+								<button th:if="${session.loginUser!=null} and ${comment.value}" class="w3-button w3-red w3-round-xlarge" 
+									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+								
+								<button th:unless="${session.loginUser!=null}" class="w3-button w3-blue w3-round-xlarge" 
+									th:onclick="'loginAlert()'">추천(수)</button>
+								
+								/ 신고
+							
+								</td>
+							</tr>
+				</table>
+			</div>
+			<div style="width: 100%;" th:unless="${commentList.size > 0}">
+				댓글이 없습니다.
+				<br><br>
+			</div>
+
+			<!-- 댓글목록============================= -->
+			<!-- <div style="width: 100%;" th:if="${commentList.size > 0}">
+				<table style="width: 100%" class="w3-small w3-table-all">
+					<tr>
+						<th class="w3-large" colspan="3" style="text-align: center">댓글
+							목록</th>
+					</tr>
 					<tr th:each="comment : ${commentList}">
 						<td style="width: 10%; text-align: center"><span
 							class="w3-panel w3-border-none" th:text="${comment.user.userId}"></span>
 						</td>
-						<td><span class="w3-panel w3-border-left" th:text="${comment.commentContent}" style="float: left; text-align: left; width: 95%"></span> 
+						<td><span class="w3-panel w3-border-left" th:text="${comment.commentContent}" style="float: left; text-align: left; width: 95%"></span>
+						<p class="w3-tiny w3-right" th:text="${#strings.replace(comment.commentRegdate,'T',' ')}"><p> 
 							<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
 								<a th:href="@{'deleteComment?commentSeq='+${comment.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}">
 								<img src="/imgs/icons/del_cmt.png"></a>
 						</span></td>
-				<!-- 추천/ 신고 -->
+				<!-- 추천/ 신고 --><!-- 
 						<td style="width: 15%">
-						<!-- th:if="${session.loginUser!=null}" -->
-						<button class="w3-button w3-blue" th:if="${session.loginUser!=null}" th:onclick="'commentRecommend('+${comment.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+						<!-- th:if="${session.loginUser!=null}" --><!-- 
+						<button th:if="${session.loginUser!=null}" class="w3-button w3-blue w3-round-xlarge" 
+							th:onclick="'commentRecommend('+${comment.user.userSeq}+','+${comment.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
 						
-						<button th:unless="${session.loginUser!=null}" th:onclick="'loginAlert()'">추천(수)</button>
+						<button th:unless="${session.loginUser!=null}" class="w3-button w3-blue w3-round-xlarge" 
+							th:onclick="'loginAlert()'">추천(수)</button>
 						
 						/ 신고
 						
@@ -153,13 +226,17 @@ a {
 			<div style="width: 100%;" th:unless="${commentList.size > 0}">
 				댓글이 없습니다.
 				<br><br>
-			</div>
+			</div>-->
 		</div>
 	<script th:inline="javascript">
-		function commentRecommend(contentSeq, userSeq){
+		function commentRecommend(commentUserSeq, contentSeq, userSeq){
+			console.log(commentUserSeq)
 			console.log(contentSeq)
 			console.log(userSeq)
-			
+			if(commentUserSeq==userSeq){
+				alert('본인 댓글 추천 불가');
+				return false;			
+			}
 			
 			$.ajax({
 				type:"POST",
@@ -168,9 +245,11 @@ a {
 				success: function(data){
 							if(data==true){
 								alert("추천 완료")
+								location.reload();
 								console.log(data)
 							}else{
 								alert("추천 취소")
+								location.reload();
 								console.log(data)
 							}
 						}

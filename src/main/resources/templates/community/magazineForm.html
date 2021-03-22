@@ -16,13 +16,30 @@
   	function cancel(){
   		if(confirm("작성을 취소하시겠습니까?") == true){
 			location.href="/community/magazine";	
-		}else {
+		}else{
 			return;
 		}
   	}
+  	function fileChk(){
+  		var imgFile = $('#file').val();
+  		var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+  		var maxSize = 1 * 1024 * 1024;
+		var fileSize;
+		if(imgFile != "" && imgFile != null) {
+			fileSize = document.getElementById("file").files[0].size;
+    		if(!imgFile.match(fileForm)) {
+    			alert("jpb, jpeg, png, gif, bmp만 업로드 가능");
+        		return false;
+    		} else if(fileSize >= maxSize) {
+    			alert("파일 사이즈는 1MB까지 가능");
+        		return false;
+    		}
+		}
+		return true;
+  	}
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-	<form id="magazineForm" role="form" action="magazineForm" th:object="${magazineFormDTO}" method="post"
+	<form id="magazineForm" role="form" onsubmit="return fileChk()" action="magazineForm" th:object="${magazineFormDTO}" method="post"
 	enctype="multipart/form-data">
 		<div class="w3-table w3-centered" style="width:100%;">
 			<div>
@@ -39,6 +56,18 @@
 				<script th:inline="javascript">
 					function deleteTag(b){
  							b.remove();
+ 							var tags = "";
+	  						 	
+  						 	$("b[name='tag1']").each(function(index, item){
+	  							tags += $(item).text()+',';
+  						 	})
+	  							
+  						 	console.log(tags)
+	  							
+  						 	tag.value = "";
+  						 	tag.focus();
+	  						  						 		
+  						 	$("input[name='tags']").val(tags);
  						}
 					$(function () {
  						 
@@ -48,29 +77,46 @@
  						 	var siz = $("b[name='tag1']").length;
  						 	
  						 	if(tag.value!='' && siz!=5){
-	 						 	//화면에 태그 출력
- 						 		var t = $("input[name='tag']").val();
-  						 		$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
-	  						 	
-  						 		//서버로 전송하기 위한 문자열 만들어 input hidden으로 넘기기.
-  						 		var tags = "";
-	  						 	
-  						 		$("b[name='tag1']").each(function(index, item){
-	  						 		tags += $(item).text()+',';
-  						 		})
-	  						 	
-  						 		console.log(tags)
-	  						 	
-  						 		tag.value = "";
-  						 		tag.focus();
-	  						 	
-  						 		
-  						 		$("input[name='tags']").val(tags);
+ 						 		
+ 						 		// 태그 중복방지
+ 						 		var tagList = [];
+ 						 		$("b[name='tag1']").each(function(index, item){
+	  						 		tagList.push($(item).text());
+  						 		});
+  						 		var t = $("input[name='tag']").val();
+ 						 		var chkTag = '#'+t;
+ 						 		
+ 						 		if(tagList.includes(chkTag)){
+ 						 			alert('중복 태그 존재');
+ 						 			tag.value = "";
+  						 			tag.focus();
+  						 			
+ 						 		}else{
+	 						 		//화면에 태그 출력
+	  						 		$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
+	  						 		
+  						 			//서버로 전송하기 위한 문자열 만들어 input hidden으로 넘기기.
+  						 			var tags = "";
+		  						 	
+  						 			$("b[name='tag1']").each(function(index, item){
+		  						 		tags += $(item).text()+',';
+  						 			})
+		  						 	
+  						 			console.log(tags)
+		  						 	
+  						 			tag.value = "";
+  						 			tag.focus();
+		  						 	
+  						 			
+  						 			$("input[name='tags']").val(tags);
+  						 		}
   						 	}else{
   						 		if(siz >= 5){
   						 			alert('태그는 최대 5개까지만 가능합니다.')
   						 		}else if(tag.value==''){
   						 			alert('태그를 입력하고 추가를 누르세요')
+  						 			tag.value = "";
+  						 			tag.focus();
   						 		}
   						 	}
  						 });
@@ -89,7 +135,7 @@
 		    </div>
 			<div>
 				<label class="w3-text-teal w3-left"><b>썸네일 이미지 등록</b></label>
-				<input type="file" name="file" class="w3-input w3-border w3-light-grey">
+				<input type="file" id="file" name="file" class="w3-input w3-border w3-light-grey">
 			</div>
 			<div>
 				<input type="submit" value="작성완료" class="w3-btn w3-blue w3-round-xlarge">
