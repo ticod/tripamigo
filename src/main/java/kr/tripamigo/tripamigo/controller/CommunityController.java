@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import kr.tripamigo.tripamigo.domain.Comment;
 import kr.tripamigo.tripamigo.domain.Recommend;
@@ -236,21 +237,24 @@ public class CommunityController {
 		}
 	}
 	
-	@RequestMapping("imgupload")
-	public String imgupload(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/imgupload")
+	public String imgupload(HttpServletRequest request, HttpServletResponse response, @RequestParam("upload") MultipartFile file, Model model) {
 //		String path = request.getServletContext().getRealPath("/") + "culture/board/imgfile/";
 		String path = "C:/Users/2016005/git/tripamigo/src/main/resources/static/uploadFiles/";
 		File f = new File(path);
 		if(!f.exists()) f.mkdirs();
-//		MultipartRequest multi = new MultipartRequest(request, path, 10*1024*1024, "euc-kr");
-
+		
+		if(!file.isEmpty()) {
+			uploadFileCreate(file, request, path);
+		}else {
+		}
 		//upload : ckeditor에서 지정한 파일이름이기때문에 바꾸면 안된다.
 //		String fileName  = multi.getFilesystemName("upload");
-		String fileName  = request.getParameter("upload");
-		request.setAttribute("fileName", fileName);
-		request.setAttribute("CKEditorFuncNum", request.getParameter("CKEditorFuncNum"));
+		String fileName  = file.getOriginalFilename();
+		model.addAttribute("fileName", "/uploadFiles/" + fileName);
+		model.addAttribute("CKEditorFuncNum", request.getParameter("CKEditorFuncNum"));
 		
-		return "/community/ckeditor.jsp";
+		return "community/ckeditor";
 	}
 
 	@GetMapping("/magazinePage")

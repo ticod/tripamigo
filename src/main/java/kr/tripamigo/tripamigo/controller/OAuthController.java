@@ -1,5 +1,5 @@
 package kr.tripamigo.tripamigo.controller;
-/*
+
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.dto.OAuthKakaoInfoDTO;
 import kr.tripamigo.tripamigo.dto.OAuthTokenDTO;
@@ -73,4 +73,3 @@ public class OAuthController {
     }
 
 }
-*/
