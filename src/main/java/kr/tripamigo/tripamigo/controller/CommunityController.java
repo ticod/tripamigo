@@ -3,7 +3,6 @@ package kr.tripamigo.tripamigo.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,12 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import kr.tripamigo.tripamigo.domain.Comment;
 import kr.tripamigo.tripamigo.domain.Recommend;
 import kr.tripamigo.tripamigo.domain.RecommendType;
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.CommentFormDTO;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
@@ -438,5 +437,5 @@ public class CommunityController {
 		}
 
 	}
-
+	
 }

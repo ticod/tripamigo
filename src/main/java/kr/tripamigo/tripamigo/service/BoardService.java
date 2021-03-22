@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Board;
+import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.exception.NoPageException;
 import kr.tripamigo.tripamigo.repository.BoardRepository;
+import kr.tripamigo.tripamigo.repository.InfoRepository;
 import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -71,5 +73,5 @@ public class BoardService {
 		boardRepository.save(dbMagazine);
 		
 	}
-	
+
 }
