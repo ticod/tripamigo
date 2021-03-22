@@ -123,6 +123,49 @@
 					});
 				</script>
 				<hr>
+				
+				
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz1W2lasXllO19MekQuhZgVKYRYAGQYdg&callback=initMap&libraries=&v=weekly" async></script>
+				<script>
+				class App {
+			constructor() {
+				this.idStartYear = document.getElementById("startYear");
+				this.idStartMonth = document.getElementById("startMonth");
+				this.idStartDay = document.getElementById("startDay");
+				this.idStartTime = document.getElementById("startTime")
+
+				this.idEndYear = document.getElementById("endYear");
+				this.idEndMonth = document.getElementById("endMonth");
+				this.idEndDay = document.getElementById("endDay");
+				this.idEndTime = document.getElementById("endTime")
+
+				const now = new Date();
+				this.years = this.range(now.getFullYear(), now.getFullYear() + 1);
+				this.valueAppendChildTo(this.idStartYear, this.years);
+				this.valueAppendChildTo(this.idEndYear, this.years);
+
+				this.times = this.range(1, 24);
+				this.valueAppendChildTo(this.idStartTime, this.times);
+				this.valueAppendChildTo(this.idEndTime, this.times);
+
+				this.idStartYear.addEventListener('change', this.changeMonthByYear.bind(this));
+				this.idStartMonth.addEventListener('change', this.changeDayByMonth.bind(this));
+
+				this.idEndYear.addEventListener('change', this.changeEndMonthByYear.bind(this));
+				this.idEndMonth.addEventListener('change', this.changeEndDayByMonth.bind(this));
+
+				let map;
+
+				map = new google.maps.Map(document.getElementById("map"), {
+					center: { lat: -34.397, lng: 150.644 },
+					zoom: 8,
+				});
+			}
+			}
+				
+				</script>
+				<hr>
+				
 				<label class="w3-text-teal w3-left"><b>장소 태그(최대 5개)</b></label>
 				<br>
         		<div id="tag-list" style="width:100%; height:60px" class="w3-padding w3-light-grey"></div>

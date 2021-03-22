@@ -1,10 +1,11 @@
 package kr.tripamigo.tripamigo.controller;
 
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import kr.tripamigo.tripamigo.dto.UserIdOAuthType;
-import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -15,28 +16,34 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
+import kr.tripamigo.tripamigo.dto.UserIdOAuthType;
 import kr.tripamigo.tripamigo.exception.LoginException;
+import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.UserService;
-
-import java.util.Locale;
+import kr.tripamigo.tripamigo.util.CipherUtil;
 
 @Controller
 public class MainController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BoardService boardService;
 
 	@Autowired
 	private MessageSource messageSource;
 
     @RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
-    	
+    	List<Magazine> magazineListSub = boardService.magazineList().subList(0, 4);
+		model.addAttribute("magazineListSub",magazineListSub);
+		
         return "home";
     }
 
