@@ -1,5 +1,7 @@
 package kr.tripamigo.tripamigo.service;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.Recommend;
@@ -30,5 +32,10 @@ public class RecommendService {
 
 		public Recommend readRecommend(Long userSeq, RecommendType type, Long contentSeq) {
 			return recommendRepository.findByUserSeqAndRecommendTypeAndContentSeq(userSeq, type, contentSeq);
+		}
+		
+		public List<Recommend> userRecommendList(Long userSeq, RecommendType type, boolean status){
+			System.out.println("RecommendService::userRecommendList =>"+recommendRepository.findAllByUserSeqAndRecommendTypeAndStatus(userSeq, type, status));
+			return recommendRepository.findAllByUserSeqAndRecommendTypeAndStatus(userSeq, type, status);
 		}
 }

@@ -36,6 +36,7 @@ public class BoardService {
         magazine.setBoardContent(magazineFormDTO.getContent());
         magazine.setBoardThumbnail(magazineFormDTO.getThumbnail());
         magazine.setBoardTag(magazineFormDTO.getTags());
+        
         boardRepository.save(magazine);
     }
     
@@ -64,6 +65,11 @@ public class BoardService {
 
 	public void boardHitsUp(Long boardSeq) {
 		boardRepository.boardHitsUp(boardSeq);
+	}
+
+	public void updateMagazine(Magazine dbMagazine) {
+		boardRepository.save(dbMagazine);
+		
 	}
 	
 }

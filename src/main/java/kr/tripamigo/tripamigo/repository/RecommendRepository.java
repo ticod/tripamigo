@@ -12,5 +12,6 @@ public interface RecommendRepository {
 	int countByRecommendTypeAndContentSeq(RecommendType recommendType, Long contentSeq);
 	int countByUserSeqAndStatus(Long userSeq, boolean b);
 	Recommend findByUserSeqAndRecommendTypeAndContentSeq(Long userSeq, RecommendType type, Long contentSeq);
+	List<Recommend> findAllByUserSeqAndRecommendTypeAndStatus(Long userSeq, RecommendType type, boolean status);
 
 }

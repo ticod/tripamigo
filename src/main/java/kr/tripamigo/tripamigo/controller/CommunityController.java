@@ -1,7 +1,12 @@
 package kr.tripamigo.tripamigo.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -118,6 +123,7 @@ public class CommunityController {
 			uploadFileCreate(magazineFormDTO.getFile(),request, "community/file/");
 		}
 		magazineFormDTO.setThumbnail(magazineFormDTO.getFile().getOriginalFilename());
+		
 		String tags = magazineFormDTO.getTags();
 		magazineFormDTO.setTags(tags.replaceAll("#", ""));
 		
@@ -132,6 +138,82 @@ public class CommunityController {
 
 		throw new LoginException("글쓰기 완료", "magazine");
 	}
+	
+	@GetMapping("/updateBoard")
+	public String readBoardForUpdate(MagazineFormDTO magazineFormDTO, @RequestParam("boardSeq") String boardSeq, HttpSession session, @RequestParam("type") int type, HttpServletRequest request, Model model) {
+		Long bSeq = Long.parseLong(boardSeq);
+		int btype = type;
+		Magazine magazine = boardService.readMagazine(bSeq);
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		if(!magazine.getUser().getUserSeq().equals(loginUser.getUserSeq()) || magazine.getUser().getUserSeq()!=(loginUser.getUserSeq())) {
+			throw new LoginException("본인게시물만 수정가능","/community/magazine");
+		}
+		
+		model.addAttribute("magazine",magazine);
+		magazineFormDTO.setContent(magazine.getBoardContent());
+		magazineFormDTO.setSubject(magazine.getBoardSubject());
+		magazineFormDTO.setThumbnail(magazine.getBoardThumbnail());
+		magazineFormDTO.setTags(magazine.getBoardTag());
+		
+		System.out.println("magazine.getBoardTag(): "+magazine.getBoardTag());
+		
+		List<String> dbTagList = Arrays.asList(magazine.getBoardTag().split(","));
+		System.out.println(dbTagList);
+		
+		model.addAttribute("dbTagList",dbTagList);
+		model.addAttribute("magazineSeq",bSeq);
+		
+		
+		
+		
+		model.addAttribute("magazineFormDTO", magazineFormDTO);
+		
+		return "community/magazineUpdateForm";
+	}
+	
+	@PostMapping("/updateBoard")
+	public String updateBoard(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
+			,@RequestPart MultipartFile file, HttpServletRequest request, HttpSession session, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getFieldError());
+			return "community/magazineUpdateForm";
+		}
+		System.out.println(request.getParameter("thumb"));
+		
+		if(magazineFormDTO.getFile() != null && !magazineFormDTO.getFile().isEmpty()) {
+			uploadFileCreate(magazineFormDTO.getFile(),request, "community/file/");
+
+			magazineFormDTO.setThumbnail(magazineFormDTO.getFile().getOriginalFilename());
+		}else {
+			magazineFormDTO.setThumbnail(request.getParameter("thumb"));
+		}
+		
+		String tags = magazineFormDTO.getTags();
+		magazineFormDTO.setTags(tags.replaceAll("#", ""));
+		
+		System.out.println(magazineFormDTO);
+		
+		User user = (User) session.getAttribute("loginUser");
+
+		if (user == null) {
+			throw new LoginException("로그인하세요", "/login");
+		}
+		Long magazineSeq = Long.parseLong(request.getParameter("magazineSeq"));
+		Magazine dbMagazine = boardService.readMagazine(magazineSeq);
+        dbMagazine.setBoardSubject(magazineFormDTO.getSubject());
+        dbMagazine.setBoardContent(magazineFormDTO.getContent());
+        dbMagazine.setBoardThumbnail(magazineFormDTO.getThumbnail());
+        dbMagazine.setBoardTag(magazineFormDTO.getTags());
+		
+		boardService.updateMagazine(dbMagazine);
+		//boardService.writeMagazine(magazineFormDTO, user);
+
+		throw new LoginException("수정 완료", "magazine");
+		
+	}
+	
 	
 	// MultipartFile의 데이터를 파일로 저장
 	private void uploadFileCreate(MultipartFile picture, HttpServletRequest request, String path) {
@@ -153,6 +235,23 @@ public class CommunityController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("imgupload")
+	public String imgupload(HttpServletRequest request, HttpServletResponse response) {
+//		String path = request.getServletContext().getRealPath("/") + "culture/board/imgfile/";
+		String path = "C:/Users/2016005/git/tripamigo/src/main/resources/static/uploadFiles/";
+		File f = new File(path);
+		if(!f.exists()) f.mkdirs();
+//		MultipartRequest multi = new MultipartRequest(request, path, 10*1024*1024, "euc-kr");
+
+		//upload : ckeditor에서 지정한 파일이름이기때문에 바꾸면 안된다.
+//		String fileName  = multi.getFilesystemName("upload");
+		String fileName  = request.getParameter("upload");
+		request.setAttribute("fileName", fileName);
+		request.setAttribute("CKEditorFuncNum", request.getParameter("CKEditorFuncNum"));
+		
+		return "/community/ckeditor.jsp";
+	}
 
 	@GetMapping("/magazinePage")
 	public String magazineDetail(HttpSession session, HttpServletRequest request, HttpServletResponse response,
@@ -166,6 +265,43 @@ public class CommunityController {
 		model.addAttribute("magazine", magazine);
 		model.addAttribute("commentList", commentList);
 		
+		User loginUser = (User)session.getAttribute("loginUser");
+		// recommendStatus가 1이면 추천OK,   0이면 추천NO(삭제 돼 있는 상태)
+		
+		Map<Comment, Boolean> commentListMap = new TreeMap<Comment, Boolean>((o1,o2)->o2.getCommentSeq().intValue()-o1.getCommentSeq().intValue());
+		System.out.println("commentListMap: "+commentListMap.toString());
+		boolean isRecommend=false;
+		List<Recommend> userRecommendList = new ArrayList<Recommend>();
+		
+		Long status = 1L;
+		if(loginUser!=null) {
+			userRecommendList = recommendService.userRecommendList(loginUser.getUserSeq(), RecommendType.COMMENT, true);
+			for(Comment c : commentList) {
+				System.out.println("c.getCommentSeq().toString() : "+ c.getCommentSeq().toString());
+				for(Recommend r : userRecommendList) {
+					System.out.println("r.getContentSeq().toString() : "+ r.getContentSeq().toString());
+					if(c.getCommentSeq().toString().equals(r.getContentSeq().toString()) || c.getCommentSeq().toString()==r.getContentSeq().toString()) {
+						isRecommend=true;
+						break;
+					}
+				}
+				if(isRecommend) {
+					commentListMap.put(c, true);	
+				}else {
+					commentListMap.put(c, false);	
+				}
+				isRecommend=false;
+				
+			}
+			model.addAttribute("commentListMap",commentListMap);
+		}else {
+			for(Comment c: commentList) { 
+				commentListMap.put(c, false);
+			}
+			model.addAttribute("commentListMap",commentListMap);
+		}
+		System.out.println("userRecommendList : " + userRecommendList.toString());
+		System.out.println("commentListMap: "+commentListMap.toString());
 		String tagList="";
 		
 		if(magazine.getBoardTag()!=null) {
@@ -182,7 +318,7 @@ public class CommunityController {
 
 		boardHitsUp(request, response, boardSeq);
 
-		System.out.println(commentList);
+		System.out.println("commentList:"+commentList.toString());
 		return "community/magazinePage";
 	}
 
@@ -248,6 +384,8 @@ public class CommunityController {
 		}
 		return "";
 	}
+	
+	
 
 	@PostMapping("/comment")
 	public String commentWrite(CommentFormDTO commentFormDTO, HttpSession session, Model model) throws Exception {
