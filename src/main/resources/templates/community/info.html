@@ -20,15 +20,22 @@
 		<a href="login"><button th:if="${session.loginUser == null}" class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button></a>
 		
 	</div>
-	<div th:each="info : ${infoList}" style="width:100%; height:50px;">
+	
+	<div th:each="info : ${infoRecommendCountMap}" style="width:100%; height:50px;">
 			
 			<div class="w3-left" style="width:100%;border:1px solid #cccccc; text-align: left">
-				<b th:text="'['+${info.area.name}+']'" class="w3-left"></b><br>
-				<span th:text="${info.infoSubject} + '[댓글수]'" class="w3-left"></span>
-				<span th:text="'|'+${info.user.userId}+'|'+${info.infoRegdate}+'|'+'추천수|'+${info.infoHits}" class="w3-right"></span>
+				<b th:text="'['+${info.key.area.name}+']'" class="w3-left"></b><br>
+				<span th:text="${info.key.infoSubject}" class="w3-left"></span>
+				
+				<div th:each="infocom : ${infoCommentCountMap}">
+					<b th:if="${info.key.infoSeq==infocom.key.infoSeq}" th:text="'[댓글 '+${infocom.value}+']'"></b>
+				</div>
+				
+				<span th:text="'|'+${info.key.user.userId}+'|'+${#strings.replace(info.key.infoRegdate,'T',' ')}+'|추천 '+${info.value}+'|조회 '+${info.key.infoHits}" class="w3-right"></span>
 			</div>
 			
 	</div>
+	
 </section>
 
 </body>

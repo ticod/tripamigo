@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>Tripamigo | INFO</title>
+  <style>
+  a{text-decoration:none;}
+  </style>
+
+<body>
+
+<!-- Main Contents -->
+<section class="w3-center w3-container" >
+	<b class="w3-center w3-xxlarge w3-sans-serif">Search</b>
+	<p class="w3-center w3-sans-serif">종합검색</p><hr><br>
+	
+	<div style="width:500px; height:500px; border:1px solid black">
+		지도 출력
+	</div>
+	
+	<script>
+		function dataSearch(){
+			alert('dataSearch')
+			form = document.getElementById('search');
+			form.action="dataSearch";
+			form.submit();			
+		}
+	</script>
+	<div>
+		<form id="search" name="searchForm" method="post"><!-- 자바스크립트로 action 설정 필요 -->
+			<input type="hidden" name="area" value="서울시">서울시
+			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-teal">공공데이터검색</button>
+			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
+		</form>
+	</div>
+
+
+
+</section>
+</body>
+</html>
