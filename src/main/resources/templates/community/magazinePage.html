@@ -172,13 +172,25 @@ a {
 								<td style="width: 15%">
 								<!-- th:if="${session.loginUser!=null}" -->
 								<button th:if="${session.loginUser!=null} and ${!comment.value}" class="w3-button w3-blue w3-round-xlarge" 
-									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">
+									<b th:each="countRecommend : ${countCommentRecommend}">
+										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+									</b>
+								</button>
 								
 								<button th:if="${session.loginUser!=null} and ${comment.value}" class="w3-button w3-red w3-round-xlarge" 
-									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">추천(수)</button>
+									th:onclick="'commentRecommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+')'">
+									<b th:each="countRecommend : ${countCommentRecommend}">
+										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+									</b>
+								</button>
 								
 								<button th:unless="${session.loginUser!=null}" class="w3-button w3-blue w3-round-xlarge" 
-									th:onclick="'loginAlert()'">추천(수)</button>
+									th:onclick="'loginAlert()'">
+									<b th:each="countRecommend : ${countCommentRecommend}">
+										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+									</b>
+								</button>
 								
 								/ 신고
 							

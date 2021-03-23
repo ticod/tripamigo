@@ -1,11 +1,15 @@
 package kr.tripamigo.tripamigo.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.Comment;
+import kr.tripamigo.tripamigo.domain.RecommendType;
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.dto.CommentFormDTO;
 import kr.tripamigo.tripamigo.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +41,17 @@ public class CommentService {
 		return commentRepository.findByCommentSeq(commentSeq);
 	}
 	
+	public Map<Info, Integer> countCommentList(List<Info> infoList) {
+		
+		Map<Info, Integer> infoCommentMap = new TreeMap<Info, Integer>((o1, o2)-> o2.getInfoSeq().intValue()-o1.getInfoSeq().intValue());
+		
+		for(Info i : infoList) {
+			int cnt = commentRepository.countByCommentContentTypeAndCommentContentSeq(2, i.getInfoSeq());
+			infoCommentMap.put(i, cnt);
+		}
+		System.out.println("Info 댓글 수 : \n"+infoCommentMap);
+		
+		return infoCommentMap;
+	}
 	
 }

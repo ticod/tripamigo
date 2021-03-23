@@ -9,7 +9,7 @@ public interface RecommendRepository {
 	
 	Recommend save(Recommend recommend);
 	List<Recommend> findAll();
-	int countByRecommendTypeAndContentSeq(RecommendType recommendType, Long contentSeq);
+	int countByRecommendTypeAndContentSeqAndStatus(RecommendType recommendType, Long contentSeq, boolean status);
 	int countByUserSeqAndStatus(Long userSeq, boolean b);
 	Recommend findByUserSeqAndRecommendTypeAndContentSeq(Long userSeq, RecommendType type, Long contentSeq);
 	List<Recommend> findAllByUserSeqAndRecommendTypeAndStatus(Long userSeq, RecommendType type, boolean status);

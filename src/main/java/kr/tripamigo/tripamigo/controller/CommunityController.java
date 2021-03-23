@@ -118,17 +118,19 @@ public class CommunityController {
 			System.out.println(bindingResult.getFieldError());
 			return "community/magazineForm";
 		}
-		
+		//썸네일
 		if(magazineFormDTO.getFile() != null && !magazineFormDTO.getFile().isEmpty()) {
 			uploadFileCreate(magazineFormDTO.getFile(),request, "community/file/");
 		}
 		magazineFormDTO.setThumbnail(magazineFormDTO.getFile().getOriginalFilename());
 		
+		//태그
 		String tags = magazineFormDTO.getTags();
 		magazineFormDTO.setTags(tags.replaceAll("#", ""));
 		
 		System.out.println(magazineFormDTO);
 		
+		//유저
 		User user = (User) session.getAttribute("loginUser");
 
 		if (user == null) {
@@ -274,6 +276,7 @@ public class CommunityController {
 		Map<Comment, Boolean> commentListMap = new TreeMap<Comment, Boolean>((o1,o2)->o2.getCommentSeq().intValue()-o1.getCommentSeq().intValue());
 		System.out.println("commentListMap: "+commentListMap.toString());
 		boolean isRecommend=false;
+		
 		List<Recommend> userRecommendList = new ArrayList<Recommend>();
 		
 		Long status = 1L;
@@ -305,8 +308,15 @@ public class CommunityController {
 		}
 		System.out.println("userRecommendList : " + userRecommendList.toString());
 		System.out.println("commentListMap: "+commentListMap.toString());
-		String tagList="";
 		
+		//댓글추천수
+		Map<Comment, Integer> countCommentRecommend = recommendService.countCommentRecommend(commentList);
+		model.addAttribute("countCommentRecommend",countCommentRecommend);
+		
+		
+		
+		//태그
+		String tagList="";
 		if(magazine.getBoardTag()!=null) {
 			String[] tags = magazine.getBoardTag().split(",");
 			for(int i =0; i<tags.length; i++) {

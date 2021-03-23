@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import kr.tripamigo.tripamigo.domain.Comment;
+import kr.tripamigo.tripamigo.domain.RecommendType;
 
 public interface CommentRepository {
 	
@@ -19,5 +20,6 @@ public interface CommentRepository {
 
 	Comment findByCommentSeq(Long commentSeq);
 	
+	int countByCommentContentTypeAndCommentContentSeq(int commentContentType, Long commentContentSeq);
 }
 
