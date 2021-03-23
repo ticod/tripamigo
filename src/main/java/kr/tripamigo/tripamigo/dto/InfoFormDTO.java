@@ -1,10 +1,8 @@
 package kr.tripamigo.tripamigo.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import kr.tripamigo.tripamigo.domain.board.Area;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +19,10 @@ public class InfoFormDTO {
 	
 	@NotBlank(message="내용을 입력하세요")
     private String content;
+	
+	//area 객체 관련 수정 필요. 위도,경도,주소 구글맵 API
+	private Area area;
+
 	
 	
 

@@ -16,7 +16,7 @@ public class Info {
     @Column(name = "INFO_SEQ")
     private Long infoSeq;
 
-    @Column(name = "INFO_STATUS")
+    @Column(name = "INFO_STATUS", insertable=false)
     private boolean infoStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,10 +29,10 @@ public class Info {
     @Column(name = "INFO_CONTENT")
     private String infoContent;
 
-    @Column(name = "INFO_REGDATE")
+    @Column(name = "INFO_REGDATE", insertable=false)
     private LocalDateTime infoRegdate;
 
-    @Column(name = "INFO_HITS")
+    @Column(name = "INFO_HITS", insertable=false)
     private int infoHits;
 
     @Embedded

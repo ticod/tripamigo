@@ -13,7 +13,7 @@ import kr.tripamigo.tripamigo.domain.board.Info;
 public interface InfoRepository {
 
 	List<Info> findAllByInfoStatusOrderByInfoSeqDesc(boolean status);
-
+	Info save(Info info);
 //    Board save(Board board);
 //    Optional<Board> findById(Long id);
 //    List<Board> findAll();

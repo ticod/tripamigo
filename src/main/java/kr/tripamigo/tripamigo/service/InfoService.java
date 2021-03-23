@@ -1,21 +1,16 @@
 package kr.tripamigo.tripamigo.service;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
-import kr.tripamigo.tripamigo.domain.board.Board;
+import kr.tripamigo.tripamigo.domain.board.Area;
 import kr.tripamigo.tripamigo.domain.board.Info;
-import kr.tripamigo.tripamigo.domain.board.Magazine;
-import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
-import kr.tripamigo.tripamigo.exception.NoPageException;
-import kr.tripamigo.tripamigo.repository.BoardRepository;
+import kr.tripamigo.tripamigo.dto.InfoFormDTO;
 import kr.tripamigo.tripamigo.repository.InfoRepository;
-import kr.tripamigo.tripamigo.repository.MagazineRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -77,6 +72,16 @@ public class InfoService {
 		List<Info> infoList;
     	infoList = infoRepository.findAllByInfoStatusOrderByInfoSeqDesc(true);
 		return infoList;
+	}
+
+	public void writeInfo(InfoFormDTO infoFormDTO, User user) {
+		Info info = new Info();
+		info.setInfoSubject(infoFormDTO.getSubject());
+		info.setInfoContent(infoFormDTO.getContent());
+		info.setUser(user);
+		info.setArea(infoFormDTO.getArea());
+		System.out.println(info);
+		infoRepository.save(info);
 	}
 	
 }
