@@ -119,7 +119,17 @@ public class MainController {
 				  Model model)
 			throws Exception {
     	
-    	if(bindingResult.hasErrors()) {
+    	// 이메일 인증 여부 체크
+    	try {
+			String sessionEmail = (String) session.getAttribute(EmailAuthController.sessionAuthCheckName);
+			if (!userFormDTO.getEmail().equals(sessionEmail)) {
+				return "signup";
+			}
+		} catch (Exception e) {
+    		return "signup";
+		}
+    	
+    	if (bindingResult.hasErrors()) {
     		return "signup";
     	}
     	userService.join(userFormDTO);
