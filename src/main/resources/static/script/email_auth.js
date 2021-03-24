@@ -19,7 +19,7 @@ function changeEmailInput() {
 
 function sendEmailAuthCode() {
 
-    if(emailInput === null || emailInput.value.trim() === ""){
+    if (emailInput === null || emailInput.value.trim() === ""){
         alert("이메일을 입력하세요")
         emailInput.focus();
         return;
@@ -36,13 +36,26 @@ function sendEmailAuthCode() {
             if (res === "true") {
                 alert("인증번호를 발송했습니다");
             } else {
-                alert("이메일을 확인해주세요.");
+                alert("잘못된 이메일이거나 이미 가입한 회원입니다.");
             }
         }
     })
 }
 
 function checkEmailAuthCode() {
+
+    if (emailInput === null || emailInput.value.trim() === ""){
+        alert("이메일을 입력하세요")
+        emailInput.focus();
+        return;
+    }
+
+    if (codeInput === null || codeInput.value.trim() === ""){
+        alert("인증번호를 입력하세요")
+        codeInput.focus();
+        return;
+    }
+
     $.ajax({
         url: "/email/check",
         type: "POST",
