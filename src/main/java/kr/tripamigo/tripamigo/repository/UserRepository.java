@@ -16,5 +16,6 @@ public interface UserRepository {
     int countByUserStatus(boolean status);
 
     Optional<User> findByUserIdAndUserStatus(String userId, boolean status);
+    Optional<User> findByUserEmailAndUserStatus(String userEmail, boolean status);
 
 }

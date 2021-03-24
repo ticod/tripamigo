@@ -1,6 +1,8 @@
 package kr.tripamigo.tripamigo.controller;
 
+import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.service.EmailService;
+import kr.tripamigo.tripamigo.service.UserService;
 import kr.tripamigo.tripamigo.util.CipherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class EmailAuthController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private UserService userService;
+
     public final static String sessionAuthCheckName = "emailAuthCheck";
 
     private final static String sessionSaltName = "emailAuthSalt";
@@ -35,6 +40,10 @@ public class EmailAuthController {
     @PostMapping("/send")
     @ResponseBody
     public boolean sendAuthCode(@RequestParam("email") String email, HttpSession session) {
+
+        if (userService.findUserByEmail(email) != null) {
+            return false;
+        }
 
         try {
             String orgCode = generateRandomCode();
@@ -58,8 +67,8 @@ public class EmailAuthController {
                                  HttpSession session) {
 
         // 세션 값 확인
-        String sessionSalt = null;
-        String sessionCode = null;
+        String sessionSalt;
+        String sessionCode;
         try {
             sessionSalt = (String) session.getAttribute(sessionSaltName);
             sessionCode = (String) session.getAttribute(sessionCodeName);

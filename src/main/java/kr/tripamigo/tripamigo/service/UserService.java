@@ -61,4 +61,10 @@ public class UserService {
         loginUser.withdrawal();
         userRepository.save(loginUser);
     }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByUserEmailAndUserStatus(email, true)
+                .orElse(null);
+    }
+
 }
