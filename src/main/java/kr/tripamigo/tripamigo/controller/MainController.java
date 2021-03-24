@@ -138,4 +138,14 @@ public class MainController {
     
     }
 
+	@GetMapping("/find-id")
+	String findId(HttpSession session) {
+		return "id_find_form";
+	}
+
+    @GetMapping("/change-password")
+	String changePassword(HttpSession session) {
+    	return "password_change/id_email_form";
+	}
+
 }
