@@ -41,14 +41,13 @@
 				</tr>
 				<form method="post" id="f" name="f" th:object="${userFormDTO}" onsubmit="return submitChk(this)">
 				<tr>
-
 					<td style="width:15%">
 						<img src="imgs/icons/id.png">
 					</td>
-					<td style="width:70%"><input type="text" th:field="*{id}" placeholder="아이디 입력 "><div id="idchk"></div>
+					<td style="width:65%"><input type="text" th:field="*{id}" placeholder="아이디 입력 "><div id="idchk"></div>
 					<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</p>
 					</td>
-					<td style="width:15%"><a href="javascript:overlap()"><input type="button" class="overlap" value="중복확인"></a>
+					<td style="width: 20%"><a href="javascript:overlap()"><input type="button" class="overlap" value="중복확인"></a>
 						<input type="hidden" name="ovChkValue" value="0">
 						<input type="hidden" name="tmpID" value="">
 					</td>
@@ -67,8 +66,19 @@
 					<td><input type="text" th:field="*{email}" placeholder="이메일 입력">
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</p>
 					</td>
-					<td></td>
+					<td>
+						<input type="button" class="overlap" style="font-size: 0.75rem;" value="인증번호 전송" onclick="sendEmailAuthCode()">
+					</td>
 					<!-- <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">id Error</td>-->
+				</tr>
+				<tr>
+					<td>인증 번호</td>
+					<td>
+						<input type="text" placeholder="인증번호 입력">
+					</td>
+					<td style="width: 20%">
+						<input type="button" class="overlap" style="font-size: 0.75rem;" value="인증번호 확인" onclick="checkEmailAuthCode()">
+					</td>
 				</tr>
 				<tr>
 					<td><img src="imgs/icons/birth.png"></td>
@@ -171,7 +181,8 @@
 
 	</script>
 
-	<script th:inline="javascript" src="script/kakao_login.js"></script>
+	<script th:inline="javascript" th:src="@{script/kakao_login.js}"></script>
+	<script th:inline="javascript" th:src="@{script/email_auth.js}"></script>
 
 		<!-- 
   <form class="w3-container main" style="height:100vh">
