@@ -93,7 +93,7 @@
   						 			
  						 		}else{
 	 						 		//화면에 태그 출력
-	  						 		$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
+	  						 		$("div[id='tag-list']").append("<button class='w3-tag w3-blue' style=\"border:none;margin:3px;\" type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
 	  						 		
   						 			//서버로 전송하기 위한 문자열 만들어 input hidden으로 넘기기.
   						 			var tags = "";

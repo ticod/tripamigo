@@ -132,6 +132,11 @@ public class SearchController {
 		while((str = br.readLine()) != null){
 			line += str;
 		}
+		String sido1 = sido;
+		if(sido1.length()>=5) {
+			sido1 = sido1.substring(0,2);
+			System.out.println(sido1);
+		}
 		
 		List<String> list = new ArrayList<>();
 		
@@ -144,7 +149,7 @@ public class SearchController {
 			for(Element ele : e1) {
 				list = new ArrayList();
 				
-				if(ele.select("spatial").text().contains(sido) && ele.select("spatial").text().contains(gugun)) {
+				if(ele.select("spatial").text().contains(sido1) && ele.select("spatial").text().contains(gugun)) {
 					if(!findString.equals("") || findString!=null) {
 						if(ele.select("title").text().contains(findString)
 								|| ele.select("description").text().contains(findString)

@@ -21,7 +21,13 @@ public class InfoFormDTO {
     private String content;
 	
 	//area 객체 관련 수정 필요. 위도,경도,주소 구글맵 API
-	private Area area;
+	private String rating;
+	private String budget;
+	private String name;
+	private String address;
+	private String lat;
+	private String lng;
+	
 
 	
 	
