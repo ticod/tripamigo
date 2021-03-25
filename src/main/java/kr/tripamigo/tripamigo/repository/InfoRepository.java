@@ -14,6 +14,8 @@ public interface InfoRepository {
 
 	List<Info> findAllByInfoStatusOrderByInfoSeqDesc(boolean status);
 	Info save(Info info);
+
+	List<Info> findAllByInfoStatusAndAreaNameAndAreaAddress(boolean status, String areaName, String areaAddress);
 //    Board save(Board board);
 //    Optional<Board> findById(Long id);
 //    List<Board> findAll();

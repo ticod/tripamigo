@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo.service;
 
 import java.util.List;
 
+import kr.tripamigo.tripamigo.dto.AreaSummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +83,28 @@ public class InfoService {
 		info.setArea(area);
 		System.out.println(info);
 		infoRepository.save(info);
+	}
+
+	public AreaSummaryDTO getAreaDataBy(String areaAddress, String areaName) {
+
+		List<Info> datas
+				= infoRepository.findAllByInfoStatusAndAreaNameAndAreaAddress(true, areaName, areaAddress);
+
+		double budgetAvg = 0;
+		double ratingAvg = 0;
+
+		for (Info data : datas) {
+			budgetAvg += data.getArea().getBudget();
+			ratingAvg += data.getArea().getRating();
+		}
+
+		budgetAvg /= datas.size();
+		ratingAvg /= datas.size();
+
+		return AreaSummaryDTO.builder()
+				.budgetAvg(budgetAvg)
+				.ratingAvg(ratingAvg)
+				.build();
 	}
 	
 }
