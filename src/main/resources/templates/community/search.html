@@ -11,10 +11,32 @@
 <section class="w3-center w3-container" >
 	<b class="w3-center w3-xxlarge w3-sans-serif">Search</b>
 	<p class="w3-center w3-sans-serif">종합검색</p><hr><br>
-	
-	<div style="width:500px; height:500px; border:1px solid black">
-		지도 출력
+	<div class="w3-container" style="justify-content: center; display: flex">
+		<div class="w3-center w3-border" style="width:500px; height:500px;">
+			지도 출력
+		</div>
 	</div>
+	<br>
+	<div class="w3-container">
+		<form id="search" name="searchForm" method="post"><!-- 자바스크립트로 action 설정 필요 -->
+			<select name="sido" id="sido"></select>&nbsp;&nbsp;
+			<select name="gugun" id="gugun"></select>&nbsp;&nbsp;
+			<input type="text" name="findString" id="findString" placeholder="검색어 입력">
+			
+			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-green">공공데이터검색</button>
+			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
+		</form>
+	</div>
+	
+	<div id="loading" class="w3-modal">
+		<div class="w3-modal-content w3-card-4 w3-animate-top w3-round-xlarge w3-padding" style="width:200px; height:130px;">
+			<img src="/imgs/spin.gif">
+			<br>
+			<b>검색중입니다</b>
+		</div>
+	</div>
+	
+	<!-- end -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script th:inline="javascript">
 		function dataSearch(){
@@ -80,13 +102,6 @@
 
 	});
 	</script>
-	<div id="loading" class="w3-modal">
-		<div class="w3-modal-content w3-card-4 w3-animate-top w3-round-xlarge w3-padding" style="width:200px; height:130px;">
-			<img src="/imgs/spin.gif">
-			<br>
-			<b>검색중입니다</b>
-		</div>
-	</div>
 	<style>
 		select, input[id='findString']{
 			border-top:none;
@@ -97,19 +112,6 @@
 			height:50px;
 		}
 	</style>
-	<div class="w3-container">
-		<form id="search" name="searchForm" method="post"><!-- 자바스크립트로 action 설정 필요 -->
-			<select name="sido" id="sido"></select>&nbsp;&nbsp;
-			<select name="gugun" id="gugun"></select>&nbsp;&nbsp;
-			<input type="text" name="findString" id="findString" placeholder="검색어 입력">
-			
-			
-			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-teal">공공데이터검색</button>
-			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
-		</form>
-	</div>
-
-
 
 </section>
 </body>

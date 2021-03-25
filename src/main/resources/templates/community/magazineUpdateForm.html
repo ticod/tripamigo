@@ -84,7 +84,7 @@
  						var tt = '';
 						$("input[name='dbTags']").each(function(index, item){
 		  					tt = $(item).val();
-		  					$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+tt+"</b></button>");
+		  					$("div[id='tag-list']").append("<button class='w3-tag w3-blue' style=\"border:none;margin:3px;\" type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+tt+"</b></button>");
   						})
   						var tags = "";
   						$("b[name='tag1']").each(function(index, item){

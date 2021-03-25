@@ -38,12 +38,12 @@ public class Area {
      * 아래 생성자를 통해 사용
      */
     public Area(Area area) {
-        this.budget = area.getBudget();
-        this.rating = area.getRating();
-        this.name = area.getName();
-        this.address = area.getAddress();
-        this.lat = area.getLat();
-        this.lng = area.getLng();
+        this.budget = budget;
+        this.rating = rating;
+        this.name = name;
+        this.address = address;
+        this.lat = lat;
+        this.lng = lng;
     }
 
 }

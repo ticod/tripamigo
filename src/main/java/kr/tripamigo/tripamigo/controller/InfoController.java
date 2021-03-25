@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Area;
 import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.dto.InfoFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
@@ -97,12 +98,21 @@ public class InfoController {
 			System.out.println(bindingResult.getFieldError());
 			return "community/infoForm";
 		}
+		
 		User user = (User) session.getAttribute("loginUser");
 		
 		System.out.println(infoFormDTO);
 		
-		infoService.writeInfo(infoFormDTO,user);
+		int budget = Integer.parseInt(infoFormDTO.getBudget().replace(",", ""));
+		int rating = Integer.parseInt(infoFormDTO.getRating());
+		String name = infoFormDTO.getName();
+		String address = infoFormDTO.getAddress();
+		double lat = Double.parseDouble(infoFormDTO.getLat());
+		double lng = Double.parseDouble(infoFormDTO.getLng());
 		
+		Area area = new Area(budget, rating, name, address, lat, lng);
+		
+		infoService.writeInfo(infoFormDTO,area,user);
 		
 		throw new LoginException("글쓰기 완료","info");
 		

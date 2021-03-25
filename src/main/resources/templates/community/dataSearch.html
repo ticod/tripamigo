@@ -12,6 +12,74 @@
 	<b class="w3-center w3-xxlarge w3-sans-serif" id="top">Search</b>
 	<p class="w3-center w3-sans-serif">공공데이터검색</p><hr><br>
 	
+	<div id="loading" class="w3-modal">
+		<div class="w3-modal-content w3-card-4 w3-animate-top w3-round-xlarge" style="width:200px; height:130px;">
+			<img src="/imgs/spin.gif">
+			<br>
+			<b>검색중입니다</b>
+		</div>
+	</div>
+    
+	
+	
+	<div class="w3-container">
+		<form id="search" name="searchForm" method="post"><!-- 자바스크립트로 action 설정 필요 -->
+			<select name="sido" id="sido"></select>
+			<select name="gugun" id="gugun"></select>
+			<input type="text" name="findString" id="findString" placeholder="검색어 입력">
+			
+			
+			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-green">공공데이터검색</button>
+			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
+		</form>
+	</div>
+	
+	<div class="w3-container">
+		<h2 th:text="'지역 : '+${sido}+' '+${gugun}"></h2>
+		<h2 th:text="'검색어 : '+${findString}"></h2>
+		<p>검색결과</p>
+	</div>
+	<div>
+    	<a href="#place"><font class="w3-button w3-round-xlarge w3-orange">장소</font></a>
+    	<a href="#festival"><font class="w3-button w3-round-xlarge w3-orange">축제 및 행사</font></a>
+    </div>
+	
+	<p class="w3-left">*클릭하시면 구글검색으로 이동합니다.</p>
+	<hr>
+	<br><br>
+	
+	<div class="w3-container">
+		<b id="place">&lt;장소&gt;</b>
+	</div>
+	
+	<div th:each="pdata : ${publicDataPlaceSearchMap}" class="w3-card w3-panel w3-leftbar w3-border-blue w3-pale-blue" style="text-align: left">
+		<!-- <b th:text="${data.key}"></b> -->
+		<th:block th:each="v : ${pdata.value}">
+			<div th:utext="${v}"></div>
+		</th:block>
+	</div>
+	
+	<div class="w3-right">
+		<a href="#top"><button type="button" class="w3-button w3-dark-grey">Top ▲</button></a>
+	</div>
+	<br><br>
+	
+	<div class="w3-container">
+		<b id="festival">&lt;축제 및 행사&gt;</b>
+	</div>
+	
+	<div th:each="fdata : ${publicDataFestivalSearchMap}" class="w3-card w3-panel w3-leftbar w3-border-red w3-pale-blue" style="text-align: left">
+		<h2 style="font-weight:bold;" th:utext="${fdata.key}"></h2>
+		<th:block th:each="v : ${fdata.value}">
+			<div th:utext="${v}"></div>
+		</th:block>
+	</div>
+	
+	<div class="w3-right">
+		<a href="#top"><button type="button" class="w3-button w3-dark-grey">Top ▲</button></a>
+	</div>
+	
+	<!-- end -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script th:inline="javascript">
 		function dataSearch(){
@@ -77,14 +145,7 @@
 
 	});
 	</script>
-	<div id="loading" class="w3-modal">
-		<div class="w3-modal-content w3-card-4 w3-animate-top w3-round-xlarge" style="width:200px; height:130px;">
-			<img src="/imgs/spin.gif">
-			<br>
-			<b>검색중입니다</b>
-		</div>
-	</div>
-    
+	
 	<style>
 		select, input[id='findString']{
 			border-top:none;
@@ -104,58 +165,6 @@
             left: 90%;
           }
 	</style>
-	
-	<div class="w3-container">
-		<form id="search" name="searchForm" method="post"><!-- 자바스크립트로 action 설정 필요 -->
-			<select name="sido" id="sido"></select>
-			<select name="gugun" id="gugun"></select>
-			<input type="text" name="findString" id="findString" placeholder="검색어 입력">
-			
-			
-			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-teal">공공데이터검색</button>
-			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
-		</form>
-	</div>
-	
-	<div>
-		<h2 th:text="'지역:'+${sido}+' '+${gugun}"></h2>
-		<h2 th:text="'검색어:'+${findString}"></h2>
-		검색결과
-	</div>
-	<div>
-    	<a href="#place"><font class="w3-button w3-round-xlarge w3-orange">장소</font></a>
-    	<a href="#festival"><font class="w3-button w3-round-xlarge w3-orange">축제 및 행사</font></a>
-    </div>
-	
-	<p class="w3-left">*클릭하시면 구글검색으로 이동합니다.</p>
-	<hr>
-	<br><br>
-	<div class="w3-container">
-		<b id="place">&lt;장소&gt;</b>
-	</div>
-	<div th:each="pdata : ${publicDataPlaceSearchMap}" class="w3-card w3-panel w3-leftbar w3-border-blue w3-pale-blue" style="text-align: left">
-		<!-- <b th:text="${data.key}"></b> -->
-		<th:block th:each="v : ${pdata.value}">
-			<div th:utext="${v}"></div>
-		</th:block>
-	</div>
-	<div class="w3-right">
-		<a href="#top"><button type="button" class="w3-button w3-dark-grey">Top ▲</button></a>
-	</div>
-	<br><br>
-	<div class="w3-container">
-		<b id="festival">&lt;축제 및 행사&gt;</b>
-	</div>
-	<div th:each="fdata : ${publicDataFestivalSearchMap}" class="w3-card w3-panel w3-leftbar w3-border-red w3-pale-blue" style="text-align: left">
-		<h2 style="font-weight:bold;" th:utext="${fdata.key}"></h2>
-		<th:block th:each="v : ${fdata.value}">
-			<div th:utext="${v}"></div>
-		</th:block>
-	</div>
-	<div class="w3-right">
-		<a href="#top"><button type="button" class="w3-button w3-dark-grey">Top ▲</button></a>
-	</div>
-	
 
 
 

@@ -74,12 +74,12 @@ public class InfoService {
 		return infoList;
 	}
 
-	public void writeInfo(InfoFormDTO infoFormDTO, User user) {
+	public void writeInfo(InfoFormDTO infoFormDTO, Area area, User user) {
 		Info info = new Info();
 		info.setInfoSubject(infoFormDTO.getSubject());
 		info.setInfoContent(infoFormDTO.getContent());
 		info.setUser(user);
-		info.setArea(infoFormDTO.getArea());
+		info.setArea(area);
 		System.out.println(info);
 		infoRepository.save(info);
 	}
