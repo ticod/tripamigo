@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/area")
@@ -22,6 +21,10 @@ public class AreaController {
 
     @Autowired
     private InfoService infoService;
+
+    private boolean isEmptyString(String target) {
+        return target == null || "".trim().equals(target);
+    }
 
     @RequestMapping("/summary")
     @ResponseBody
@@ -32,6 +35,10 @@ public class AreaController {
     @RequestMapping("/search")
     @ResponseBody
     JSONObject search(PlaceSearchDTO placeSearchDTO) {
+
+        if (isEmptyString(placeSearchDTO.getInput())) {
+            return null;
+        }
 
         String stringUri = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key="
                 + APIKey.GOOGLE_MAP
@@ -56,6 +63,10 @@ public class AreaController {
     @ResponseBody
     JSONObject direction(@RequestParam("org") String org,
                          @RequestParam("des") String des) {
+
+        if (isEmptyString(org) || isEmptyString(des)) {
+            return null;
+        }
 
         String stringUri = "https://maps.googleapis.com/maps/api/directions/json?key="
                 + APIKey.GOOGLE_MAP
