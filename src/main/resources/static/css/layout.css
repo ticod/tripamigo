@@ -46,3 +46,8 @@
 .menu-hover-border {
     border: 8px solid gray;
 }
+
+.map {
+    width: 80%;
+    height: 360px;
+}

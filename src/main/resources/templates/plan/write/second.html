@@ -3,9 +3,6 @@
 	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>WRITE PLAN 2</title>
   <style>
-	  .map {
-		  height: 100%;
-	  }
 	  section {
 		  display: flex;
 		  flex-direction: column;
@@ -15,15 +12,11 @@
 
 	  .property {
 		  margin-top: 100px;
-		  height: 300px;
-
-		  display: flex;
-		  flex-direction: column;
-		  align-content: center;
+		  height: 500px;
 	  }
 
 	  .property > div {
-		  width: 60%;
+		  /*width: 60%;*/
 	  }
 
 	  .sidebar-plan {
@@ -59,85 +52,111 @@
 	<!-- 세부 일정 입력 폼 (Period Form) -->
 	<form th:action="@{second}" method="post">
 
-		<h3>세부 일정 시작 시간을 선택하세요!</h3>
+		<div class="w3-card w3-round w3-padding">
+			<h3>세부 일정 시작 시간을 선택하세요!</h3>
 
-		<select name="startYear" id="startYear">
-			<option value="">연도</option>
-		</select>
-		<label for="startYear" class="w3-margin-right">년</label>
+			<select name="startYear" id="startYear">
+				<option value="">연도</option>
+			</select>
+			<label for="startYear" class="w3-margin-right">년</label>
 
-		<select name="startMonth" id="startMonth">
-			<option value="">월</option>
-		</select>
-		<label for="startMonth" class="w3-margin-right">월</label>
+			<select name="startMonth" id="startMonth">
+				<option value="">월</option>
+			</select>
+			<label for="startMonth" class="w3-margin-right">월</label>
 
-		<select name="startDay" id="startDay">
-			<option value="">일</option>
-		</select>
-		<label for="startDay" class="w3-margin-right">일</label>
+			<select name="startDay" id="startDay">
+				<option value="">일</option>
+			</select>
+			<label for="startDay" class="w3-margin-right">일</label>
 
-		<select name="startTime" id="startTime">
-			<option value="">시각</option>
-		</select>
-		<label for="startTime">시</label>
+			<select name="startTime" id="startTime">
+				<option value="">시각</option>
+			</select>
+			<label for="startTime">시</label>
 
-		<br> <br> <br>
+			<br> <br> <br>
 
-		<h3>세부 일정 종료 시간을 선택하세요!</h3>
+			<h3>세부 일정 종료 시간을 선택하세요!</h3>
 
-		<select name="endYear" id="endYear">
-			<option value="">연도</option>
-		</select>
-		<label for="endYear" class="w3-margin-right">년</label>
+			<select name="endYear" id="endYear">
+				<option value="">연도</option>
+			</select>
+			<label for="endYear" class="w3-margin-right">년</label>
 
-		<select name="endMonth" id="endMonth">
-			<option value="">월</option>
-		</select>
-		<label for="endMonth" class="w3-margin-right">월</label>
+			<select name="endMonth" id="endMonth">
+				<option value="">월</option>
+			</select>
+			<label for="endMonth" class="w3-margin-right">월</label>
 
-		<select name="endDay" id="endDay">
-			<option value="">일</option>
-		</select>
-		<label for="endDay" class="w3-margin-right">일</label>
+			<select name="endDay" id="endDay">
+				<option value="">일</option>
+			</select>
+			<label for="endDay" class="w3-margin-right">일</label>
 
-		<select name="endTime" id="endTime">
-			<option value="">시각</option>
-		</select>
-		<label for="endTime">시</label>
+			<select name="endTime" id="endTime">
+				<option value="">시각</option>
+			</select>
+			<label for="endTime">시</label>
+		</div>
 
 		<div class="property w3-border w3-row w3-margin w3-padding">
-			<div class="map w3-col s2 w3-border" id="map">구글 맵 api 들어갈 자리</div>
-			<div class="w3-col s10">
-				<div>현재 선택 장소 예산</div>
-				<div>000,000원</div>
+			<div class="w3-col s6 w3-padding">
+				<label for="place_search">장소 검색: </label>
+				<input type="text" class="w3-input"
+					   style="width: 80%;"
+					   id="place_search" placeholder="검색하세요">
+				<button type="button"
+						id="place_search_button"
+						class="w3-button w3-border w3-indigo
+						w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
+					검색
+				</button>
+				<div class="map w3-border" id="map"></div>
+			</div>
+			<div class="w3-col s6 w3-center w3-padding">
+				<div id="place_name">선택 장소 명</div>
+
+				<br>
+
+				<div>평균 예산</div>
+				<div id="place_budget">정보 없음</div>
+
+				<br>
+
+				<div>평균 별점</div>
+				<div id="place_rating">정보 없음</div>
+
+				<br>
+
 				<div>추천지 리스트</div>
-				<div class="w3-row">
-					<div>추천지 1</div>
-					<div>추천지 2</div>
-					<div>추천지 3</div>
+				<div class="w3-row" id="recommend_place">
+					<div class="w3-col s4 w3-border">추천지 1</div>
+					<div class="w3-col s4 w3-border">추천지 2</div>
+					<div class="w3-col s4 w3-border">추천지 3</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="property w3-border w3-row w3-margin w3-padding">
-			<div class="map w3-col s2 w3-border">구글 맵 api 들어갈 자리</div>
-			<div class="map w3-col s2 w3-border">구글 맵 api 들어갈 자리</div>
-			<div class="map w3-col s2 w3-border">교통편 (direction api)</div>
+			<div class="map w3-col s3 w3-border">구글 맵 api 들어갈 자리</div>
+			<div class="map w3-col s3 w3-border">구글 맵 api 들어갈 자리</div>
+			<div class="map w3-col s6 w3-border">교통편 (direction api)</div>
 		</div>
 
 		<div>
 			<label for="budget">예상 지출액: </label>
-			<input type="text" id="budget" name="budget">
+			<input type="text" class="w3-input" id="budget" name="budget">
 		</div>
 
 		<div>
 			<label for="memo">해당 일정에 대한 메모를 입력해주세요! <br></label>
-			<textarea name="memo" id="memo" cols="40" rows="8" style="resize: none;"></textarea>
+			<textarea name="memo" id="memo" class="w3-input w3-border" cols="40" rows="8" style="resize: none;"></textarea>
 		</div>
 
 		<br> <br> <br>
 
-		<div class="w3-card sidebar-plan">
+		<div class="w3-card sidebar-plan w3-white">
 
 			<div class="w3-container">
 				<p>1. 전체 일정 고르기</p>
@@ -159,6 +178,12 @@
 	</form>
 
 	<script>
+		document.addEventListener('keydown', function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			};
+		}, true);
+
 		function detailPlanDropDown() {
 			var table = document.getElementById("detail_plan_table");
 			if (table.className.indexOf("w3-show") === -1) {
@@ -193,13 +218,6 @@
 
 				this.idEndYear.addEventListener('change', this.changeEndMonthByYear.bind(this));
 				this.idEndMonth.addEventListener('change', this.changeEndDayByMonth.bind(this));
-
-				let map;
-
-				map = new google.maps.Map(document.getElementById("map"), {
-					center: { lat: -34.397, lng: 150.644 },
-					zoom: 8,
-				});
 			}
 
 			range(start, end) {
@@ -290,10 +308,86 @@
 		window.onload = () => new App();
 
 	</script>
-	<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz1W2lasXllO19MekQuhZgVKYRYAGQYdg&callback=initMap&libraries=&v=weekly"
-			async>
+
+	<!-- Google Map API -->
+	<script async
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDml_UQ416dl6gnchPflJMtoqvdh9m5CRw&libraries=places&callback=initMap">
 	</script>
+	<script>
+		const placeSearch = document.getElementById("place_search");
+		const placeName = document.getElementById("place_name");
+		const placeBudget = document.getElementById("place_budget");
+		const placeRating = document.getElementById("place_rating");
+
+		let map;
+		let service;
+
+		function initMap() {
+
+			const seoul = { lat: 37.552, lng: 126.991 };
+			const map = new google.maps.Map(document.getElementById("map"), {
+				zoom: 12,
+				center: seoul,
+			});
+			let service = new google.maps.places.PlacesService(map);
+
+			document.getElementById("place_search_button")
+					.addEventListener('click', () => {
+						service.findPlaceFromQuery({
+							query: placeSearch.value,
+							fields: ['formatted_address', 'name', 'geometry', 'place_id']
+						}, function(results, status) {
+							if (status === google.maps.places.PlacesServiceStatus.OK) {
+								console.log(results[0].geometry.location.lat());
+								console.log(results[0].geometry.location.lng());
+								placeName.innerText = results[0].formatted_address + "\n" + results[0].name;
+								map.setCenter(results[0].geometry.location);
+								$.ajax({
+									url: "/area/summary",
+									type: "POST",
+									dataType: 'text',
+									data: {
+										"address": results[0].formatted_address,
+										"placeName": results[0].name
+									},
+									success: function(res) {
+										const summary = JSON.parse(res);
+										if (!isNaN(summary.budgetAvg)) {
+											placeBudget.innerText = summary.budgetAvg;
+										} else {
+											placeBudget.innerText = "정보 없음";
+										}
+
+										if (!isNaN(summary.ratingAvg)) {
+											placeRating.innerText = summary.ratingAvg;
+										} else {
+											placeRating.innerText = "정보 없음";
+										}
+									},
+									error: function(res) {
+										alert("에러!");
+									}
+								});
+							} else {
+								alert("검색 결과가 없습니다.");
+							}
+						});
+					});
+		}
+
+		function createMarker(place) {
+			if (!place.geometry || !place.geometry.location) return;
+			const marker = new google.maps.Marker({
+				map,
+				position: place.geometry.location,
+			});
+			google.maps.event.addListener(marker, "click", () => {
+				infowindow.setContent(place.name || "");
+				infowindow.open(map);
+			});
+		}
+	</script>
+<!--	<script th:inline="javascript" th:src="@{script/google_map.js}"></script>-->
 </section>
 
 </body>

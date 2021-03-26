@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -46,4 +47,22 @@ public class Area {
         this.lng = lng;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Area area = (Area) o;
+        return getBudget() == area.getBudget()
+                && getRating() == area.getRating()
+                && Double.compare(area.getLat(), getLat()) == 0
+                && Double.compare(area.getLng(), getLng()) == 0
+                && Objects.equals(getName(), area.getName())
+                && Objects.equals(getAddress(), area.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBudget(), getRating(), getName(),
+                getAddress(), getLat(), getLng());
+    }
 }
