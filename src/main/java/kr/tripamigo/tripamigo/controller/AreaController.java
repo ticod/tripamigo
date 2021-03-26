@@ -71,7 +71,7 @@ public class AreaController {
 
         System.out.println(responseBody);
 
-        if (responseBody == null || responseBody.get("status").equals("OK")) {
+        if (responseBody == null || !responseBody.get("status").equals("OK")) {
             return null;
         }
 

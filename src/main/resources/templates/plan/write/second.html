@@ -336,8 +336,53 @@
 							if (res === null || res.trim() === "") {
 								alert("검색 결과가 없습니다.");
 							} else {
+								document.getElementById("direction_result").innerText = "";
 								const result = JSON.parse(res);
 								console.log(result);
+								for (route in result.routes) {
+									if (result.routes.hasOwnProperty(route)) {
+
+										// 제목과 메인 경로 태그 (클릭시 드롭다운)
+										const routeTag = document.createElement("div");
+										const routeNameTag = document.createElement("div");
+										routeNameTag.classList.add("w3-button");
+										routeNameTag.innerText
+												= (parseInt(route) + 1) + ". "
+												+ result.routes[route].legs[0].departure_time.text
+												+ " ~ "
+												+ result.routes[route].legs[0].arrival_time.text;
+										routeTag.appendChild(routeNameTag)
+
+										// 경로 절차를 묶을 태그
+										const stepsTag = document.createElement("div");
+										stepsTag.id = route + "_steps";
+										stepsTag.classList.add("steps");
+										routeTag.appendChild(stepsTag);
+
+										// 제목 클릭 이벤트를 추가
+										routeNameTag.addEventListener('click', () => {
+											if (stepsTag.classList.contains("show_steps")) {
+												stepsTag.classList.remove("show_steps");
+											} else {
+												stepsTag.classList.add("show_steps");
+											}
+										});
+
+										// 경로 태그들
+										for (step in result.routes[route].legs[0].steps) {
+											if (result.routes[route].legs[0].steps.hasOwnProperty(step)) {
+												// 경로 태그 생성 후 stepts 태그에 append
+												const stepTag = document.createElement("div");
+												stepTag.innerText = step + ". "
+														+ result.routes[route].legs[0].steps[step].html_instructions;
+												stepsTag.appendChild(stepTag);
+											}
+										}
+
+										// 최종적으로 보여줄 태그에 append
+										document.getElementById("direction_result").appendChild(routeTag);
+									}
+								}
 							}
 						}
 					});
