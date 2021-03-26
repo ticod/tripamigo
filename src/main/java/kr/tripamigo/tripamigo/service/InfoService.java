@@ -124,5 +124,9 @@ public class InfoService {
 				.ratingAvg(ratingAvg)
 				.build();
 	}
+
+	public void delete(Info info) {
+		infoRepository.save(info);
+	}
 	
 }

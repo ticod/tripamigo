@@ -20,6 +20,6 @@ public interface CommentRepository {
 
 	Comment findByCommentSeq(Long commentSeq);
 	
-	int countByCommentContentTypeAndCommentContentSeq(int commentContentType, Long commentContentSeq);
+	int countByCommentContentTypeAndCommentContentSeqAndCommentStatus(int commentContentType, Long commentContentSeq, boolean status);
 }
 

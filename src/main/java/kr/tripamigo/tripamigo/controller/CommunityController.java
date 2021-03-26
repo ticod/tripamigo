@@ -336,17 +336,25 @@ public class CommunityController {
 		return "community/magazinePage";
 	}
 
-	@RequestMapping(value = "/commentRecommend", method = RequestMethod.POST)
+	@RequestMapping(value = "/recommend", method = RequestMethod.POST)
 	public @ResponseBody boolean commentRecommend(@RequestParam("contentSeq") Long contentSeq,
-			@RequestParam("userSeq") Long userSeq) {
+			@RequestParam("userSeq") Long userSeq, @RequestParam("type") int type) {
 		System.out.println(contentSeq);
 		System.out.println(userSeq);
-
-		Recommend dbRecommend = recommendService.readRecommend(userSeq, RecommendType.COMMENT, contentSeq);
+		System.out.println(type);
+		RecommendType recommendType = null;
+		switch(type) {
+		case 0 : recommendType = RecommendType.BOARD; break;
+		case 1 : recommendType = RecommendType.PLAN; break;
+		case 2 : recommendType = RecommendType.INFO; break;
+		case 3 : recommendType = RecommendType.COMMENT; break;
+		}
+		
+		Recommend dbRecommend = recommendService.readRecommend(userSeq, recommendType, contentSeq);
 		
 		if (dbRecommend == null) {
 			Recommend recommend = new Recommend();
-			recommend.createRecommend(userSeq, RecommendType.COMMENT, contentSeq);
+			recommend.createRecommend(userSeq, recommendType, contentSeq);
 			
 			recommendService.hitsRecommend(recommend);
 			return true;
@@ -415,6 +423,11 @@ public class CommunityController {
 		switch (boardType) { // boardType에 따라 redirect페이지가 달라짐.
 		case 1:
 			page = "magazinePage?boardSeq=";
+			contentType = 0;
+			break;
+		case 2:
+			page = "infoPage?infoSeq=";
+			contentType = 2;
 			break;
 		}
 		try {
@@ -438,6 +451,9 @@ public class CommunityController {
 		switch (bType) { // boardType에 따라 redirect페이지가 달라짐.
 		case 1:
 			page = "magazinePage?boardSeq=";
+			break;
+		case 2: 
+			page = "infoPage?infoSeq=";
 			break;
 		}
 		try {

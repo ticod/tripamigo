@@ -70,4 +70,9 @@ public class RecommendService {
 			System.out.println("countCommentRecommend : " + countCommentRecommend);
 			return countCommentRecommend;
 		}
+
+
+		public int contentRecommendCount(Long infoSeq, RecommendType type, boolean status) {
+			return recommendRepository.countByRecommendTypeAndContentSeqAndStatus(type, infoSeq, status);
+		}
 }

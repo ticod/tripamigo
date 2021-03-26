@@ -46,7 +46,7 @@ public class CommentService {
 		Map<Info, Integer> infoCommentMap = new TreeMap<Info, Integer>((o1, o2)-> o2.getInfoSeq().intValue()-o1.getInfoSeq().intValue());
 		
 		for(Info i : infoList) {
-			int cnt = commentRepository.countByCommentContentTypeAndCommentContentSeq(2, i.getInfoSeq());
+			int cnt = commentRepository.countByCommentContentTypeAndCommentContentSeqAndCommentStatus(2, i.getInfoSeq(), true);
 			infoCommentMap.put(i, cnt);
 		}
 		System.out.println("Info 댓글 수 : \n"+infoCommentMap);

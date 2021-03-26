@@ -2,25 +2,17 @@
 <html
 	th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
 <title>MAGAZINE</title>
-<style>
-table {
-	border: solid 1px black;
-}
-
-a {
-}
-</style>
 <body>
 	<!-- Main Contents -->
 	<section class="w3-center w3-container">
-		<style>
+	<style>
 			#c{
 				overflow: hidden;
 				display: flex;
 				align-items:center;
 				justify-content:center;
 				width:100%;
-				height:400px;
+				height:150px;
 			}
 			.imgs{
 				filter:brightness(60%);
@@ -34,47 +26,79 @@ a {
 			#text{
 				color:white;
 			}
-		</style>
-	
-		<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
-		<p class="w3-center w3-sans-serif">상세글보기</p><hr><br>
+	</style>
+		<b class="w3-center w3-xxlarge w3-sans-serif">Info</b>
+		<p class="w3-center w3-sans-serif">상세글보기</p>
+		<hr><br>
 		
-		<div th:object="${magazine}">
-		<span id="c" class="w3-display-container w3-card w3-round-large">
-			<img th:if="${magazine.boardThumbnail != ''}" th:src="@{'/uploadFiles/'+${magazine.boardThumbnail}}" width="100%" class="imgs"/>
-			<img th:unless="${magazine.boardThumbnail != ''}" th:src="@{'/imgs/noimageb.png'}" width="100%" class="imgs"/>
-			<div class="w3-padding w3-display-middle w3-xxlarge w3-sans-serif"
-						th:text="${magazine.boardSubject}" id="subject"></div>
-			<div class="w3-padding w3-display-bottomright" id="text"
-						th:text="'조회수 : ' + ${magazine.boardHits}" ></div>
-			<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성ID : '+${magazine.user.userId}"></div>
-			<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
-		</span>
-			<div>
-			<br>
-			<hr>
-				<!-- 
-				<div class="w3-panel w3-card-4 w3-round-xxlarge" style="height: 50px;">
-					<div class="w3-padding w3-left w3-xlarge w3-sans-serif"
-						th:text="'제목 : ' + ${magazine.boardSubject}"></div>
-					<div class="w3-padding w3-right"
-						th:text="'조회수 : ' + ${magazine.boardHits}"></div>
+		<div th:object="${info}">
+			<span id="c" class="w3-display-container w3-card w3-round-large">
+				<img src="/imgs/mainbar.jpg" width="100%" class="imgs"/>
+				<div class="w3-padding w3-display-middle w3-xxlarge w3-sans-serif"
+							th:text="${info.infoSubject}" id="subject"></div>
+				<div class="w3-padding w3-display-bottomright" id="text"
+							th:text="'조회수 : ' + ${info.infoHits}" ></div>
+				<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성ID : '+${info.user.userId}"></div>
+				<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + ${#strings.replace(info.infoRegdate,'T',' ')}"></div>
+			</span>
+		</div>
+		<div class="w3-row">
+			<div class="w3-col s3 w3-border">
+				<div class="w3-margin" style="height:400px">
+					구글맵 API
 				</div>
-				<div class="w3-container w3-round-xxlarge" style="border: solid 1px;">
-					<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
-					<div class="w3-right" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
-				</div>
-				 -->
-				<!-- 글 내용 -->
-				<div class="w3-container w3-panel" style="width:100%;height: 100%;">
-					<div class="w3-left w3-panel w3-leftbar w3-rightbar" th:utext="${magazine.boardContent}" style="width:100%; height:100%; text-align:left"></div>
+				<hr>
+				<div class="w3-margin" style="height:400px; text-align:left">
+					<font style="color:grey">장소명</font><br>
+					<b th:text="${info.area.name}" class="w3-xxlarge"></b><br><br> 
+					<font style="color:grey">주소</font><br>
+					<b th:text="${info.area.address}" class="w3-xlarge"></b><br><br>
+					<font style="color:grey">이 장소에 대한 점수</font><br>
+					<b th:text="${info.area.rating}" class="w3-xxlarge" style="color:red"></b><br><br>
+					<font style="color:grey">소요비용</font><br>
+					<b th:text="${#numbers.formatInteger(info.area.budget, 0, 'COMMA')}+' 원'" class="w3-xxlarge"></b><br>
+				
 				</div>
 			</div>
-			<div th:text="${tagList}" class="w3-text-blue"></div>
-			<hr>
-			<!-- 버튼 -->
+			<div class="w3-col s9 w3-border">
+				<div class="w3-margin" th:utext="${info.infoContent}" style="min-height: 840px; text-align: left">
+					
+				</div>
+				<input type="hidden" id="rating" th:value="${info.area.rating}">
+				<input type="hidden" id="areaName" th:value="${info.area.name}">
+				<input type="hidden" id="areaAddress" th:value="${info.area.address}">
+				<input type="hidden" id="areaLat" th:value="${info.area.lat}">
+				<input type="hidden" id="areaLng" th:value="${info.area.lng}">
+			</div>
+		</div>
+		<br><br><br>
+		<hr>
+		<div class="w3-left w3-button">
+			목록
+		</div>
+		<div class="w3-right w3-button">
+			신고
+		</div>
+		<!-- <div class="w3-right" th:each="infoRecommend : ${infoRecommend}">-->
+			<button th:if="${session.loginUser!=null} and ${isRecommend==false}" class="w3-button w3-blue w3-round-xlarge" 
+				th:onclick="'recommend('+${info.user.userSeq}+','+${info.infoSeq}+','+${session.loginUser.userSeq}+',2)'">
+				
+					<p th:text="'추천 '+${infoRecommendCount}"></p>
+				
+			</button>
+								
+			<button th:if="${session.loginUser!=null} and ${isRecommend==true}" class="w3-button w3-red w3-round-xlarge" 
+				th:onclick="'recommend('+${info.user.userSeq}+','+${info.infoSeq}+','+${session.loginUser.userSeq}+',2)'">
+					<p th:text="'추천 '+${infoRecommendCount}"></p>
+			</button>
+		<!-- </div>-->
+		<div class="w3-right w3-button">
+			★
+		</div>
+		<!-- 댓글입력 -->
+		<!-- 버튼 -->
 			<div class="w3-container">
-				<a href="/community/magazine">
+				<a href="/community/info">
 					<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
 				</a>
 				<div class="w3-right w3-button w3-dark-grey w3-round-xlarge">★</div>
@@ -83,18 +107,19 @@ a {
 			<br>
 			<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
 				<div
-					th:if="${session.loginUser.userId == magazine.user.userId} or ${session.loginUser.userId=='admin'}">
+					th:if="${session.loginUser.userId == info.user.userId} or ${session.loginUser.userId=='admin'}">
 					<form name="f" method="post">
-						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
-						<input type="hidden" name="type" value="1">
-						<button type="button" onclick="deleteBoard()" class="w3-button w3-blue w3-round-xlarge">글삭제</button>
-						<a th:href="@{'updateBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}"><button type="button" class="w3-button w3-dark-grey w3-round-xlarge">글수정</button></a>
+						<input type="hidden" name="infoSeq" th:value="${info.infoSeq}">	
+						<button type="button" onclick="deleteInfo()" class="w3-button w3-blue w3-round-xlarge">글삭제</button>
+						<a th:href="@{'updateInfo?infoSeq='+${info.infoSeq}+'&type=2'}">
+							<button type="button" class="w3-button w3-dark-grey w3-round-xlarge">글수정</button>
+						</a>
 					</form>
 					<script th:inline="javascript">
-						function deleteBoard(){
+						function deleteInfo(){
 							form = document.f;
 							if(confirm('삭제하시겠습니까?')==true){
-								f.action = "deleteBoard";
+								f.action = "deleteInfo";
 								f.submit();
 							}else{
 								return;
@@ -131,8 +156,8 @@ a {
 					<!-- 댓글 폼 -->
 					<form id="comment" onsubmit="return inputChk()" action="comment" th:object="${commentFormDTO}" method="post">
 						<input type="hidden" name="id" th:value="${session.loginUser.userId}"> 
-						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
-						<input type="hidden" name="boardType" value="1">
+						<input type="hidden" name="boardSeq" th:value="${info.infoSeq}">
+						<input type="hidden" name="boardType" value="2">
 						<div class="w3-card w3-left" style="width:10% ;height:100px;" th:text="${session.loginUser.userId}"></div>
 						<div class="w3-left" style="width: 80%; text-align: left">
 							<textarea class="w3-card" name="content" placeholder="댓글내용" style="width: 100%; height:100px; resize:none;border:none"></textarea>
@@ -148,8 +173,9 @@ a {
 			</div>
 			<br>
 			<br>
-
-			<!-- 댓글목록 -->
+		
+		<!-- 댓글목록 및 버튼 -->
+		<div class="w3-container">
 			<div style="width: 100%;" th:if="${commentList.size > 0}">
 				<table style="width: 100%" class="w3-small w3-table-all">
 					<tr>
@@ -164,12 +190,11 @@ a {
 								<td><span class="w3-panel w3-border-left" th:text="${comment.key.commentContent}" style="float: left; text-align: left; width: 95%"></span>
 								<p class="w3-tiny w3-right" th:text="${#strings.replace(comment.key.commentRegdate,'T',' ')}"><p> 
 									<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.key.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
-										<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}">
+										<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=2&boardSeq=' + ${info.infoSeq}}">
 										<img src="/imgs/icons/del_cmt.png"></a>
 								</span></td>
 						<!-- 추천/ 신고 -->
 								<td style="width: 15%">
-								<!-- th:if="${session.loginUser!=null}" -->
 								<button th:if="${session.loginUser!=null} and ${!comment.value}" class="w3-button w3-blue w3-round-xlarge" 
 									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+',3)'">
 									<b th:each="countRecommend : ${countCommentRecommend}">
@@ -178,7 +203,7 @@ a {
 								</button>
 								
 								<button th:if="${session.loginUser!=null} and ${comment.value}" class="w3-button w3-red w3-round-xlarge" 
-									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+',3)'">
+									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+'3)'">
 									<b th:each="countRecommend : ${countCommentRecommend}">
 										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
 									</b>

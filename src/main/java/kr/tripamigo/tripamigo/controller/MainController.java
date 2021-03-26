@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.dto.UserIdOAuthType;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.BoardService;
+import kr.tripamigo.tripamigo.service.InfoService;
 import kr.tripamigo.tripamigo.service.UserService;
 import kr.tripamigo.tripamigo.util.CipherUtil;
 
@@ -37,12 +39,19 @@ public class MainController {
 	private BoardService boardService;
 
 	@Autowired
+	private InfoService infoService;
+	
+	@Autowired
 	private MessageSource messageSource;
+	
 
     @RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
     	List<Magazine> magazineListSub = boardService.magazineList().subList(0, 4);
 		model.addAttribute("magazineListSub",magazineListSub);
+		
+		List<Info> infoListSub = infoService.infoList().subList(0, 4);
+		model.addAttribute("infoListSub", infoListSub);
 		
         return "home";
     }

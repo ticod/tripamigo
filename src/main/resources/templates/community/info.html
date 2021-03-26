@@ -22,9 +22,10 @@
 		<b class="w3-left">&lt;추천수 top 5 여행정보&gt;</b>
 	</div>
 	<div class="w3-container">
-	<div th:each="sortedInfo : ${infoRecommendCountSortedMap}" class="w3-col s2 w3-border w3-card">
-		<div th:text="'제목:'+${sortedInfo.key.infoSubject}"></div>
-		<div th:text="'추천수:'+${sortedInfo.value}"></div>
+	<div th:each="sortedInfo : ${infoRecommendCountSortedMap}" class="w3-col s2 w3-border w3-card" style="text-align: left; margin:10px; height:150px;">
+		<b class="w3-padding" style="font-size:20px;"th:text="${sortedInfo.key.area.name}"></b>
+		<p class="w3-padding" th:text="'&quot;'+${sortedInfo.key.infoSubject}+'&quot;'"></p>
+		<p class="w3-small w3-padding" th:text="'추천수:'+${sortedInfo.value}"></p>
 	
 	</div>
 	</div>
@@ -43,8 +44,9 @@
 		<h4 th:text="'장소명 : '+${info.key.area.name}" style="font-weight:bold; text-align:left"></h4><br>
 		
 		<span class="fa fa-quote-right w3-left w3-small"></span>
-		<span th:text="${info.key.infoSubject}" class="w3-left"></span>
-				
+		<a href="" th:href="@{'/community/infoPage?infoSeq='+${info.key.infoSeq}}">
+			<span th:text="${info.key.infoSubject}" class="w3-left"></span>
+		</a>		
 		<th:block th:each="infocom : ${infoCommentCountMap}">
 			<span class="w3-left w3-small" th:if="${info.key.infoSeq==infocom.key.infoSeq}" th:text="'[ 댓글 '+${infocom.value}+' ]'"></span>
 		</th:block>

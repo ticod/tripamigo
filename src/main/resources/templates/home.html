@@ -81,8 +81,11 @@ input::placeholder{color: #c6c6c6; }
   </div>
   
   <div class="w3-container w3-display-center w3-margin-bottom" style="position:absolute; top:80%; left:43%">
-    <button onclick="document.getElementById('id01').style.display='block'"
-    style="height:50px; width:250px; font-weight: bold; border-radius: 20px; border:none; background-color: yellow; font-size: 25px;">여행떠나기</button>
+    <a href="/community/plan/write/first">
+    	<button style="height:50px; width:250px; font-weight: bold; border-radius: 20px; border:none; background-color: yellow; font-size: 25px;">
+    		여행떠나기
+    	</button>
+    </a>
   </div>
 </div>
 
@@ -257,47 +260,15 @@ img[name=thumb]:hover{
 <!-- Work Row -->
 <div class="w3-row-padding w3-padding-64 w3-theme-l1 w3-center">
 
-	<h2>이런 여행도 괜찮았어요</h2>
-	<p>reviews</p>
-	<div class="w3-row"><br>
-		<div class="w3-quarter" style="text-align: center;">
-			<div class="w3-display-container w3-hover-opacity">
- 	 			<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
-	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
-				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
- 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-  	 			</div>
-			</div>
-		</div>
-		
-		<div class="w3-quarter" style="text-align: center;">
-			<div class="w3-display-container w3-hover-opacity">
-	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
-	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
-				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
- 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-  	 			</div>
-			</div>
-		</div>
-		
-		<div class="w3-quarter" style="text-align: center;">
-			<div class="w3-display-container w3-hover-opacity">
-	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
-	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
-				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
- 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-  	 			</div>
-			</div>
-		</div>
-	
-		<div class="w3-quarter" style="text-align: center;">
-			<div class="w3-display-container w3-hover-opacity">
-	 	 		<img src="imgs/mainbar.jpg" alt="Boss" style="width:90%">
-	 			<div class="w3-display-middle" style="width:90%; display: inline-block;">
-				 	<h3 class="w3-display-hover w3-container w3-text-white" style="text-align:left;">● 제목</h3>
- 	 				<p class="w3-display-hover w3-container w3-text-white" style="text-align:left;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-  	 			</div>
-			</div>
+	<h2>여행지에 대한 정보글</h2>
+	<p>Trip information</p>
+	<div class="w3-container w3-center" style="width:100%; justify-content: center; text-align: left; display: flex;"><br>
+		<div th:each="info : ${infoListSub}" class="w3-quarter w3-card w3-button w3-white" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:300px; height:250px;" >
+		 	<b class="w3-container" style="text-align:left; font-size: 20px;"
+	 			th:text="'● '+${info.area.name}">● 제목</b>
+			<p class="w3-container" style="text-align:left;"
+				th:text="'&quot;'+${info.infoSubject}+'&quot;'"> 글 내용을 보시려면 클릭
+ 			</p>
 		</div>
 	</div>
 
