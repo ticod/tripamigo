@@ -139,8 +139,10 @@
 		</div>
 
 		<div class="property w3-border w3-row w3-margin w3-padding">
-			<div class="map w3-col s3 w3-border">구글 맵 api 들어갈 자리</div>
-			<div class="map w3-col s3 w3-border">구글 맵 api 들어갈 자리</div>
+			<div class="map w3-col s3 w3-border"
+				 th:insert="~{/fragment/map :: google_place('traffic_start', ${googleMapAPIKey}) }"></div>
+			<div class="map w3-col s3 w3-border"
+				 th:insert="~{/fragment/map :: google_place('traffic_end', ${googleMapAPIKey}) }"></div>
 			<div class="map w3-col s6 w3-border">교통편 (direction api)</div>
 		</div>
 

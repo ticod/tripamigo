@@ -73,25 +73,30 @@
 						w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
             검색
         </button>
+        <div th:id="${idName} + '_result'"></div>
         <script th:inline="javascript">
-            const idName = [[${idName}]];
-
-            const requestParam = {
-                key: [[${apiKey}]],
-                input: document.getElementById(idName + "_search").value,
-                inputtype: "textquery",
-                fields: ['formatted_address', 'name', 'geometry', 'place_id']
-            };
-
-            document.getElementById(idName + "_search_place_button")
+            document.getElementById([[${idName}]] + "_search_place_button")
                 .addEventListener('click', () => {
+                    const requestParam = {
+                        // key: [[${apiKey}]],
+                        input: document.getElementById([[${idName}]] + "_search").value,
+                        // inputtype: "textquery",
+                        fields: ['formatted_address', 'name', 'geometry', 'place_id']
+                    };
                     $.ajax({
-                        url: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
+                        url: "/area/search",
                         type: "GET",
                         dataType: "text",
                         data: requestParam,
                         success: function(res) {
-                            console.log(res);
+                            if (res === null || res.trim() === "") {
+                                alert("검색 결과가 없습니다.");
+                            } else {
+                                const result = JSON.parse(res);
+                                const data = result.candidates[0];
+                                document.getElementById([[${idName}]] + "_result")
+                                    .innerText = data.formatted_address + "\n" + data.name;
+                            }
                         }
                     });
                 });
