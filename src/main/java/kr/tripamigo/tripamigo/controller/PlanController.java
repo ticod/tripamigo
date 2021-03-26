@@ -5,7 +5,10 @@ import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.dto.PeriodDTO;
 import kr.tripamigo.tripamigo.dto.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
+import kr.tripamigo.tripamigo.util.APIKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 public class PlanController {
 
     @Autowired
-    PlanService planService;
+    private PlanService planService;
 
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
@@ -74,6 +77,7 @@ public class PlanController {
         if (planFormDTO == null) {
             return REDIRECT_HOME + "/write/first";
         }
+        model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
         return "/plan/write/second";
     }
 

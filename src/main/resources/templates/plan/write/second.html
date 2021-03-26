@@ -146,7 +146,7 @@
 
 		<div>
 			<label for="budget">예상 지출액: </label>
-			<input type="text" class="w3-input" id="budget" name="budget">
+			<input type="text" class="w3-input" id="budget" name="budget" maxlength="9">
 		</div>
 
 		<div>
@@ -311,7 +311,7 @@
 
 	<!-- Google Map API -->
 	<script async
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDml_UQ416dl6gnchPflJMtoqvdh9m5CRw&libraries=places&callback=initMap">
+			th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapAPIKey} + '&libraries=places&callback=initMap'}">
 	</script>
 	<script>
 		const placeSearch = document.getElementById("place_search");
@@ -353,13 +353,13 @@
 									success: function(res) {
 										const summary = JSON.parse(res);
 										if (!isNaN(summary.budgetAvg)) {
-											placeBudget.innerText = summary.budgetAvg;
+											placeBudget.innerText = summary.budgetAvg.toFixed(2) + "원";
 										} else {
 											placeBudget.innerText = "정보 없음";
 										}
 
 										if (!isNaN(summary.ratingAvg)) {
-											placeRating.innerText = summary.ratingAvg;
+											placeRating.innerText = summary.ratingAvg.toFixed(2);
 										} else {
 											placeRating.innerText = "정보 없음";
 										}
