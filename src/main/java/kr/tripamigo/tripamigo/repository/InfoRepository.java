@@ -25,6 +25,7 @@ public interface InfoRepository {
 //	@Query("update Board b set b.boardHits=b.boardHits+1 where b.boardSeq=:boardSeq")
 //	void boardHitsUp(@Param("boardSeq") Long boardSeq);
 //	
+	Optional<Info> findById(Long iSeq);
 	
 	
 	

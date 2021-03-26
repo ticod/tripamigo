@@ -142,7 +142,7 @@ public class CommunityController {
 	}
 	
 	@GetMapping("/updateBoard")
-	public String readBoardForUpdate(MagazineFormDTO magazineFormDTO, @RequestParam("boardSeq") String boardSeq, HttpSession session, @RequestParam("type") int type, HttpServletRequest request, Model model) {
+	public String readMagazineForUpdate(MagazineFormDTO magazineFormDTO, @RequestParam("boardSeq") String boardSeq, HttpSession session, @RequestParam("type") int type, HttpServletRequest request, Model model) {
 		Long bSeq = Long.parseLong(boardSeq);
 		int btype = type;
 		Magazine magazine = boardService.readMagazine(bSeq);
@@ -166,16 +166,13 @@ public class CommunityController {
 		model.addAttribute("dbTagList",dbTagList);
 		model.addAttribute("magazineSeq",bSeq);
 		
-		
-		
-		
 		model.addAttribute("magazineFormDTO", magazineFormDTO);
 		
 		return "community/magazineUpdateForm";
 	}
 	
 	@PostMapping("/updateBoard")
-	public String updateBoard(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
+	public String updateMagazine(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
 			,@RequestPart MultipartFile file, HttpServletRequest request, HttpSession session, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -209,7 +206,11 @@ public class CommunityController {
         dbMagazine.setBoardThumbnail(magazineFormDTO.getThumbnail());
         dbMagazine.setBoardTag(magazineFormDTO.getTags());
 		
-		boardService.updateMagazine(dbMagazine);
+		try{
+			boardService.updateMagazine(dbMagazine);
+		}catch(Exception e) {
+			throw new LoginException("수정 실패", "magazine");
+		}
 		//boardService.writeMagazine(magazineFormDTO, user);
 
 		throw new LoginException("수정 완료", "magazine");
@@ -418,10 +419,10 @@ public class CommunityController {
 		}
 		try {
 			commentService.writeComment(contentType, commentFormDTO, user);
-			return "redirect:" + page + boardSeq;
 		} catch (Exception e) {
-			throw new LoginException("댓글 등록 실패", page + boardSeq);
+			throw new LoginException("댓글 등록 실패 : 글자수 초과", page + boardSeq);
 		}
+		throw new LoginException("댓글 등록 성공", page+boardSeq);
 	}
 
 	@RequestMapping("/deleteComment")
