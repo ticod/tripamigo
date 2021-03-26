@@ -1,4 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Google Map API -->
+    <div th:fragment="google_map (mapName, apiKey)">
+
+        <label th:for="${mapName} + '_search'" for="temp_search">장소 검색: </label>
+        <input type="text" class="w3-input"
+               style="width: 80%;" id="temp_search"
+               th:id="${mapName} + '_search'" placeholder="검색하세요">
+        <button type="button"
+                th:id="${mapName} + '_search_button'"
+                id="temp_search_button"
+                class="w3-button w3-border w3-indigo
+						w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
+            검색
+        </button>
+        <div th:id="${mapName} + '_result'"></div>
+        <div class="map w3-border" th:id="${mapName}"></div>
+        <script async
+                th:src="@{'https://maps.googleapis.com/maps/api/js?key='
+                    + ${apiKey}
+                    + '&libraries=places&callback=init'}">
+        </script>
+        <script th:inline="javascript">
+            const mapName = [[${mapName}]];
+            const inputSearch = document.getElementById(mapName + "_search");
+            const result = document.getElementById(mapName + "_result");
+
+            let map;
+            let service;
+
+            function init() {
+
+                const seoul = { lat: 37.552, lng: 126.991 };
+                const map = new google.maps.Map(document.getElementById(mapName), {
+                    zoom: 12,
+                    center: seoul,
+                });
+                let service = new google.maps.places.PlacesService(map);
+
+                document.getElementById(mapName + "_search_button")
+                    .addEventListener('click', () => {
+                        service.findPlaceFromQuery({
+                            query: inputSearch.value,
+                            fields: ['formatted_address', 'name', 'geometry', 'place_id']
+                        }, function(results, status) {
+                            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                console.log(results[0].geometry.location.lat());
+                                console.log(results[0].geometry.location.lng());
+                                result.innerText = results[0].formatted_address + "\n" + results[0].name;
+                                map.setCenter(results[0].geometry.location);
+                            } else {
+                                alert("검색 결과가 없습니다.");
+                            }
+                        });
+                    });
+            }
+        </script>
+    </div>
+
+    <!-- Google Place API -->
+    <div th:fragment="google_place (idName, apiKey)">
+
+        <label th:for="${idName} + '_search'" for="temp_search">장소 검색: </label>
+        <input type="text" class="w3-input"
+               style="width: 80%;" id="temp_search_place"
+               th:id="${idName} + '_search'" placeholder="검색하세요">
+        <button type="button"
+                th:id="${idName} + '_search_place_button'"
+                id="temp_search_place_button"
+                class="w3-button w3-border w3-indigo
+						w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
+            검색
+        </button>
+        <script th:inline="javascript">
+            const idName = [[${idName}]];
+
+            const requestParam = {
+                key: [[${apiKey}]],
+                input: document.getElementById(idName + "_search").value,
+                inputtype: "textquery",
+                fields: ['formatted_address', 'name', 'geometry', 'place_id']
+            };
+
+            document.getElementById(idName + "_search_place_button")
+                .addEventListener('click', () => {
+                    $.ajax({
+                        url: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
+                        type: "GET",
+                        dataType: "text",
+                        data: requestParam,
+                        success: function(res) {
+                            console.log(res);
+                        }
+                    });
+                });
+        </script>
+    </div>
 
 </html>
