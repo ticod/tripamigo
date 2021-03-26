@@ -143,7 +143,13 @@
 				 th:insert="~{/fragment/map :: google_place('traffic_start', ${googleMapAPIKey}) }"></div>
 			<div class="map w3-col s3 w3-border"
 				 th:insert="~{/fragment/map :: google_place('traffic_end', ${googleMapAPIKey}) }"></div>
-			<div class="map w3-col s6 w3-border">교통편 (direction api)</div>
+			<div class="map w3-col s6 w3-border">
+				<button type="button"
+						class="w3-button w3-round w3-border-indigo" id="direction_search">교통편 검색</button>
+				<div id="direction_result"> <!-- 교통편 검색 결과 목록 -->
+
+				</div>
+			</div>
 		</div>
 
 		<div>
@@ -183,7 +189,7 @@
 		document.addEventListener('keydown', function(event) {
 			if (event.keyCode === 13) {
 				event.preventDefault();
-			};
+			}
 		}, true);
 
 		function detailPlanDropDown() {
@@ -229,10 +235,12 @@
 			valueAppendChildTo(target, values) {
 				target.options.length = 1;
 				for (const value in values) {
-					const option = document.createElement("option");
-					option.text = values[value].toString();
-					option.value = values[value].toString();
-					target.appendChild(option)
+					if (values.hasOwnProperty(value)) {
+						const option = document.createElement("option");
+						option.text = values[value].toString();
+						option.value = values[value].toString();
+						target.appendChild(option)
+					}
 				}
 			}
 
@@ -311,6 +319,31 @@
 
 	</script>
 
+	<!-- Google Direction API -->
+	<script>
+		document.getElementById("direction_search")
+				.addEventListener('click', () => {
+					const requestParam = {
+						org: document.getElementById("traffic_start_place_id").innerText,
+						des: document.getElementById("traffic_end_place_id").innerText
+					};
+					$.ajax({
+						url: "/area/direction",
+						type: "GET",
+						dataType: "text",
+						data: requestParam,
+						success: function(res) {
+							if (res === null || res.trim() === "") {
+								alert("검색 결과가 없습니다.");
+							} else {
+								const result = JSON.parse(res);
+								console.log(result);
+							}
+						}
+					});
+				});
+	</script>
+
 	<!-- Google Map API -->
 	<script async
 			th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapAPIKey} + '&libraries=places&callback=initMap'}">
@@ -366,7 +399,7 @@
 											placeRating.innerText = "정보 없음";
 										}
 									},
-									error: function(res) {
+									error: function() {
 										alert("에러!");
 									}
 								});

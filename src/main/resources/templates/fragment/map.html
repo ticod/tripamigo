@@ -62,7 +62,7 @@
     <!-- Google Place API -->
     <div th:fragment="google_place (idName, apiKey)">
 
-        <label th:for="${idName} + '_search'" for="temp_search">장소 검색: </label>
+        <label th:for="${idName} + '_search'" for="temp_search_place">장소 검색: </label>
         <input type="text" class="w3-input"
                style="width: 80%;" id="temp_search_place"
                th:id="${idName} + '_search'" placeholder="검색하세요">
@@ -74,6 +74,7 @@
             검색
         </button>
         <div th:id="${idName} + '_result'"></div>
+        <div style="display: none; visibility: hidden;" th:id="${idName} + '_place_id'"></div>
         <script th:inline="javascript">
             document.getElementById([[${idName}]] + "_search_place_button")
                 .addEventListener('click', () => {
@@ -96,6 +97,8 @@
                                 const data = result.candidates[0];
                                 document.getElementById([[${idName}]] + "_result")
                                     .innerText = data.formatted_address + "\n" + data.name;
+                                document.getElementById([[${idName}]] + "_place_id")
+                                    .innerText = data.place_id;
                             }
                         }
                     });
