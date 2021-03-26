@@ -1,6 +1,7 @@
 package kr.tripamigo.tripamigo.service;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -9,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Area;
 import kr.tripamigo.tripamigo.domain.board.Info;
+import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.InfoFormDTO;
+import kr.tripamigo.tripamigo.exception.NoPageException;
 import kr.tripamigo.tripamigo.repository.InfoRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -82,6 +85,23 @@ public class InfoService {
 		info.setArea(area);
 		System.out.println(info);
 		infoRepository.save(info);
+	}
+
+	public Info readInfo(Long iSeq) {
+		
+		Info info = infoRepository
+				.findById(iSeq)
+				.orElseGet(()->{
+					throw new NoPageException(messageSource
+					.getMessage("error.404", null, Locale.getDefault()), "/community/info");
+				});
+		
+		return info;
+	}
+
+	public void updateInfo(Info dbInfo) {
+		infoRepository.save(dbInfo);
+		
 	}
 	
 }

@@ -39,7 +39,7 @@
   	}
   </script>
 <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-	<form id="infoForm" role="form" onsubmit="return fileChk()" th:object="${infoFormDTO}" action="infoForm"  method="post">
+	<form id="infoForm" role="form" onsubmit="return fileChk()" th:object="${infoFormDTO}" action="updateInfo"  method="post">
 		<div class="w3-table w3-centered" style="width:100%;">
 			<div>
 				<input type="text" class="w3-input w3-border" th:field="*{subject}" placeholder="제목 입력">
@@ -95,6 +95,7 @@
 		    </div>
 			
 			<div>
+				<input type="hidden" name="infoSeq" th:value="${infoSeq}">
 				<input type="submit" value="작성완료" class="w3-btn w3-blue w3-round-xlarge">
 				<input type="button" onclick="cancel()" value="작성취소" class="w3-btn w3-blue-grey w3-round-xlarge">
 			</div>
