@@ -47,7 +47,7 @@ public class RecommendRepositoryTest {
 
     @Test
     void repositoryCountByRecommendTypeAndSeq() {
-        int count = recommendRepository.countByRecommendTypeAndContentSeq(RecommendType.BOARD, 1L);
+        int count = recommendRepository.countByRecommendTypeAndContentSeqAndStatus(RecommendType.BOARD, 1L, true);
         Assertions.assertThat(count).isEqualTo(2);
     }
 
