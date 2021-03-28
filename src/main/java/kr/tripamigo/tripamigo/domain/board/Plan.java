@@ -2,7 +2,7 @@ package kr.tripamigo.tripamigo.domain.board;
 
 import kr.tripamigo.tripamigo.domain.OpenScope;
 import kr.tripamigo.tripamigo.domain.User;
-import kr.tripamigo.tripamigo.dto.PlanFormDTO;
+import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import lombok.Getter;
 import lombok.Setter;
 
