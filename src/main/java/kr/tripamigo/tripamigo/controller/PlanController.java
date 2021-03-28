@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.controller;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.dto.plan.PeriodDTO;
+import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/community/plan")
@@ -73,9 +76,10 @@ public class PlanController {
 
     // 세부 일정 입력
     @GetMapping("/write/second")
-    public String planWriteSecond(Model model, HttpSession session) {
-        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+    public String planWriteSecond(PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
 
+        // TODO: 개발 후 주석 풀기
+//        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
 //        if (planFormDTO == null
 //                || planFormDTO.getPeriodStart() == null
 //                || planFormDTO.getPeriodEnd() == null) {
@@ -87,10 +91,18 @@ public class PlanController {
     }
 
     @PostMapping("/write/second")
-    public String planWriteSecond(@Valid PlanFormDTO planFormDTO, Model model, HttpSession session) {
-        User loginUser = (User) session.getAttribute("loginUser");
-        planFormDTO.setUser(loginUser);
-        return REDIRECT_HOME + "/write/third";
+    public String planWriteSecondPost(PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
+
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+        if (planDetailList == null) {
+            planDetailList = new ArrayList<>();
+        }
+
+        planDetailList.add(planDetailDTO);
+        session.setAttribute("planDetailList", planDetailList);
+        model.addAttribute("planDetailList", planDetailList);
+
+        return REDIRECT_HOME + "/write/second";
     }
 
     // 글 입력 (planFormDTO)

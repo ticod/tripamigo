@@ -62,3 +62,19 @@
     display: block;
     visibility: visible;
 }
+
+.show_and_hide_item {
+    transition: .3s;
+}
+
+.hide_item {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.show_item {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}

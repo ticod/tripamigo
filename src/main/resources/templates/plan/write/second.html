@@ -10,15 +10,6 @@
 		  align-content: center;
 	  }
 
-	  .property {
-		  margin-top: 100px;
-		  height: 500px;
-	  }
-
-	  .property > div {
-		  /*width: 60%;*/
-	  }
-
 	  .sidebar-plan {
 		  z-index: 1;
 
@@ -38,12 +29,63 @@
 <section class="w3-container">
 
 	<!-- Plan Detail Table -->
-	<div class="w3-dropdown-click">
-		<button class="w3-button" onclick="detailPlanDropDown()">지금까지 작성한 일정 보기</button>
-		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content">
-			<div>
-				<p>asdf</p>
-				<p>asdf</p>
+	<div class="w3-dropdown-click w3-center">
+		<button class="w3-button w3-card" style="width: 100%;" onclick="detailPlanDropDown()">
+			지금까지 작성한 일정 보기
+		</button>
+		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content" style="width: 100%;">
+			<div class="w3-card" id="detail_plan_items" style="margin: 0; width: 100%; height: 100%;">
+
+				<!-- 세부 일정 목록 O -->
+				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0;">
+					<div class="item w3-border w3-row">
+						<div class="w3-col s3">
+							이동 여부
+						</div>
+						<div class="w3-col s3">
+							일정 시간
+						</div>
+						<div class="w3-col s3">
+							장소 / 교통 편
+						</div>
+						<div class="w3-col s2">
+							예상 지출액
+						</div>
+						<div class="w3-col s4">
+							메모
+						</div>
+					</div>
+
+					<!-- 세부 일정 추가 목록 -->
+					<div class="item w3-border w3-row" th:each="planDetail : ${planDetailList}">
+						<div class="w3-col s3">
+							<!-- 이동 O -->
+							<p th:if="${planDetail.trafficInfoDTO != null}">O</p>
+							<!-- 이동 X -->
+							<p th:unless="${planDetail.trafficInfoDTO != null}">X</p>
+						</div>
+						<div class="w3-col s3">
+							일정 시간
+						</div>
+						<div class="w3-col s3">
+							장소 / 교통 편
+						</div>
+						<div class="w3-col s2">
+							예상 지출액
+						</div>
+						<div class="w3-col s4">
+							메모
+						</div>
+					</div>
+				</div>
+
+				<!-- 세부 일정 목록 X -->
+				<div th:unless="${planDetailList != null && planDetailList.size > 0}">
+					<div class="item w3-border">
+						작성 중인 세부 일정이 없습니다.
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -100,7 +142,19 @@
 			<label for="endTime">시</label>
 		</div>
 
-		<div class="w3-card w3-row w3-padding">
+		<div class="w3-card w3-row w3-padding w3-center">
+			<label for="select_place">장소 선택</label>
+			<input type="radio" id="select_place" name="select_type"
+				   value="place" onclick="selectType(this)" checked>
+
+			<span style="margin: 0 10%;"></span>
+
+			<label for="select_traffic">교통편 선택</label>
+			<input type="radio" id="select_traffic" name="select_type"
+				   value="traffic" onclick="selectType(this)">
+		</div>
+
+		<div class="w3-card w3-row w3-padding show_and_hide_item show_item" id="place">
 			<div class="w3-col s6 w3-padding w3-border-right">
 				<label for="place_search">장소 검색: </label>
 				<input type="text" class="w3-input"
@@ -138,7 +192,7 @@
 			</div>
 		</div>
 
-		<div class="w3-card w3-row">
+		<div class="w3-card w3-row show_and_hide_item hide_item" id="traffic">
 			<div class="map w3-col s3 w3-border-right w3-padding"
 				 th:insert="~{/fragment/map :: google_place('traffic_start', ${googleMapAPIKey}) }"></div>
 			<div class="map w3-col s3 w3-border-right w3-padding"
@@ -177,7 +231,7 @@
 			<input type="button" class="w3-button w3-round w3-border"
 				   value="일정 추가 작성">
 			<br>
-			<input type="submit" class="w3-button w3-round w3-border"
+			<input type="button" class="w3-button w3-round w3-border"
 				   value="다음 단계로">
 
 		</div>
@@ -186,6 +240,33 @@
 
 
 	<!-- Script -->
+	<!-- 장소 / 교통편 선택 -->
+	<script>
+		const item1 = document.getElementById("place");
+		const item2 = document.getElementById("traffic");
+
+		function selectType(item) {
+			if (item.value === "place") {
+				item1.classList.add("show_item");
+				item1.classList.remove("hide_item");
+
+				item2.classList.add("hide_item");
+				item2.classList.remove("show_item");
+
+				return;
+			}
+
+			if (item.value === "traffic") {
+				item2.classList.add("show_item");
+				item2.classList.remove("hide_item");
+
+				item1.classList.add("hide_item");
+				item1.classList.remove("show_item");
+			}
+		}
+	</script>
+
+	<!-- 세부 일정 기간 설정 -->
 	<script>
 		document.addEventListener('keydown', function(event) {
 			if (event.keyCode === 13) {
