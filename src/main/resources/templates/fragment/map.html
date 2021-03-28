@@ -73,7 +73,10 @@
 						w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
             검색
         </button>
-        <div th:id="${idName} + '_result'"></div>
+        <div>
+            <br> <div>검색 결과 :</div> <br>
+            <div class="w3-" th:id="${idName} + '_result'"></div>
+        </div>
         <div style="display: none; visibility: hidden;" th:id="${idName} + '_place_id'"></div>
         <script th:inline="javascript">
             document.getElementById([[${idName}]] + "_search_place_button")

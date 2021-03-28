@@ -74,9 +74,9 @@ public class PlanController {
     @GetMapping("/write/second")
     public String planWriteSecond(Model model, HttpSession session) {
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
-        if (planFormDTO == null) {
-            return REDIRECT_HOME + "/write/first";
-        }
+//        if (planFormDTO == null) {
+//            return REDIRECT_HOME + "/write/first";
+//        }
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
         return "/plan/write/second";
     }
