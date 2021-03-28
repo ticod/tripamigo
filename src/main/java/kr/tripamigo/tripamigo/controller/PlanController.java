@@ -2,13 +2,11 @@ package kr.tripamigo.tripamigo.controller;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
-import kr.tripamigo.tripamigo.dto.PeriodDTO;
-import kr.tripamigo.tripamigo.dto.PlanFormDTO;
+import kr.tripamigo.tripamigo.dto.plan.PeriodDTO;
+import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/community/plan")
@@ -58,8 +55,12 @@ public class PlanController {
             return "/plan/write/first";
         }
 
-        LocalDateTime start = LocalDateTime.of(periodDTO.getStartYear(), periodDTO.getStartMonth(), periodDTO.getStartDay(), periodDTO.getStartTime(), 0);
-        LocalDateTime end = LocalDateTime.of(periodDTO.getEndYear(), periodDTO.getEndMonth(), periodDTO.getEndDay(), periodDTO.getEndTime(), 0);
+        LocalDateTime start = LocalDateTime.of(periodDTO.getStartYear(),
+                periodDTO.getStartMonth(), periodDTO.getStartDay(),
+                periodDTO.getStartTime(), 0);
+        LocalDateTime end = LocalDateTime.of(periodDTO.getEndYear(),
+                periodDTO.getEndMonth(), periodDTO.getEndDay(),
+                periodDTO.getEndTime(), 0);
 
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
         planFormDTO.setPeriodStart(start);
@@ -74,9 +75,13 @@ public class PlanController {
     @GetMapping("/write/second")
     public String planWriteSecond(Model model, HttpSession session) {
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
-//        if (planFormDTO == null) {
+
+//        if (planFormDTO == null
+//                || planFormDTO.getPeriodStart() == null
+//                || planFormDTO.getPeriodEnd() == null) {
 //            return REDIRECT_HOME + "/write/first";
 //        }
+
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
         return "/plan/write/second";
     }
