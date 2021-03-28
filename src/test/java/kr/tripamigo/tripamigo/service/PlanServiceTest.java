@@ -3,7 +3,7 @@ package kr.tripamigo.tripamigo.service;
 import kr.tripamigo.tripamigo.domain.OpenScope;
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
-import kr.tripamigo.tripamigo.dto.PlanFormDTO;
+import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

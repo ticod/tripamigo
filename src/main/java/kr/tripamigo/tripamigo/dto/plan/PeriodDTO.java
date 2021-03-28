@@ -1,4 +1,4 @@
-package kr.tripamigo.tripamigo.dto;
+package kr.tripamigo.tripamigo.dto.plan;
 
 import lombok.*;
 
