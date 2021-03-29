@@ -86,6 +86,7 @@ public class PlanController {
 //            return REDIRECT_HOME + "/write/first";
 //        }
 
+        model.addAttribute("planDetailDTO", new PlanDetailDTO());
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
         return "/plan/write/second";
     }
@@ -93,6 +94,7 @@ public class PlanController {
     @PostMapping("/write/second")
     public String planWriteSecondPost(PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
 
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
         List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
         if (planDetailList == null) {
             planDetailList = new ArrayList<>();
@@ -102,7 +104,22 @@ public class PlanController {
         session.setAttribute("planDetailList", planDetailList);
         model.addAttribute("planDetailList", planDetailList);
 
-        return REDIRECT_HOME + "/write/second";
+        model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
+        return "/plan/write/second";
+    }
+
+    @RequestMapping("/write/second/delete/{index}")
+    public String planDetailDelete(@PathVariable("index") Long index, PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+        if (planDetailList == null || planDetailList.size() <= index) {
+            return "redirect:/community/plan";
+        }
+        planDetailList.remove(index);
+        session.setAttribute("planDetailList", planDetailList);
+        model.addAttribute("planDetailList", planDetailList);
+        model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
+        return "plan/write/second";
     }
 
     // 글 입력 (planFormDTO)
