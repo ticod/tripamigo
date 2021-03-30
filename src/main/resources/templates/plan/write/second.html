@@ -23,6 +23,12 @@
 	  .sidebar-plan * {
 		  font-size: 0.75rem;
 	  }
+
+	  .error-message {
+		  margin: 0;
+		  font-size: 0.75rem;
+		  color: crimson;
+	  }
   </style>
 <body>
 <!-- Main Contents -->
@@ -39,9 +45,6 @@
 				<!-- 세부 일정 목록 O -->
 				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
 					<div class="item w3-border w3-row">
-						<div class="w3-col s1">
-							이동 여부
-						</div>
 						<div class="w3-col s2">
 							일정 시간
 						</div>
@@ -51,34 +54,29 @@
 						<div class="w3-col s2">
 							예상 지출액
 						</div>
-						<div class="w3-col s4">
+						<div class="w3-col s5">
 							메모
 						</div>
 					</div>
 
 					<!-- 세부 일정 추가 목록 -->
-					<div class="item w3-border w3-row" th:each="planDetail, planDetailStat : ${planDetailList}">
-						<div class="w3-col s1">
-							<!-- 이동 O -->
-							<p th:if="${planDetail.trafficInfoDTO != null}">O</p>
-							<!-- 이동 X -->
-							<p th:unless="${planDetail.trafficInfoDTO != null}">X</p>
-						</div>
+					<div class="item w3-border w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
 						<div class="w3-col s2">
-							<p th:text="${planDetail.periodDTO.startTime + ' ~ ' + planDetail.periodDTO.endTime}"></p>
+							<p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
+							<p th:text="${planDetail.getEndDateTime() + ''}"></p>
 						</div>
 						<div class="w3-col s2">
 							<!-- 이동 O -->
-							<p th:if="${planDetail.trafficInfoDTO != null}"
-							   th:text="${planDetail.trafficInfoDTO.org + '-' + planDetail.trafficInfoDTO.des}"></p>
+							<p th:if="${planDetail.traffic != null}"
+							   th:text="${planDetail.traffic.org + '-' + planDetail.traffic.des}"></p>
 							<!-- 이동 X -->
-							<p th:unless="${planDetail.trafficInfoDTO != null}"
-							   th:text="${planDetail.area}"></p>
+							<p th:unless="${planDetail.traffic != null}"
+							   th:text="${planDetail.area.placeName}"></p>
 						</div>
 						<div class="w3-col s2">
 							<p th:text="${planDetail.budget}"></p>
 						</div>
-						<div class="w3-col s4">
+						<div class="w3-col s5">
 							<p th:text="${planDetail.memo}"></p>
 						</div>
 						<div class="w3-col s1 w3-center">
@@ -106,54 +104,68 @@
 	<!-- Plan Detail Table END -->
 
 	<!-- 세부 일정 입력 폼 (Period Form) -->
-	<form th:action="@{second}" method="post" th:object="${planDetailDTO}">
+	<form th:action="@{second}" method="post" th:object="${planDetailDTO}" onsubmit="return detailPlanSubmit()">
 
 		<div class="w3-card w3-round w3-padding">
 			<h3>세부 일정 시작 시간을 선택하세요!</h3>
 
-			<select name="startYear" id="startYear" th:field="*{periodDTO.startYear}">
+			<select name="startYear" id="startYear" th:field="*{startYear}">
 				<option value="">연도</option>
 			</select>
 			<label for="startYear" class="w3-margin-right">년</label>
 
-			<select name="startMonth" id="startMonth" th:field="*{periodDTO.startMonth}">
+			<select name="startMonth" id="startMonth" th:field="*{startMonth}">
 				<option value="">월</option>
 			</select>
 			<label for="startMonth" class="w3-margin-right">월</label>
 
-			<select name="startDay" id="startDay" th:field="*{periodDTO.startDay}">
+			<select name="startDay" id="startDay" th:field="*{startDay}">
 				<option value="">일</option>
 			</select>
 			<label for="startDay" class="w3-margin-right">일</label>
 
-			<select name="startTime" id="startTime" th:field="*{periodDTO.startTime}">
+			<select name="startTime" id="startTime" th:field="*{startTime}">
 				<option value="">시각</option>
 			</select>
 			<label for="startTime">시</label>
 
-			<br> <br> <br>
+			<br> <br>
+
+			<p th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('startMonth')}" th:errors="*{startMonth}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('startDay')}" th:errors="*{startDay}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="error-message"></p>
+
+			<br> <br>
 
 			<h3>세부 일정 종료 시간을 선택하세요!</h3>
 
-			<select name="endYear" id="endYear" th:field="*{periodDTO.endYear}">
+			<select name="endYear" id="endYear" th:field="*{endYear}">
 				<option value="">연도</option>
 			</select>
 			<label for="endYear" class="w3-margin-right">년</label>
 
-			<select name="endMonth" id="endMonth" th:field="*{periodDTO.endMonth}">
+			<select name="endMonth" id="endMonth" th:field="*{endMonth}">
 				<option value="">월</option>
 			</select>
 			<label for="endMonth" class="w3-margin-right">월</label>
 
-			<select name="endDay" id="endDay" th:field="*{periodDTO.endDay}">
+			<select name="endDay" id="endDay" th:field="*{endDay}">
 				<option value="">일</option>
 			</select>
 			<label for="endDay" class="w3-margin-right">일</label>
 
-			<select name="endTime" id="endTime" th:field="*{periodDTO.endTime}">
+			<select name="endTime" id="endTime" th:field="*{endTime}">
 				<option value="">시각</option>
 			</select>
 			<label for="endTime">시</label>
+
+			<br> <br>
+
+			<p th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('endMonth')}" th:errors="*{endMonth}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('endDay')}" th:errors="*{endDay}" class="error-message"></p>
+			<p th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}" class="error-message"></p>
 		</div>
 
 		<div class="w3-card w3-row w3-padding w3-center">
@@ -183,6 +195,8 @@
 				<div class="map" id="map"></div>
 			</div>
 			<div class="w3-col s6 w3-center w3-padding">
+				<input type="hidden" th:field="*{area.address}">
+				<input type="hidden" th:field="*{area.placeName}">
 				<div id="place_name">선택 장소 명</div>
 
 				<br>
@@ -207,6 +221,9 @@
 		</div>
 
 		<div class="w3-card w3-row show_and_hide_item hide_item" id="traffic">
+			<input type="hidden" th:field="*{traffic.info}">
+			<input type="hidden" th:field="*{traffic.org}">
+			<input type="hidden" th:field="*{traffic.des}">
 			<div class="map w3-col s3 w3-border-right w3-padding"
 				 th:insert="~{/fragment/map :: google_place('traffic_start', ${googleMapAPIKey}) }">
 				<div>출발지</div>
@@ -285,6 +302,26 @@
 				item1.classList.remove("show_item");
 			}
 		}
+
+		// 서브밋 메서드
+		function detailPlanSubmit() {
+			// 장소 선택
+			if (document.getElementById("select_place").checked === true) {
+				document.getElementById("traffic.org").value = null;
+				document.getElementById("traffic.des").value = null;
+				document.getElementById("traffic.info").value = null;
+			// 교통편 선택
+			} else {
+				document.getElementById("area.address").value = null;
+				document.getElementById("area.placeName").value = null;
+
+				document.getElementById("traffic.org").value
+						= document.getElementById("traffic_start_result").innerText;
+				document.getElementById("traffic.des").value
+						= document.getElementById("traffic_end_result").innerText;
+			}
+			return true;
+		}
 	</script>
 
 	<!-- 세부 일정 기간 설정 -->
@@ -296,7 +333,7 @@
 		}, true);
 
 		function detailPlanDropDown() {
-			var table = document.getElementById("detail_plan_table");
+			const table = document.getElementById("detail_plan_table");
 			if (table.className.indexOf("w3-show") === -1) {
 				table.className += " w3-show";
 			} else {
@@ -447,6 +484,7 @@
 
 										// 제목과 메인 경로 태그 (클릭시 드롭다운)
 										const routeTag = document.createElement("div");
+
 										const routeNameTag = document.createElement("div");
 										routeNameTag.classList.add("w3-button");
 										routeNameTag.innerText
@@ -456,10 +494,23 @@
 												+ result.routes[route].legs[0].arrival_time.text;
 										routeTag.appendChild(routeNameTag)
 
+										// 라디오 버튼
+										const radio = document.createElement("input");
+										radio.type = "radio";
+										radio.name = "traffic_info_check";
+										radio.id = "traffic_info_check_" + route;
+										radio.style.marginLeft = "1rem";
+										if (route === '0') {
+											radio.checked = true;
+										}
+										routeNameTag.appendChild(radio);
+
 										// 경로 절차를 묶을 태그
 										const stepsTag = document.createElement("div");
 										stepsTag.id = route + "_steps";
 										stepsTag.classList.add("steps");
+										stepsTag.style.overflowY = "scroll";
+										stepsTag.style.maxHeight = "200px";
 										routeTag.appendChild(stepsTag);
 
 										// 제목 클릭 이벤트를 추가
@@ -525,7 +576,9 @@
 								console.log(results[0].geometry.location.lng());
 								placeName.innerText = results[0].formatted_address + "\n" + results[0].name;
 								map.setCenter(results[0].geometry.location);
-								$.ajax({
+								document.getElementById("area.address").value = results[0].formatted_address;
+								document.getElementById("area.placeName").value = results[0].name;
+										$.ajax({
 									url: "/area/summary",
 									type: "POST",
 									dataType: 'text',
