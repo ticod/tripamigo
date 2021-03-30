@@ -21,11 +21,18 @@
 	<div class="w3-container">
 		<b class="w3-left">&lt;추천수 top 5 여행정보&gt;</b>
 	</div>
-	<div class="w3-container">
-	<div th:each="sortedInfo : ${infoRecommendCountSortedMap}" class="w3-col s2 w3-border w3-card" style="text-align: left; margin:10px; height:150px;">
-		<b class="w3-padding" style="font-size:20px;"th:text="${sortedInfo.key.area.name}"></b>
-		<p class="w3-padding" th:text="'&quot;'+${sortedInfo.key.infoSubject}+'&quot;'"></p>
-		<p class="w3-small w3-padding" th:text="'추천수:'+${sortedInfo.value}"></p>
+	<div class="w3-container" style="justify-content: center; display: flex;">
+	<div th:each="sortedInfo : ${infoRecommendCountSortedMap}" class="w3-col s2 w3-border w3-card w3-round-large" style="text-align: left; margin:10px; height:150px;">
+		<a href="" th:href="@{'/community/infoPage?infoSeq='+${sortedInfo.key.infoSeq}}">
+			<b class="w3-padding" th:if="${#strings.length(sortedInfo.key.area.name)<10}" th:text="${sortedInfo.key.area.name}" style="font-size:24px;" ></b>
+			<b class="w3-padding" th:unless="${#strings.length(sortedInfo.key.area.name)<10}" th:text="${#strings.substring(sortedInfo.key.area.name,0,9)}+' ...'" style="font-size:24px;" ></b>
+			
+			
+			<p class="w3-padding" th:if="${#strings.length(sortedInfo.key.infoSubject)<14}" th:text="'&quot;'+${sortedInfo.key.infoSubject}+'&quot;'"></p>
+			<p class="w3-padding" th:unless="${#strings.length(sortedInfo.key.infoSubject)<14}" th:text="'&quot;'+${#strings.substring(sortedInfo.key.infoSubject,0,14)}+' ...&quot;'"></p>
+			
+			<p class="w3-small w3-padding" th:text="'추천수:'+${sortedInfo.value}"></p>
+		</a>
 	
 	</div>
 	</div>

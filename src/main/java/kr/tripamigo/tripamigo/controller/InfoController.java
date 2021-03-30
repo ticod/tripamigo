@@ -153,17 +153,9 @@ public class InfoController {
 					isRecommend = true;
 					break;
 				}
-				System.out.println("recommend.getRecommendType() : "+recommend.getRecommendType());
 				System.out.println(isRecommend);
-//				if (isRecommend) {
-//					infoRecommend.put(info, true);
-//				} else {
-//					infoRecommend.put(info, false);
-//				}
-//				isRecommend=false;
 			}
 		}else {
-//			infoRecommend.put(info, false);
 		}
 		model.addAttribute("isRecommend", isRecommend);
 		
@@ -171,7 +163,6 @@ public class InfoController {
 		Map<Info, Integer> infoRecommendCount = new TreeMap<>();
 		int recommendCount = 0;
 		recommendCount = recommendService.contentRecommendCount(info.getInfoSeq(), RecommendType.INFO, true);
-//		infoRecommendCount.put(info, recommendCount);
 		model.addAttribute("infoRecommendCount", recommendCount);
 		
 		
@@ -180,7 +171,7 @@ public class InfoController {
 		model.addAttribute("countCommentRecommend", countCommentRecommend);
 
 		
-		boardHitsUp(request, response, infoSeq);
+		infoHitsUp(request, response, infoSeq);
 
 		return "community/infoPage";
 	}
@@ -282,10 +273,10 @@ public class InfoController {
 
 	}
 
-	private void boardHitsUp(HttpServletRequest request, HttpServletResponse response, Long boardSeq) {
-		String cookieName = boardSeq + "";
+	private void infoHitsUp(HttpServletRequest request, HttpServletResponse response, Long infoSeq) {
+		String cookieName = infoSeq + "";
 		Cookie cookie = new Cookie(cookieName, null);
-		cookie.setMaxAge(10); // 초단위
+		cookie.setMaxAge(60); // 초단위
 
 		boolean hitSwitch = false;
 
@@ -303,12 +294,12 @@ public class InfoController {
 			if (!hitSwitch) {
 				System.out.println("같은 쿠키 없음");
 				response.addCookie(cookie);
-				boardService.boardHitsUp(boardSeq);
+				infoService.hitsUp(infoSeq);
 			}
 		} else { // 쿠키가 없으면.
 			System.out.println("쿠키 자체가 없어서 추가하고 조회수 올림.");
 			response.addCookie(cookie);
-			boardService.boardHitsUp(boardSeq);
+			infoService.hitsUp(infoSeq);
 		}
 	}
 

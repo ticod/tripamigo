@@ -74,35 +74,35 @@
 		<br><br><br>
 		<hr>
 		<div class="w3-left w3-button">
-			목록
+			<a href="/community/info">
+				<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
+			</a>
 		</div>
-		<div class="w3-right w3-button">
-			신고
+		<div class="w3-right" style="margin-left: 10px;">
+			<button class="w3-button w3-amber w3-round-xlarge">
+					<font th:text="'신고'"></font>
+			</button>			
 		</div>
-		<!-- <div class="w3-right" th:each="infoRecommend : ${infoRecommend}">-->
+		<div class="w3-right" style="margin-left: 10px;">
 			<button th:if="${session.loginUser!=null} and ${isRecommend==false}" class="w3-button w3-blue w3-round-xlarge" 
 				th:onclick="'recommend('+${info.user.userSeq}+','+${info.infoSeq}+','+${session.loginUser.userSeq}+',2)'">
-				
-					<p th:text="'추천 '+${infoRecommendCount}"></p>
-				
+					<font th:text="'추천 '+${infoRecommendCount}"></font>
 			</button>
 								
 			<button th:if="${session.loginUser!=null} and ${isRecommend==true}" class="w3-button w3-red w3-round-xlarge" 
 				th:onclick="'recommend('+${info.user.userSeq}+','+${info.infoSeq}+','+${session.loginUser.userSeq}+',2)'">
-					<p th:text="'추천 '+${infoRecommendCount}"></p>
+					<font th:text="'추천 '+${infoRecommendCount}"></font>
 			</button>
-		<!-- </div>-->
-		<div class="w3-right w3-button">
-			★
+		</div>
+		<div class="w3-right">
+			<button class="w3-button w3-teal w3-round-xlarge">
+					<font th:text="'★'"></font>
+			</button>	
 		</div>
 		<!-- 댓글입력 -->
 		<!-- 버튼 -->
 			<div class="w3-container">
-				<a href="/community/info">
-					<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
-				</a>
-				<div class="w3-right w3-button w3-dark-grey w3-round-xlarge">★</div>
-				<div class="w3-right w3-button w3-yellow w3-round-xlarge" th:text="신고" />
+				
 			</div>
 			<br>
 			<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
@@ -187,36 +187,45 @@
 								<td style="width: 10%; text-align: center"><span
 									class="w3-panel w3-border-none" th:text="${comment.key.user.userId}"></span>
 								</td>
-								<td><span class="w3-panel w3-border-left" th:text="${comment.key.commentContent}" style="float: left; text-align: left; width: 95%"></span>
+								<td>
+								<span class="w3-panel w3-border-left" style="float: left; text-align: left; width: 95%">
+									<font th:text="${comment.key.commentContent}"></font>
+								</span>
 								<p class="w3-tiny w3-right" th:text="${#strings.replace(comment.key.commentRegdate,'T',' ')}"><p> 
 									<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.key.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
 										<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=2&boardSeq=' + ${info.infoSeq}}">
-										<img src="/imgs/icons/del_cmt.png"></a>
-								</span></td>
+											<img src="/imgs/icons/del_cmt.png">
+										</a>
+									</span>
+								</td>
 						<!-- 추천/ 신고 -->
-								<td style="width: 15%">
+								<td style="width: 15%; text-align:right">
 								<button th:if="${session.loginUser!=null} and ${!comment.value}" class="w3-button w3-blue w3-round-xlarge" 
 									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+',3)'">
-									<b th:each="countRecommend : ${countCommentRecommend}">
-										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+									<b th:each="countRecommend : ${countCommentRecommend}" >
+										<font th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}" class="w3-small" ></font>
 									</b>
-								</button>
+								</button> 
 								
 								<button th:if="${session.loginUser!=null} and ${comment.value}" class="w3-button w3-red w3-round-xlarge" 
-									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+'3)'">
+									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+',3)'">
 									<b th:each="countRecommend : ${countCommentRecommend}">
-										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+										<font th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}" class="w3-small" ></font>
 									</b>
 								</button>
 								
 								<button th:unless="${session.loginUser!=null}" class="w3-button w3-blue w3-round-xlarge" 
 									th:onclick="'loginAlert()'">
 									<b th:each="countRecommend : ${countCommentRecommend}">
-										<p th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}"></p>
+										<font th:if="${comment.key.commentSeq==countRecommend.key.commentSeq}" th:text="'추천 '+${countRecommend.value}" class="w3-small" ></font>
 									</b>
 								</button>
 								
-								/ 신고
+								<button class="w3-button w3-amber w3-round-xlarge">
+									<b>
+										<font th:text="'신고'" class="w3-small" ></font>
+									</b>
+								</button>
 							
 								</td>
 							</tr>

@@ -263,12 +263,18 @@ img[name=thumb]:hover{
 	<h2>여행지에 대한 정보글</h2>
 	<p>Trip information</p>
 	<div class="w3-container w3-center" style="width:100%; justify-content: center; text-align: left; display: flex;"><br>
-		<div th:each="info : ${infoListSub}" class="w3-quarter w3-card w3-button w3-white" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:300px; height:250px;" >
-		 	<b class="w3-container" style="text-align:left; font-size: 20px;"
-	 			th:text="'● '+${info.area.name}">● 제목</b>
-			<p class="w3-container" style="text-align:left;"
-				th:text="'&quot;'+${info.infoSubject}+'&quot;'"> 글 내용을 보시려면 클릭
- 			</p>
+
+		<div th:each="info : ${infoListSub}" class="w3-quarter w3-round-large w3-card w3-button w3-pale-blue" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:300px; height:180px; text-align:left" >
+		 	<a href="" th:href="@{'/community/infoPage?infoSeq='+${info.infoSeq}}" style="text-decoration: none;">	
+		 		<b class="w3-padding w3-border-teal w3-bottombar" th:if="${#strings.length(info.area.name)<10}" th:text="${info.area.name}" style="text-align:left; font-size: 24px;" >제목</b>
+		 		<b class="w3-padding w3-border-teal w3-bottombar" th:unless="${#strings.length(info.area.name)<10}" th:text="${#strings.substring(info.area.name,0,9)}+'...'" style="text-align:left; font-size: 24px;" >제목</b>
+				
+				<p class="w3-padding" th:if="${#strings.length(info.infoSubject)<14}" th:text="'&quot;'+${info.infoSubject}+'&quot;'" style="text-align:left;" ></p>
+				<p class="w3-padding" th:unless="${#strings.length(info.infoSubject)<14}" th:text="'&quot;'+${#strings.substring(info.infoSubject,0,14)}+' ...&quot;'" style="text-align:left;" ></p>
+				
+				<p class="w3-padding w3-small w3-right" th:text="'조회 '+${info.infoHits}" style="text-align:left;" ></p>
+				
+ 			</a>
 		</div>
 	</div>
 
