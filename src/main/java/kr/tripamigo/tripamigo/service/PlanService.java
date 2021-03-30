@@ -3,8 +3,8 @@ package kr.tripamigo.tripamigo.service;
 import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.domain.board.PlanDetail;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
-import kr.tripamigo.tripamigo.repository.PlanDetailRepository;
-import kr.tripamigo.tripamigo.repository.PlanRepository;
+import kr.tripamigo.tripamigo.repository.plan.PlanDetailRepository;
+import kr.tripamigo.tripamigo.repository.plan.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
