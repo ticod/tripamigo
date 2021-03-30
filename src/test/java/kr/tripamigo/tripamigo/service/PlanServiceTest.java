@@ -38,9 +38,7 @@ public class PlanServiceTest {
         planFormDTO.setPeriodStart(LocalDateTime.now());
         planFormDTO.setPeriodEnd(LocalDateTime.now());
 
-        plan.createFrom(planFormDTO);
-
-        planService.createAndReturn(plan);
+        planService.createAndReturn(planFormDTO);
     }
 
     @Test

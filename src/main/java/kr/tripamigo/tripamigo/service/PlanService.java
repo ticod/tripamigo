@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.service;
 import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.domain.board.PlanDetail;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
+import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.repository.plan.PlanDetailRepository;
 import kr.tripamigo.tripamigo.repository.plan.PlanRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,9 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final PlanDetailRepository planDetailRepository;
 
-    public Plan createAndReturn(Plan plan) {
+    public Plan createAndReturn(PlanFormDTO planFormDTO) {
+        Plan plan = new Plan();
+        plan.createFrom(planFormDTO);
         return planRepository.save(plan);
     }
 
