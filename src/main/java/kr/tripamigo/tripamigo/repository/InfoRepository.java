@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import kr.tripamigo.tripamigo.domain.board.Board;
 import kr.tripamigo.tripamigo.domain.board.Info;
 
 public interface InfoRepository {
@@ -27,6 +26,9 @@ public interface InfoRepository {
 //	
 	Optional<Info> findById(Long iSeq);
 	
+	@Modifying
+	@Query("update Info i set i.infoHits=i.infoHits+1 where i.infoSeq=:infoSeq")
+	void hitsUp(@Param("infoSeq") Long infoSeq);
 	
 	
 }

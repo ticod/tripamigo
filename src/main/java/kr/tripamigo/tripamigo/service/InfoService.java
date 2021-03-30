@@ -129,4 +129,8 @@ public class InfoService {
 		infoRepository.save(info);
 	}
 	
+	public void hitsUp(Long infoSeq) {
+		infoRepository.hitsUp(infoSeq);
+	}
+	
 }
