@@ -2,6 +2,8 @@ package kr.tripamigo.tripamigo.dto.plan;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -9,7 +11,9 @@ import lombok.*;
 @ToString
 public class PlanDetailDTO {
 
-    private PeriodDTO periodDTO;
+    private LocalDateTime start;
+    private LocalDateTime end;
+
     private Area area;
     private Traffic trafficInfoDTO;
     private String budget;
