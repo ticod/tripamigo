@@ -183,6 +183,10 @@ public class PlanController {
         plan.createFrom(planFormDTO);
         Plan savePlan = planService.createAndReturn(plan);
 
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+        planService.savePlanDetails(savePlan, planDetailList);
+
         return "redirect:/community/plan/detail" + savePlan.getSeq();
     }
 

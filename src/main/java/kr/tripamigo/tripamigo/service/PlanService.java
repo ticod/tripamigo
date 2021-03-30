@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -33,7 +34,11 @@ public class PlanService {
         return planRepository.findById(planId).orElseThrow();
     }
 
-    public PlanDetail savePlanDetail(PlanDetailDTO planDetailDTO) {
-        return null;
+    public void savePlanDetails(Plan plan, List<PlanDetailDTO> planDetailDTOs) {
+        List<PlanDetail> planDetails = planDetailDTOs.stream()
+                .map(o -> new PlanDetail().createByDTO(plan, o))
+                .collect(Collectors.toList());
+//        planDetailRepository.saveAll(planDetails);
     }
+
 }

@@ -34,7 +34,7 @@ public class PlanDetailDTO {
     private Area area;
 
     private Traffic traffic;
-    private String budget;
+    private Integer budget;
     private String memo;
 
     @AllArgsConstructor

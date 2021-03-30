@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.domain.board;
 
+import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,4 +43,20 @@ public class PlanDetail {
     })
     private Period period;
 
+    public PlanDetail createByDTO(Plan plan, PlanDetailDTO o) {
+        this.plan = plan;
+        this.area = o.getArea().getAddress() + " / " + o.getArea().getPlaceName();
+        this.budget = o.getBudget();
+        this.memo = o.getMemo();
+        this.period = Period.builder()
+                .start(o.getStartDateTime())
+                .end(o.getEndDateTime())
+                .build();
+        this.trafficInfo = TrafficInfo.builder()
+                .org(o.getTraffic().getOrg())
+                .des(o.getTraffic().getDes())
+                .traffic(o.getTraffic().getInfo())
+                .build();
+        return this;
+    }
 }
