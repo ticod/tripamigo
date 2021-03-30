@@ -42,7 +42,7 @@
 
 				<!-- 세부 일정 목록 O -->
 				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
-					<div class="item w3-border w3-row">
+					<div class="item w3-border-bottom w3-border-black w3-row">
 						<div class="w3-col s2">
 							일정 시간
 						</div>
@@ -52,30 +52,40 @@
 						<div class="w3-col s2">
 							예상 지출액
 						</div>
-						<div class="w3-col s6">
+						<div class="w3-col s5">
 							메모
 						</div>
 					</div>
 
 					<!-- 세부 일정 추가 목록 -->
-					<div class="item w3-border w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
+					<div class="item w3-border-top w3-border-bottom w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
 						<div class="w3-col s2">
 							<p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
 							<p th:text="${planDetail.getEndDateTime() + ''}"></p>
 						</div>
 						<div class="w3-col s2">
-							<!-- 이동 O -->
+							<!-- 교통편 선택 -->
 							<p th:if="${planDetail.traffic != null}"
 							   th:text="${planDetail.traffic.org + '-' + planDetail.traffic.des}"></p>
-							<!-- 이동 X -->
-							<p th:unless="${planDetail.traffic != null}"
+							<!-- 장소 선택 -->
+							<p th:if="${planDetail.area != null}"
 							   th:text="${planDetail.area.placeName}"></p>
+							<p th:if="${planDetail.area == null && planDetail.traffic == null}"></p>
 						</div>
 						<div class="w3-col s2">
 							<p th:text="${planDetail.budget}"></p>
 						</div>
-						<div class="w3-col s6">
+						<div class="w3-col s5">
 							<p th:text="${planDetail.memo}"></p>
+						</div>
+						<div class="w3-col s1 w3-center">
+							<p>
+								<a th:href="@{'/community/plan/write/second/delete/' + ${planDetailStat.index}}"
+								   class="w3-centered w3-button w3-round w3-indigo w3-border
+									w3-hover-white w3-hover-border-indigo w3-hover-text-indigo">
+									삭제
+								</a>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -100,7 +110,7 @@
 
 		<br>
 
-		<label for="content"></label>
+		<label for="content">내용</label>
 		<textarea id="content" cols="40" rows="20" th:field="*{content}" style="resize:none;"></textarea>
 
 		<br>

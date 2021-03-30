@@ -48,7 +48,7 @@
 
 				<!-- 세부 일정 목록 O -->
 				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
-					<div class="item w3-border w3-row">
+					<div class="item w3-border-bottom w3-border-black w3-row">
 						<div class="w3-col s2">
 							일정 시간
 						</div>
@@ -64,18 +64,19 @@
 					</div>
 
 					<!-- 세부 일정 추가 목록 -->
-					<div class="item w3-border w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
+					<div class="item w3-border-top w3-border-bottom w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
 						<div class="w3-col s2">
 							<p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
 							<p th:text="${planDetail.getEndDateTime() + ''}"></p>
 						</div>
 						<div class="w3-col s2">
-							<!-- 이동 O -->
+							<!-- 교통편 선택 -->
 							<p th:if="${planDetail.traffic != null}"
 							   th:text="${planDetail.traffic.org + '-' + planDetail.traffic.des}"></p>
-							<!-- 이동 X -->
-							<p th:unless="${planDetail.traffic != null}"
+							<!-- 장소 선택 -->
+							<p th:if="${planDetail.area != null}"
 							   th:text="${planDetail.area.placeName}"></p>
+							<p th:if="${planDetail.area == null && planDetail.traffic == null}"></p>
 						</div>
 						<div class="w3-col s2">
 							<p th:text="${planDetail.budget}"></p>
@@ -323,6 +324,9 @@
 						= document.getElementById("traffic_start_result").innerText;
 				document.getElementById("traffic.des").value
 						= document.getElementById("traffic_end_result").innerText;
+				document.getElementById("traffic.info").value
+						= document.getElementById("route_"
+							+ parseInt(document.querySelector('input[name = "traffic_info_check"]:checked').value)).value;
 			}
 			return true;
 		}
@@ -488,6 +492,7 @@
 
 										// 제목과 메인 경로 태그 (클릭시 드롭다운)
 										const routeTag = document.createElement("div");
+										routeTag.id = "route_" + route;
 
 										const routeNameTag = document.createElement("div");
 										routeNameTag.classList.add("w3-button");
@@ -503,6 +508,7 @@
 										radio.type = "radio";
 										radio.name = "traffic_info_check";
 										radio.id = "traffic_info_check_" + route;
+										radio.value = route;
 										radio.style.marginLeft = "1rem";
 										if (route === '0') {
 											radio.checked = true;
