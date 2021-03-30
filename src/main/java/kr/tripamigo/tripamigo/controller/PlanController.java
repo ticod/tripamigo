@@ -58,12 +58,8 @@ public class PlanController {
             return "/plan/write/first";
         }
 
-        LocalDateTime start = LocalDateTime.of(periodDTO.getStartYear(),
-                periodDTO.getStartMonth(), periodDTO.getStartDay(),
-                periodDTO.getStartTime(), 0);
-        LocalDateTime end = LocalDateTime.of(periodDTO.getEndYear(),
-                periodDTO.getEndMonth(), periodDTO.getEndDay(),
-                periodDTO.getEndTime(), 0);
+        LocalDateTime start = periodDTO.getStartDateTime();
+        LocalDateTime end = periodDTO.getEndDateTime();
 
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
         planFormDTO.setPeriodStart(start);
@@ -71,28 +67,45 @@ public class PlanController {
 
         session.setAttribute("planFormDTO", planFormDTO);
 
-        return REDIRECT_HOME + "/write/second";
+        return "redirect:/community/plan/write/second";
     }
 
     // 세부 일정 입력
     @GetMapping("/write/second")
-    public String planWriteSecond(PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
+    public String planWriteSecond(PlanDetailDTO planDetailDTO,
+                                  Model model, HttpSession session) {
 
         // TODO: 개발 후 주석 풀기
+        // to first page
 //        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
 //        if (planFormDTO == null
 //                || planFormDTO.getPeriodStart() == null
 //                || planFormDTO.getPeriodEnd() == null) {
-//            return REDIRECT_HOME + "/write/first";
+//            return "redirect:/community/plan/write/first";
 //        }
 
-        model.addAttribute("planDetailDTO", new PlanDetailDTO());
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
+
+        // 세션에 planDetailList가 있다면 ?
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+        if (planDetailList != null) {
+            model.addAttribute("planDetailList", planDetailList);
+        }
+
+        model.addAttribute("planDetailDTO", new PlanDetailDTO());
         return "/plan/write/second";
     }
 
     @PostMapping("/write/second")
-    public String planWriteSecondPost(PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
+    public String planWriteSecondPost(@Valid PlanDetailDTO planDetailDTO, BindingResult bindingResult,
+                                      Model model, HttpSession session) {
+
+        model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
+
+        if (bindingResult.hasErrors()) {
+            return "/plan/write/second";
+        }
 
         @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
         List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
@@ -101,25 +114,38 @@ public class PlanController {
         }
 
         planDetailList.add(planDetailDTO);
+
+        if (planDetailDTO.getTraffic().getOrg().trim().equals("")
+                || planDetailDTO.getTraffic().getDes().trim().equals("")
+                || planDetailDTO.getTraffic().getInfo().trim().equals("")) {
+            planDetailDTO.setTraffic(null);
+        }
+
+        System.out.println(planDetailDTO);
         session.setAttribute("planDetailList", planDetailList);
         model.addAttribute("planDetailList", planDetailList);
 
-        model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
-        return "/plan/write/second";
+        // 중복 서브밋 방지 redirect
+        return "redirect:/community/plan/write/second";
     }
 
     @RequestMapping("/write/second/delete/{index}")
-    public String planDetailDelete(@PathVariable("index") Long index, PlanDetailDTO planDetailDTO, Model model, HttpSession session) {
+    public String planDetailDelete(@PathVariable("index") int index, PlanDetailDTO planDetailDTO,
+                                   Model model, HttpSession session) {
+
         @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
         List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+
+        // 잘못된 접근일 경우
         if (planDetailList == null || planDetailList.size() <= index) {
             return "redirect:/community/plan";
         }
+
         planDetailList.remove(index);
         session.setAttribute("planDetailList", planDetailList);
         model.addAttribute("planDetailList", planDetailList);
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
-        return "plan/write/second";
+        return "redirect:/community/plan/write/second";
     }
 
     // 글 입력 (planFormDTO)
@@ -140,9 +166,9 @@ public class PlanController {
 
         Plan plan = new Plan();
         plan.createFrom(planFormDTO);
-        plan = planService.createAndReturn(plan);
+        Plan savePlan = planService.createAndReturn(plan);
 
-        return REDIRECT_HOME + "/" + plan.getSeq();
+        return REDIRECT_HOME + "/" + savePlan.getSeq();
     }
 
     /*** Update ***/
