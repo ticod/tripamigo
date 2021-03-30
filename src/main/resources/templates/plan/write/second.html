@@ -47,7 +47,7 @@
 			<div class="w3-card" id="detail_plan_items" style="margin: 0; width: 100%; height: 100%;">
 
 				<!-- 세부 일정 목록 O -->
-				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
+				<div th:if="${session.planDetailList != null && session.planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
 					<div class="item w3-border-bottom w3-border-black w3-row">
 						<div class="w3-col s2">
 							일정 시간
@@ -64,7 +64,9 @@
 					</div>
 
 					<!-- 세부 일정 추가 목록 -->
-					<div class="item w3-border-top w3-border-bottom w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
+					<div class="item w3-border-top w3-border-bottom w3-row"
+						 th:each="planDetail, planDetailStat : ${session.planDetailList}"
+						 style="padding-left: 1rem;">
 						<div class="w3-col s2">
 							<p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
 							<p th:text="${planDetail.getEndDateTime() + ''}"></p>
@@ -97,7 +99,7 @@
 				</div>
 
 				<!-- 세부 일정 목록 X -->
-				<div th:unless="${planDetailList != null && planDetailList.size > 0}">
+				<div th:unless="${session.planDetailList != null && session.planDetailList.size > 0}">
 					<div class="item w3-border">
 						작성 중인 세부 일정이 없습니다.
 					</div>
