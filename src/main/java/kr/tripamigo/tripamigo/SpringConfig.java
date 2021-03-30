@@ -30,6 +30,7 @@ public class SpringConfig implements WebMvcConfigurer {
     private final RecommendRepository recommendRepository;
     private final PlanRepository planRepository;
     private final InfoRepository infoRepository;
+    private final PlanDetailRepository planDetailRepository;
 
     /*** Bean ***/
     /* Exception */
@@ -66,7 +67,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Bean
     public PlanService planService() {
-        return new PlanService(planRepository);
+        return new PlanService(planRepository, planDetailRepository);
     }
     
     @Bean

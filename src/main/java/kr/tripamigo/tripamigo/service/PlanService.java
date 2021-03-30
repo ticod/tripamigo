@@ -1,6 +1,9 @@
 package kr.tripamigo.tripamigo.service;
 
 import kr.tripamigo.tripamigo.domain.board.Plan;
+import kr.tripamigo.tripamigo.domain.board.PlanDetail;
+import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
+import kr.tripamigo.tripamigo.repository.PlanDetailRepository;
 import kr.tripamigo.tripamigo.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,7 @@ import java.util.List;
 public class PlanService {
 
     private final PlanRepository planRepository;
+    private final PlanDetailRepository planDetailRepository;
 
     public Plan createAndReturn(Plan plan) {
         return planRepository.save(plan);
@@ -27,5 +31,9 @@ public class PlanService {
 
     public Plan getPlanBy(Long planId) {
         return planRepository.findById(planId).orElseThrow();
+    }
+
+    public PlanDetail savePlanDetail(PlanDetailDTO planDetailDTO) {
+        return null;
     }
 }
