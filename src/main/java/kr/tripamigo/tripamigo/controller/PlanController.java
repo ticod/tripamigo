@@ -179,15 +179,17 @@ public class PlanController {
         User loginUser = (User) session.getAttribute("loginUser");
         planFormDTO.setUser(loginUser);
 
-        Plan plan = new Plan();
-        plan.createFrom(planFormDTO);
-        Plan savePlan = planService.createAndReturn(plan);
+        PlanFormDTO sessionPlanFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        planFormDTO.setPeriodStart(sessionPlanFormDTO.getPeriodStart());
+        planFormDTO.setPeriodEnd(sessionPlanFormDTO.getPeriodEnd());
 
-        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
-        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
-        planService.savePlanDetails(savePlan, planDetailList);
+        Plan savePlan = planService.createAndReturn(planFormDTO);
 
-        return "redirect:/community/plan/detail" + savePlan.getSeq();
+//        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+//        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+//        planService.savePlanDetails(savePlan, planDetailList);
+
+        return "redirect:/community/plan/detail/" + savePlan.getSeq();
     }
 
     /*** Update ***/
