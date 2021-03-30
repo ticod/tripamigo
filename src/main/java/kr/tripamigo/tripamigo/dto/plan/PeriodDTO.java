@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.dto.plan;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +30,17 @@ public class PeriodDTO {
     private Integer endDay;
     @NotNull(message = "시간을 입력해주세요")
     private Integer endTime;
+
+    public LocalDateTime getStartDateTime() {
+        return LocalDateTime.of(this.getStartYear(),
+            this.getStartMonth(), this.getStartDay(),
+            this.getStartTime(), 0);
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return LocalDateTime.of(this.getStartYear(),
+            this.getStartMonth(), this.getStartDay(),
+            this.getStartTime(), 0);
+    }
 
 }
