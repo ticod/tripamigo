@@ -10,8 +10,12 @@
 		  align-content: center;
 	  }
 
+	  section > * {
+		  width: 80%;
+	  }
+
 	  .sidebar-plan {
-		  z-index: 1;
+		  z-index: 10;
 
 		  position:fixed;
 		  top: 1rem;
@@ -29,32 +33,86 @@
 <section class="w3-center w3-center-align w3-container">
 
 	<!-- Plan Detail Table -->
-	<div class="w3-dropdown-click">
-		<button class="w3-button" onclick="detailPlanDropDown()">지금까지 작성한 일정 보기</button>
-		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content">
-			<div>
-				<p>asdf</p>
-				<p>asdf</p>
+	<div class="w3-dropdown-click w3-center">
+		<button class="w3-button w3-card" style="width: 100%;" onclick="detailPlanDropDown()">
+			지금까지 작성한 일정 보기
+		</button>
+		<div id="detail_plan_table" class="detail_plan_table w3-dropdown-content" style="width: 100%;">
+			<div class="w3-card" id="detail_plan_items" style="margin: 0; width: 100%; height: 100%;">
+
+				<!-- 세부 일정 목록 O -->
+				<div th:if="${planDetailList != null && planDetailList.size > 0}" style="margin: 0; padding: 0; max-height: 400px; overflow-y: scroll;">
+					<div class="item w3-border w3-row">
+						<div class="w3-col s2">
+							일정 시간
+						</div>
+						<div class="w3-col s2">
+							장소 / 교통 편
+						</div>
+						<div class="w3-col s2">
+							예상 지출액
+						</div>
+						<div class="w3-col s6">
+							메모
+						</div>
+					</div>
+
+					<!-- 세부 일정 추가 목록 -->
+					<div class="item w3-border w3-row" th:each="planDetail, planDetailStat : ${planDetailList}" style="padding-left: 1rem;">
+						<div class="w3-col s2">
+							<p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
+							<p th:text="${planDetail.getEndDateTime() + ''}"></p>
+						</div>
+						<div class="w3-col s2">
+							<!-- 이동 O -->
+							<p th:if="${planDetail.traffic != null}"
+							   th:text="${planDetail.traffic.org + '-' + planDetail.traffic.des}"></p>
+							<!-- 이동 X -->
+							<p th:unless="${planDetail.traffic != null}"
+							   th:text="${planDetail.area.placeName}"></p>
+						</div>
+						<div class="w3-col s2">
+							<p th:text="${planDetail.budget}"></p>
+						</div>
+						<div class="w3-col s6">
+							<p th:text="${planDetail.memo}"></p>
+						</div>
+					</div>
+				</div>
+
+				<!-- 세부 일정 목록 X -->
+				<div th:unless="${planDetailList != null && planDetailList.size > 0}">
+					<div class="item w3-border">
+						작성 중인 세부 일정이 없습니다.
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
 	<!-- Plan Detail Table END -->
 
 	<!-- 세부 일정 입력 폼 (Period Form) -->
-	<form th:action="@{thrid}" method="post">
+	<form th:action="@{thrid}" method="post" th:object="${planFormDTO}">
 
-		<input type="text" placeholder="제목 입력">
+		<label for="subject">제목</label>
+		<input type="text" placeholder="제목 입력" id="subject" th:field="*{subject}">
+
 		<br>
-		<textarea name="content" id="content" cols="40" rows="20" style="resize:none;"></textarea>
+
+		<label for="content"></label>
+		<textarea id="content" cols="40" rows="20" th:field="*{content}" style="resize:none;"></textarea>
+
 		<br>
+
 		<label for="public">전체 공개</label>
-		<input type="radio" id="public" name="open" value="0">
+		<input type="radio" id="public" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PUBLIC}" checked>
 		<label for="follow">팔로워 공개</label>
-		<input type="radio" id="follow" name="open" value="1">
+		<input type="radio" id="follow" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).FOLLOW}">
 		<label for="private">비 공개</label>
-		<input type="radio" id="private" name="open" value="2">
+		<input type="radio" id="private" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PRIVATE}">
 
-		<div class="w3-card sidebar-plan">
+		<div class="w3-card w3-white sidebar-plan">
 
 			<div class="w3-container">
 				<p>1. 전체 일정 고르기</p>
@@ -73,6 +131,14 @@
 	</form>
 
 	<script>
+		function detailPlanDropDown() {
+			const table = document.getElementById("detail_plan_table");
+			if (table.className.indexOf("w3-show") === -1) {
+				table.className += " w3-show";
+			} else {
+				table.className = table.className.replace(" w3-show", "");
+			}
+		}
 	</script>
 </section>
 
