@@ -2,31 +2,8 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org"
 	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>WRITE PLAN 3</title>
-  <style>
-	  section {
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: center;
-		  align-content: center;
-	  }
-
-	  section > * {
-		  width: 80%;
-	  }
-
-	  .sidebar-plan {
-		  z-index: 10;
-
-		  position:fixed;
-		  top: 1rem;
-		  right: 1rem;
-
-		  padding: 1rem;
-	  }
-
-	  .sidebar-plan * {
-		  font-size: 0.75rem;
-	  }
+  <style th:inline="text">
+	  @import url('/css/plan.css');
   </style>
 <body>
 <!-- Main Contents -->
@@ -105,7 +82,7 @@
 	<!-- Plan Detail Table END -->
 
 	<!-- 세부 일정 입력 폼 (Period Form) -->
-	<form th:action="@{thrid}" method="post" th:object="${planFormDTO}">
+	<form th:action="@{third}" method="post" th:object="${planFormDTO}">
 
 		<label for="subject">제목</label>
 		<input type="text" placeholder="제목 입력" id="subject" th:field="*{subject}">
@@ -121,7 +98,7 @@
 		<input type="radio" id="public" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PUBLIC}" checked>
 		<label for="follow">팔로워 공개</label>
 		<input type="radio" id="follow" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).FOLLOW}">
-		<label for="private">비 공개</label>
+		<label for="private">비공개</label>
 		<input type="radio" id="private" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PRIVATE}">
 
 		<div class="w3-card w3-white sidebar-plan">

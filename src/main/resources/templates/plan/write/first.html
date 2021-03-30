@@ -2,48 +2,8 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org"
 	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>WRITE PLAN 1</title>
-  <style>
-	  section {
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: center;
-		  align-content: center;
-	  }
-
-	  section > * {
-		  width: 85%;
-	  }
-
-	  .calendar {
-		  margin-top: 100px;
-		  height: 400px;
-
-		  display: flex;
-		  flex-direction: column;
-		  align-content: center;
-	  }
-
-	  .calendar > div {
-		  align-self: center;
-		  width: 60%;
-	  }
-
-	  .sidebar-plan {
-		  position:fixed;
-		  bottom: 1rem;
-		  right: 1rem;
-
-		  padding: 1rem;
-	  }
-
-	  .sidebar-plan * {
-		  font-size: 0.75rem;
-	  }
-
-	  .error-message {
-		  font-size: 0.75rem;
-		  color: crimson;
-	  }
+  <style th:inline="text">
+	  @import url('/css/plan.css');
   </style>
 <body>
 <!-- Main Contents -->
