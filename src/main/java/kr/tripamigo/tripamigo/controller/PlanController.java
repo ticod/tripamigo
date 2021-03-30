@@ -7,7 +7,7 @@ import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,10 +21,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/community/plan")
+@RequiredArgsConstructor
 public class PlanController {
 
-    @Autowired
-    private PlanService planService;
+    // autowired
+    private final PlanService planService;
 
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
@@ -75,14 +76,13 @@ public class PlanController {
     public String planWriteSecond(PlanDetailDTO planDetailDTO,
                                   Model model, HttpSession session) {
 
-        // TODO: 개발 후 주석 풀기
         // to first page
-//        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
-//        if (planFormDTO == null
-//                || planFormDTO.getPeriodStart() == null
-//                || planFormDTO.getPeriodEnd() == null) {
-//            return "redirect:/community/plan/write/first";
-//        }
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        if (planFormDTO == null
+                || planFormDTO.getPeriodStart() == null
+                || planFormDTO.getPeriodEnd() == null) {
+            return "redirect:/community/plan/write/first";
+        }
 
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 
@@ -103,17 +103,15 @@ public class PlanController {
 
         model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 
-        if (bindingResult.hasErrors()) {
-            return "/plan/write/second";
-        }
-
         @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
         List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
         if (planDetailList == null) {
             planDetailList = new ArrayList<>();
         }
 
-        planDetailList.add(planDetailDTO);
+        if (bindingResult.hasErrors()) {
+            return "/plan/write/second";
+        }
 
         if (planDetailDTO.getTraffic().getOrg().trim().equals("")
                 || planDetailDTO.getTraffic().getDes().trim().equals("")
@@ -121,17 +119,24 @@ public class PlanController {
             planDetailDTO.setTraffic(null);
         }
 
-        System.out.println(planDetailDTO);
+        if (planDetailDTO.getArea().getAddress().trim().equals("")
+                || planDetailDTO.getArea().getPlaceName().trim().equals("")) {
+            planDetailDTO.setArea(null);
+        }
+
+        planDetailList.add(planDetailDTO);
+
         session.setAttribute("planDetailList", planDetailList);
         model.addAttribute("planDetailList", planDetailList);
+
+        System.out.println(planDetailDTO);
 
         // 중복 서브밋 방지 redirect
         return "redirect:/community/plan/write/second";
     }
 
     @RequestMapping("/write/second/delete/{index}")
-    public String planDetailDelete(@PathVariable("index") int index, PlanDetailDTO planDetailDTO,
-                                   Model model, HttpSession session) {
+    public String planDetailDelete(@PathVariable("index") int index, Model model, HttpSession session) {
 
         @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
         List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
@@ -152,9 +157,19 @@ public class PlanController {
     @GetMapping("/write/third")
     public String planWriteThird(Model model, HttpSession session) {
         PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
-        if (planFormDTO == null) {
-            return REDIRECT_HOME + "/write/first";
+        // to first page
+        if (planFormDTO == null
+                || planFormDTO.getPeriodStart() == null
+                || planFormDTO.getPeriodEnd() == null) {
+            return "redirect:/community/plan/write/first";
         }
+
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+
+        model.addAttribute("planFormDTO", planFormDTO);
+        model.addAttribute("planDetailList", planDetailList);
+
         return "/plan/write/third";
     }
 
@@ -168,7 +183,7 @@ public class PlanController {
         plan.createFrom(planFormDTO);
         Plan savePlan = planService.createAndReturn(plan);
 
-        return REDIRECT_HOME + "/" + savePlan.getSeq();
+        return "redirect:/community/plan/detail" + savePlan.getSeq();
     }
 
     /*** Update ***/
