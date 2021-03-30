@@ -38,9 +38,9 @@ public class PeriodDTO {
     }
 
     public LocalDateTime getEndDateTime() {
-        return LocalDateTime.of(this.getStartYear(),
-            this.getStartMonth(), this.getStartDay(),
-            this.getStartTime(), 0);
+        return LocalDateTime.of(this.getEndYear(),
+            this.getEndMonth(), this.getEndDay(),
+            this.getEndTime(), 0);
     }
 
 }
