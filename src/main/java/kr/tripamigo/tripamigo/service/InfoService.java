@@ -145,5 +145,9 @@ public class InfoService {
 		
 		return cnt;
 	}
+
+	public List<Info> getInfoListBy(User user) {
+		return infoRepository.findAllByUserAndInfoStatusOrderByInfoSeqDesc(user, true);
+	}
 	
 }
