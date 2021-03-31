@@ -21,7 +21,7 @@ public class DiaryService {
         diaryBoard.setDiarySubject(diaryFormDTO.getSubject());
         diaryBoard.setDiaryContent(diaryFormDTO.getContent());
         //diaryBoard.setDiaryThumbnail(diaryFormDTO.getThumbnail());
-        diaryRepository.save(diaryBoard);
+//        diaryRepository.save(diaryBoard);
     }
 
 //    public List<Diary> diaryList(){
