@@ -132,5 +132,22 @@ public class InfoService {
 	public void hitsUp(Long infoSeq) {
 		infoRepository.hitsUp(infoSeq);
 	}
+
+	public int infoCount(String sido) {
+		int cnt = 0;
+		List<Info> list = infoRepository.findAllByInfoStatusOrderByInfoSeqDesc(true);
+		
+		for(Info i : list){
+			if(i.getArea().getAddress().contains(sido)) {
+				cnt += 1;
+			}
+		}
+		
+		return cnt;
+	}
+
+	public List<Info> getInfoListBy(User user) {
+		return infoRepository.findAllByUserAndInfoStatusOrderByInfoSeqDesc(user, true);
+	}
 	
 }

@@ -3,6 +3,7 @@ package kr.tripamigo.tripamigo.repository;
 import java.util.List;
 import java.util.Optional;
 
+import kr.tripamigo.tripamigo.domain.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,6 +30,7 @@ public interface InfoRepository {
 	@Modifying
 	@Query("update Info i set i.infoHits=i.infoHits+1 where i.infoSeq=:infoSeq")
 	void hitsUp(@Param("infoSeq") Long infoSeq);
-	
+
+	List<Info> findAllByUserAndInfoStatusOrderByInfoSeqDesc(User user, boolean status);
 	
 }

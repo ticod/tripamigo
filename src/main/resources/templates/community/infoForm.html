@@ -46,7 +46,10 @@
 				<p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">subject Error</p>
 			</div>
 			
-			<br><br><br><hr><br><br><br>
+			<br>
+			<label class="w3-left" style="font-size:20px; font-weight:bold; color:#cc00cc;">장소정보 입력</label>
+			<br>
+			<hr>
 			<script th:inline="javascript">
 				function numberWithCommas(x) {
  					x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
@@ -56,34 +59,59 @@
 				}
 			
 			</script>
-			<div class="" id="map">구글 맵 api 들어갈 자리</div>
-			<div>
-				<select th:field="*{rating}">
-					<option selected value=0>장소에 대한 별점을 선택하세요</option><option value=1>1</option><option value=2>2</option><option value=3>3</option>
-					<option value=4>4</option><option value=5>5</option><option value=6>6</option>
-					<option value=7>7</option><option value=8>8</option><option value=9>9</option>
-					<option value=10>10</option>
-				</select>
+<!-- 구글맵 -->
+			<div style="width:100%">
+				<div class="w3-left">
+					<label for="place_search">장소 검색: </label>
+					<input type="text" class="w3-input"
+					   	style="width: 50%; display: inline"
+					   	id="place_search" placeholder="검색하세요">
+					<button type="button"
+							id="place_search_button"
+							class="w3-button w3-border w3-indigo
+							w3-hover-white w3-hover-text-indigo w3-hover-border-indigo">
+						검색
+					</button>
+				</div>
+				<div class="map" id="map" style="width:100%"></div>
+			</div>
+			<div class="w3-margin" style="height:400px; text-align:left">
+					<p th:if="${#fields.hasErrors('name')} " th:errors="*{name}">Area Errors</p>
+					<font style="color:grey">장소명</font><br>
+					<b id="areaNameV" class="w3-xxlarge"></b>
+					<br><br> 
+					<font style="color:grey">주소</font><br>
+					<b id="areaAddressV" class="w3-xlarge"></b>
+					<br><br>
+					<font style="color:grey">이 장소에 대한 점수</font><br>
+					<font style="font-size: 24px; font-weight:bold; color: #cccccc;">
+						<select th:field="*{rating}">
+							<option selected value=0>장소에 대한 별점을 선택하세요</option><option value=1>1</option><option value=2>2</option><option value=3>3</option>
+							<option value=4>4</option><option value=5>5</option><option value=6>6</option>
+							<option value=7>7</option><option value=8>8</option><option value=9>9</option>
+							<option value=10>10</option>
+						</select>
+					</font>
+					<b th:if="${#fields.hasErrors('rating')} " th:errors="*{rating}">Area Errors</b>
+					<br><br>
+					<font style="color:grey">소요비용</font><br>
+					<font style="font-size:24px; font-weight:bold;">
+						<input type="text" th:field="*{budget}" placeholder="소요비용 입력" id="money" onkeyup="numberWithCommas(this.value)">원<br>
+					</font>
+					<b th:if="${#fields.hasErrors('budget')} " th:errors="*{budget}">Area Errors</b>
 			</div>
 			<br>
 			<div>
-				<input type="text" th:field="*{budget}" placeholder="소요예산" id="money" onkeyup="numberWithCommas(this.value)">원
-				<input type="text" th:field="*{name}" placeholder="장소명">
-				<input type="text" th:field="*{address}" placeholder="주소">
-				<input type="text" th:field="*{lat}" placeholder="위도">
-				<input type="text" th:field="*{lng}" placeholder="경도">
-				
-				<p th:if="${#fields.hasErrors('rating')} " th:errors="*{rating}">Area Errors</p>
-				<p th:if="${#fields.hasErrors('budget')} " th:errors="*{budget}">Area Errors</p>
-				<p th:if="${#fields.hasErrors('name')} " th:errors="*{name}">Area Errors</p>
-				<p th:if="${#fields.hasErrors('address')} " th:errors="*{address}">Area Errors</p>
-				<p th:if="${#fields.hasErrors('lat')} " th:errors="*{lat}">Area Errors</p>
-				<p th:if="${#fields.hasErrors('lng')} " th:errors="*{lng}">Area Errors</p>
-				
+				<input type="hidden" id="areaName" th:field="*{name}" placeholder="장소명">
+				<input type="hidden" id="areaAddress" th:field="*{address}" placeholder="주소">
+				<input type="hidden" id="areaLat" th:field="*{lat}" placeholder="위도">
+				<input type="hidden" id="areaLng" th:field="*{lng}" placeholder="경도">
 			</div>
-			
-			<br><br>
-			<div>
+			<br>
+			<label class="w3-left" style="font-size:20px; font-weight:bold; color:#cc00cc;">글내용입력</label>
+			<br>
+			<hr>
+			<div style="min-height:500px">
 				<textarea rows="15" th:field="*{content}" id="content1" style="width:100%; height:100%;" placeholder="내용 입력"></textarea>
 				<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content Error</p>
 				<script th:inline="javascript">CKEDITOR.replace("content1",{filebrowserImageUploadUrl:"/community/imgupload"})</script>
@@ -107,18 +135,78 @@
 				</script>
 				<hr>
 				
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz1W2lasXllO19MekQuhZgVKYRYAGQYdg&callback=initMap&libraries=&v=weekly"
-	async>
+	<script async
+			th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapAPIKey} + '&libraries=places&callback=initMap'}">
 	</script>
-				<script>
-				
+	<script>
+		const placeSearch = document.getElementById("place_search");
+		const placeName = document.getElementById("place_name");
+		//const placeBudget = document.getElementById("place_budget");
+		//const placeRating = document.getElementById("place_rating");
+
+		let map;
+		let service;
+
 		function initMap() {
-			var map = new google.maps.Map(document.getElementById('map'), {AIzaSyAz1W2lasXllO19MekQuhZgVKYRYAGQYdg});
+
+			const seoul = { lat: 37.552, lng: 126.991 };
+			const map = new google.maps.Map(document.getElementById("map"), {
+				zoom: 12,
+				center: seoul,
+			});
+			let service = new google.maps.places.PlacesService(map);
+
+			document.getElementById("place_search_button")
+					.addEventListener('click', () => {
+						service.findPlaceFromQuery({
+							query: placeSearch.value,
+							fields: ['formatted_address', 'name', 'geometry', 'place_id']
+						}, function(results, status) {
+							if (status === google.maps.places.PlacesServiceStatus.OK) {
+								console.log(results[0].geometry.location.lat());
+									document.getElementById("areaLat").value=results[0].geometry.location.lat();
+								console.log(results[0].geometry.location.lng());
+									document.getElementById("areaLng").value=results[0].geometry.location.lng();
+								
+								//placeName.innerText = results[0].formatted_address + "\n" + results[0].name;
+								document.getElementById("areaAddress").value=results[0].formatted_address;
+								document.getElementById("areaName").value=results[0].name;
+								
+								$("b[id=areaNameV]").text(results[0].name);
+								$("b[id=areaAddressV]").text(results[0].formatted_address);
+
+
+								
+								map.setCenter(results[0].geometry.location);
+								new google.maps.Marker({
+    								position: results[0].geometry.location,
+    								map: map});
+    							map.setZoom(14);
+
+							} else {
+								alert("검색 결과가 없습니다.");
+							}
+						});
+					});
 		}
-		window.onload = initMap();
-		
-				
-				</script>
+
+		function createMarker(place) {
+			if (!place.geometry || !place.geometry.location) return;
+			const marker = new google.maps.Marker({
+				map,
+				position: place.geometry.location,
+			});
+			google.maps.event.addListener(marker, "click", () => {
+				infowindow.setContent(place.name || "");
+				infowindow.open(map);
+			});
+		}
+		$('input[type="text"]').keydown(function() {
+  			if (event.keyCode === 13) {
+    			event.preventDefault();
+  			};
+		});
+	</script>
 </section>
 </body>
 </html>

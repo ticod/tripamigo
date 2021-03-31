@@ -38,7 +38,7 @@ public class OAuthController {
         String userId = UserIdOAuthType.KAKAO.getValue() + infoDTO.getId();
         User findUser = userService.selectUserOne(userId);
 
-        if (findUser == null) {
+        if (findUser == null || !findUser.isUserStatus()) {
             // 회원 가입
             User user = userService.joinByKakao(tokens, infoDTO);
             session.setAttribute("loginUser", userService.selectUserOne(userId));

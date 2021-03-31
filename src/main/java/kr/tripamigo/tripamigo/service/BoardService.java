@@ -1,8 +1,11 @@
 package kr.tripamigo.tripamigo.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import kr.tripamigo.tripamigo.dto.BoardType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +74,11 @@ public class BoardService {
 
 	public void updateMagazine(Magazine dbMagazine) {
 		boardRepository.save(dbMagazine);
-		
 	}
+
+	public Map<BoardType, List<Board>> boardList() {
+        Map<BoardType, List<Board>> result = new HashMap<>();
+        return result;
+    }
 
 }

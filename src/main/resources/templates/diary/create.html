@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+  <title>CREATE DIARY</title>
+<body>
+<!-- Main Contents -->
+<section class="w3-container">
+	<form th:action="@{create}" method="post" th:object="${diaryFormDTO}">
+		<label for="name">제목</label>
+		<input type="text" th:field="*{name}" id="name">
+		<label class="w3-text-teal w3-left"><b>썸네일 이미지 등록</b></label>
+		<input type="file" id="file" name="file" class="w3-input w3-border w3-light-grey">
+		<label for="public">전체 공개</label>
+		<input type="radio" id="public" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PUBLIC}" checked>
+		<label for="follow">팔로워 공개</label>
+		<input type="radio" id="follow" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).FOLLOW}">
+		<label for="private">비 공개</label>
+		<input type="radio" id="private" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PRIVATE}">
+		<input type="submit" value="다이어리 생성">
+	</form>
+</section>
+
+</body>
+</html>

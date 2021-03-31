@@ -58,7 +58,7 @@
 			<span class="w3-left w3-small" th:if="${info.key.infoSeq==infocom.key.infoSeq}" th:text="'[ 댓글 '+${infocom.value}+' ]'"></span>
 		</th:block>
 				
-		<p th:text="' | '+${info.key.user.userId}+' | '+${#strings.replace(info.key.infoRegdate,'T',' ')}+' | 추천 '+${info.value}+' | 조회 '+${info.key.infoHits}" class="w3-right w3-small"></p>
+		<p th:text="' | '+${info.key.user.userNickname}+' | '+${#strings.replace(info.key.infoRegdate,'T',' ')}+' | 추천 '+${info.value}+' | 조회 '+${info.key.infoHits}" class="w3-right w3-small"></p>
 	</div>
 	
 </section>
