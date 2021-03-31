@@ -20,8 +20,12 @@ public class DiaryService {
     private final DiaryBoardRepository diaryBoardRepository;
 
     public List<Diary> getDiaryList(User user) {
-
         return diaryRepository.findAllByUserAndStatusOrderBySeq(user, true);
     }
 
+    public void createDiary(DiaryFormDTO diaryFormDTO, User loginUser) {
+        Diary diary = new Diary();
+        diary.createDiaryBy(diaryFormDTO, loginUser);
+        diaryRepository.save(diary);
+    }
 }

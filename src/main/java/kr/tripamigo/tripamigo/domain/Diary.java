@@ -1,5 +1,6 @@
 package kr.tripamigo.tripamigo.domain;
 
+import kr.tripamigo.tripamigo.dto.DiaryFormDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import kr.tripamigo.tripamigo.domain.board.Board;
 import java.util.List;
 
 @Entity @Table(name = "DIARY")
-@Getter @Setter @Builder
+@Getter @Setter
 @NoArgsConstructor
 public class Diary{
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,5 +39,13 @@ public class Diary{
 
     @OneToMany(mappedBy = "diary")
     private List<DiaryBoard> boards;
+
+    public void createDiaryBy(DiaryFormDTO diaryFormDTO, User user) {
+        this.user = user;
+        this.status = true;
+        this.open = diaryFormDTO.getOpenScope();
+        this.name = diaryFormDTO.getName();
+        this.thumbnail = diaryFormDTO.getThumbnail().getOriginalFilename();
+    }
 
 }

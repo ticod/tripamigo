@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import kr.tripamigo.tripamigo.domain.OpenScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -16,11 +17,8 @@ import lombok.ToString;
 public class DiaryFormDTO {
 
 	@NotBlank(message="제목을 입력하세요")
-    private String subject;
-	
-	@NotBlank(message="내용을 입력하세요")
-    private String content;
-    
+    private String name;
     private MultipartFile thumbnail;
+    private OpenScope openScope;
 
 }
