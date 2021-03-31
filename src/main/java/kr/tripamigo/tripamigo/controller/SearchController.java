@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,9 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.tripamigo.tripamigo.domain.board.Info;
-import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.CommentService;
 import kr.tripamigo.tripamigo.service.InfoService;
@@ -41,21 +43,35 @@ public class SearchController {
 
 	@GetMapping("/search")
 	public String home(Model model) {
+		List<String> city = Arrays.asList("서울특별시", "부산광역시", "대구광역시", "인천광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도","세종특별시");
+		Map<String, Integer> map = new TreeMap<>();
+		for(String s : city) {
+			int infoCount = infoService.infoCount(s);
+			map.put(s, infoCount);
+		}
+		model.addAttribute("infoCount",map);
+		
+		
 		return "community/search";
 	}
 	
-	@RequestMapping("/communitySearch")
-	public String communitySearch(String sido, String gugun, String findString, Model model) throws Exception{
-		
-		List<Magazine> searchMagazineList = boardService.searchMagazineList(sido, gugun, findString);
-		List<Info> searchInfoList = infoService.searchInfoList(sido, gugun, findString);
-		
-		model.addAttribute("searchMagazineList",searchMagazineList);
-		model.addAttribute("searchInfoList",searchInfoList);
-		
-		
-		return "community/communitySearch";
-	}
+//	@RequestMapping("/communitySearch")
+//	public @ResponseBody int communitySearch(@RequestParam("sido")String sido, Model model) throws Exception{
+//		System.out.println("communitySearch 메서드");
+//		List<String> city = Arrays.asList("서울특별시", "부산광역시", "대구광역시", "인천광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도","세종특별시");
+//		Map<String, Integer> map = new HashMap<>();
+//		for(String s : city) {
+//			int infoCount = infoService.infoCount(s);
+//			map.put(s, infoCount);
+//		}
+//		
+//		return infoCount;
+////		List<Magazine> searchMagazineList = boardService.searchMagazineList(sido, gugun, findString);
+////		List<Info> searchInfoList = infoService.searchInfoList(sido, gugun, findString);
+////		model.addAttribute("searchMagazineList",searchMagazineList);
+////		model.addAttribute("searchInfoList",searchInfoList);
+//		
+//	}
 	
 	@RequestMapping("/dataSearch")
 	public String dataSearch(String sido, String gugun, String findString, Model model) throws Exception {
