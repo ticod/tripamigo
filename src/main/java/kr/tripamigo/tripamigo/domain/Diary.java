@@ -18,14 +18,17 @@ public class Diary{
 	 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DIARY_SEQ")
-    private Long diarySeq;
+    private Long seq;
 
     @Column(name = "DIARY_STATUS")
-    private boolean diaryStatus;
+    private boolean status;
 
     @Enumerated
     @Column(name = "DIARY_OPEN")
-    private OpenScope diaryOpen;
+    private OpenScope open;
+
+    @Column(name = "DIARY_NAME")
+    private String name;
 
     @OneToMany(mappedBy = "diary")
     private List<DiaryBoard> boards;
