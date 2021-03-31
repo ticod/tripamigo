@@ -11,8 +11,25 @@
 
 	<!-- Calendar -->
 	<div id="calendar" class="w3-container w3-centered calendar">
-		<div class="w3-cell-row w3-border w3-border-black">
 
+		<div class="w3-cell-row w3-border">
+		<select id="year">
+			<option value="">연도를 선택하세요</option>
+			<option value="2020">2020</option>
+			<option value="2019">2019</option>
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
+			<option value="2015">2015</option>
+			<option value="2014">2014</option>
+			<option value="2013">2013</option>
+			<option value="2012">2012</option>
+			<option value="2011">2011</option>
+			<option value="2010">2010</option>
+		</select>
+		</div>
+
+		<div class="w3-cell-row w3-border w3-border-black">
 			<div class="w3-cell w3-border">일</div>
 			<div class="w3-cell w3-border">월</div>
 			<div class="w3-cell w3-border">화</div>
@@ -20,19 +37,10 @@
 			<div class="w3-cell w3-border">목</div>
 			<div class="w3-cell w3-border">금</div>
 			<div class="w3-cell w3-border">토</div>
-
 		</div>
-		<div class="w3-cell-row w3-border w3-border-black">
 
-			<div class="w3-cell w3-border">1</div>
-			<div class="w3-cell w3-border">2</div>
-			<div class="w3-cell w3-border">3</div>
-			<div class="w3-cell w3-border">4</div>
-			<div class="w3-cell w3-border">5</div>
-			<div class="w3-cell w3-border">6</div>
-			<div class="w3-cell w3-border">7</div>
+		<div class="w3-cell-row w3-border w3-border-black" id="calendar_value"></div>
 
-		</div>
 	</div>
 	<!-- Calendar END -->
 
@@ -116,7 +124,11 @@
 
 	</form>
 
-	<script>
+	<script type="module">
+		import {
+			Calendar
+		} from '/script/calendar.js';
+
 		class App {
 			constructor() {
 				this.idStartYear = document.getElementById("startYear");
@@ -143,6 +155,8 @@
 
 				this.idEndYear.addEventListener('change', this.changeEndMonthByYear.bind(this));
 				this.idEndMonth.addEventListener('change', this.changeEndDayByMonth.bind(this));
+
+				new Calendar();
 			}
 
 			range(start, end) {
