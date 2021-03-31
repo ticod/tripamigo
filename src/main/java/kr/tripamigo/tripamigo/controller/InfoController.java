@@ -86,6 +86,9 @@ public class InfoController {
 		}
 		model.addAttribute("infoRecommendCountSortedMap", infoTopFiveList);
 
+		//추천수 best1
+		
+		
 		return "community/info";
 	}
 
