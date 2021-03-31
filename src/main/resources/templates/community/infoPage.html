@@ -43,12 +43,13 @@
 			</span>
 		</div>
 		<div class="w3-row">
-			<div class="w3-col s3 w3-border">
+			<div class="w3-col s3">
 				<div class="w3-margin" style="height:400px">
-					구글맵 API
+					<div class="map" id="map" style="width:100%; height:100%"></div>
 				</div>
+				
 				<hr>
-				<div class="w3-margin" style="height:400px; text-align:left">
+				<div class="w3-margin" style="min-height:400px; text-align:left">
 					<font style="color:grey">장소명</font><br>
 					<b th:text="${info.area.name}" class="w3-xxlarge"></b><br><br> 
 					<font style="color:grey">주소</font><br>
@@ -60,7 +61,7 @@
 				
 				</div>
 			</div>
-			<div class="w3-col s9 w3-border">
+			<div class="w3-col s9 w3-border-left">
 				<div class="w3-margin" th:utext="${info.infoContent}" style="min-height: 840px; text-align: left">
 					
 				</div>
@@ -73,7 +74,7 @@
 		</div>
 		<br><br><br>
 		<hr>
-		<div class="w3-left w3-button">
+		<div class="w3-left">
 			<a href="/community/info">
 				<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
 			</a>
@@ -179,8 +180,8 @@
 			<div style="width: 100%;" th:if="${commentList.size > 0}">
 				<table style="width: 100%" class="w3-small w3-table-all">
 					<tr>
-						<th class="w3-large" colspan="3" style="text-align: center">댓글
-							목록</th>
+						<th class="w3-large" colspan="3" style="text-align: center">
+						댓글목록</th>
 					</tr>
 					
 					<tr th:each="comment : ${commentListMap}">
@@ -243,7 +244,11 @@
 			console.log(userSeq)
 			console.log(type)
 			if(contentUserSeq==userSeq){
-				alert('본인 댓글 추천 불가');
+				if(type==3){
+					alert('본인 댓글 추천 불가');
+				}else{
+					alert('본인 글 추천 불가');
+				}
 				return false;			
 			}
 			
@@ -268,6 +273,50 @@
 		function loginAlert(){
 			alert("로그인하세요")
 			location.href="/login";
+		}
+	</script>
+	<script async
+			th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapAPIKey} + '&libraries=places&callback=initMap'}">
+	</script>
+	<script>
+		const areaLat = Number(document.getElementById("areaLat").value);
+		console.log(areaLat);
+		console.log(typeof(areaLat));
+		
+		const areaLng = Number(document.getElementById("areaLng").value);
+		console.log(areaLng);
+		console.log(typeof(areaLng));
+		
+		
+		let map;
+		let service;
+
+		function initMap() {
+			const place = { lat: areaLat, lng: areaLng};
+			const map = new google.maps.Map(document.getElementById("map"), {
+				zoom: 12,
+				center: place,
+			});
+			let service = new google.maps.places.PlacesService(map);
+			new google.maps.Marker({
+    								position: place,
+    								map: map
+    								
+    								});
+    		map.setZoom(14);
+
+		}
+
+		function createMarker(place) {
+			if (!place.geometry || !place.geometry.location) return;
+			const marker = new google.maps.Marker({
+				map,
+				position: place.geometry.location,
+			});
+			google.maps.event.addListener(marker, "click", () => {
+				infowindow.setContent(place.name || "");
+				infowindow.open(map);
+			});
 		}
 	</script>
 	</section>
