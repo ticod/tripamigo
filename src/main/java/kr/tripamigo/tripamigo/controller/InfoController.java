@@ -38,6 +38,7 @@ import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.CommentService;
 import kr.tripamigo.tripamigo.service.InfoService;
 import kr.tripamigo.tripamigo.service.RecommendService;
+import kr.tripamigo.tripamigo.util.APIKey;
 
 @Controller
 @RequestMapping("/community")
@@ -170,6 +171,8 @@ public class InfoController {
 		Map<Comment, Integer> countCommentRecommend = recommendService.countCommentRecommend(commentList);
 		model.addAttribute("countCommentRecommend", countCommentRecommend);
 
+		// 구글맵 API
+		model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 		
 		infoHitsUp(request, response, infoSeq);
 
@@ -178,6 +181,7 @@ public class InfoController {
 
 	@GetMapping("/infoForm")
 	public String infoForm(InfoFormDTO infoFormDTO, Model model) {
+		model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 		return "community/infoForm";
 	}
 
@@ -187,6 +191,7 @@ public class InfoController {
 
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getFieldError());
+			model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 			return "community/infoForm";
 		}
 
@@ -210,7 +215,7 @@ public class InfoController {
 	public String readInfoForUpdate(InfoFormDTO infoFormDTO, @RequestParam("infoSeq") String infoSeq,
 			HttpSession session, Model model) {
 		Long iSeq = Long.parseLong(infoSeq);
-
+		
 		Info dbInfo = infoService.readInfo(iSeq);
 		User loginUser = (User) session.getAttribute("loginUser");
 		if (!loginUser.getUserId().equals(dbInfo.getUser().getUserId())
@@ -229,6 +234,8 @@ public class InfoController {
 
 		model.addAttribute("infoSeq", iSeq);
 		model.addAttribute("infoFormDTO", infoFormDTO);
+		// 구글맵 API
+		model.addAttribute("googleMapAPIKey", APIKey.GOOGLE_MAP);
 
 		return "community/infoUpdateForm";
 	}

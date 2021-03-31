@@ -3,7 +3,6 @@ package kr.tripamigo.tripamigo.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -21,7 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.tripamigo.tripamigo.domain.board.Info;
+import kr.tripamigo.tripamigo.domain.board.Magazine;
+import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.CommentService;
+import kr.tripamigo.tripamigo.service.InfoService;
 
 @Controller
 @RequestMapping("/community")
@@ -29,12 +32,31 @@ public class SearchController {
 
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private BoardService boardService;
+	
+	@Autowired
+	private InfoService infoService;
 
 	@GetMapping("/search")
 	public String home(Model model) {
 		return "community/search";
 	}
-
+	
+	@RequestMapping("/communitySearch")
+	public String communitySearch(String sido, String gugun, String findString, Model model) throws Exception{
+		
+		List<Magazine> searchMagazineList = boardService.searchMagazineList(sido, gugun, findString);
+		List<Info> searchInfoList = infoService.searchInfoList(sido, gugun, findString);
+		
+		model.addAttribute("searchMagazineList",searchMagazineList);
+		model.addAttribute("searchInfoList",searchInfoList);
+		
+		
+		return "community/communitySearch";
+	}
+	
 	@RequestMapping("/dataSearch")
 	public String dataSearch(String sido, String gugun, String findString, Model model) throws Exception {
 		System.out.println("시/도 : " + sido);

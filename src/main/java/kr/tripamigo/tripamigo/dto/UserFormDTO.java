@@ -20,6 +20,7 @@ public class UserFormDTO {
     private String id;
 	
 	@NotEmpty(message="비밀번호를 입력해주세요")
+	@Length(min=4, max=12, message = "비밀번호는 4자리부터 12자리까지 가능")
     private String password;
 	
 	@NotEmpty(message="이메일 필수 입력")
