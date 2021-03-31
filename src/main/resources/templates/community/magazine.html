@@ -32,7 +32,7 @@
 				<a href="#" th:href="@{'/community/magazinePage?boardSeq='+${magazine.boardSeq}}"
 					   th:text="'제목 : '+${#strings.substring(magazine.boardSubject,0,)}" >subject</a>
 			</div>
-			<div th:text="'작성자 : '+${magazine.User.userId}" class="w3-row w3-dark-grey" style="padding:10px; text-align:right; font-size:13px;">subject</div>
+			<div th:text="'작성자 : '+${magazine.User.userNickname}" class="w3-row w3-dark-grey" style="padding:10px; text-align:right; font-size:13px;">subject</div>
 		</div>
 	</div>
 </section>
