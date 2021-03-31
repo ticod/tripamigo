@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import kr.tripamigo.tripamigo.domain.Diary;
+import kr.tripamigo.tripamigo.service.DiaryService;
 import kr.tripamigo.tripamigo.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,14 +34,15 @@ public class MyPageController {
 
 	private final BoardService boardService;
 	private final PlanService planService;
-	/*
-	@Autowired
-	private DiaryService diaryService;
-	*/
+	private final DiaryService diaryService;
+
 	@RequestMapping("/home")
-    String home(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = boardService.magazineList();
-    	model.addAttribute(magazineList);
+    String home(Model model, HttpSession session) {
+
+		User loginUser = (User) session.getAttribute("loginUser");
+		List<Diary> diaryList = diaryService.getDiaryList(loginUser);
+		model.addAttribute("diaryList", diaryList);
+
         return "mypage/home";
     }
 
