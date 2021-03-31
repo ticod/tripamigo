@@ -1,6 +1,8 @@
 package kr.tripamigo.tripamigo.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,7 +12,8 @@ import kr.tripamigo.tripamigo.domain.board.Board;
 import java.util.List;
 
 @Entity @Table(name = "DIARY")
-@Getter @Setter
+@Getter @Setter @Builder
+@NoArgsConstructor
 public class Diary{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_SEQ")
@@ -29,6 +32,9 @@ public class Diary{
 
     @Column(name = "DIARY_NAME")
     private String name;
+
+    @Column(name = "DIARY_THUMBNAIL")
+    private String thumbnail;
 
     @OneToMany(mappedBy = "diary")
     private List<DiaryBoard> boards;
