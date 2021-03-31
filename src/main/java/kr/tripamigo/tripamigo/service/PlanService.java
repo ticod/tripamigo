@@ -43,7 +43,7 @@ public class PlanService {
 //        planDetailRepository.saveAll(planDetails);
     }
 
-    public List<Plan> listMyPlan(User user) {
+    public List<Plan> getMyPlanList(User user) {
         return planRepository.findAllByUserAndStatusOrderBySeqDesc(user, true);
     }
 
