@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="myPageLayout" class="w3-container main">
+<div th:fragment="myPageLayout" class="w3-container w3-card w3-margin w3-padding">
 
 	<div class="w3-row">
-		<div class="w3-col s3">
+		<div class="w3-col s4">
 			<a href="#"><img src="/imgs/mainbar.jpg" alt="X" style="width:100px; height:100px" class="w3-center w3-margin-top w3-circle"></a>
 		</div>
-		<div class="w3-col s3">
+		<div class="w3-col s2">
+			&nbsp;
+		</div>
+		<div class="w3-col s2">
+			&nbsp;
+		</div>
+		<div class="w3-col s2">
 			쪽지 : <a href="note">123</a>
 		</div>
-		<div class="w3-col s3">
+		<div class="w3-col s2">
 			<a href="addfollow">팔로우</a>
-		</div>
-		<div class="w3-col s3">
-			&nbsp;
 		</div>
 	</div>
 
 	<div class="w3-row">
-		<div class="w3-col s3">
+		<div class="w3-col s2">
+			&nbsp;
+		</div>
+		<div class="w3-col s2">
+			&nbsp;
+		</div>
+		<div class="w3-col s2">
 			<a href="#">팔로잉</a>
 		</div>
-		<div class="w3-col s3">
+		<div class="w3-col s2">
 			<a href="#">팔로워</a>
 		</div>
-		<div class="w3-col s3">
+		<div class="w3-col s2">
 			<a href="#">작성 글 수</a>
 		</div>
-		<div class="w3-col s3">
+		<div class="w3-col s2">
 			<a href="#">작성 댓글 수</a>
 		</div>
 	</div>
 
-	<div class="sidebar_my_page w3-border w3-white">
+	<div class="sidebar_my_page w3-card w3-white w3-padding">
 		<div>
-			<a href="diary">메인</a>
+			<a th:href="@{home}">메인</a>
 		</div>
 		<div>
 			<a href="plan">내 여행 계획</a>
