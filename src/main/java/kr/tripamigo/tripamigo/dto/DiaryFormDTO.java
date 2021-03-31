@@ -19,6 +19,6 @@ public class DiaryFormDTO {
 	@NotBlank(message="제목을 입력하세요")
     private String name;
     private MultipartFile thumbnail;
-    private OpenScope openScope;
+    private OpenScope open;
 
 }

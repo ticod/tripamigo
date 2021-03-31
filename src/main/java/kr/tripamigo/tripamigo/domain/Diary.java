@@ -43,7 +43,7 @@ public class Diary{
     public void createDiaryBy(DiaryFormDTO diaryFormDTO, User user) {
         this.user = user;
         this.status = true;
-        this.open = diaryFormDTO.getOpenScope();
+        this.open = diaryFormDTO.getOpen();
         this.name = diaryFormDTO.getName();
         this.thumbnail = diaryFormDTO.getThumbnail().getOriginalFilename();
     }
