@@ -62,7 +62,7 @@ public class MyPageController {
 		User loginUser = getLoginUser(session);
 		Map<BoardType, List<Board>> boardList = boardService.boardList();
 		List<Plan> planList = planService.getMyPlanList(loginUser);
-		List<Info> infoList = infoService.infoList();
+		List<Info> infoList = infoService.getInfoListBy(loginUser);
 
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("planList", planList);
