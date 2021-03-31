@@ -6,6 +6,7 @@ import kr.tripamigo.tripamigo.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,8 @@ public class DiaryController {
     }
 
     @GetMapping("/create")
-    String createDiary(DiaryFormDTO diaryFormDTO) {
+    String createDiary(Model model) {
+        model.addAttribute("diaryFormDTO", new DiaryFormDTO());
         return "diary/create";
     }
 
