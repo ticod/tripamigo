@@ -1,5 +1,7 @@
 package kr.tripamigo.tripamigo.service;
 
+import kr.tripamigo.tripamigo.domain.OpenScope;
+import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
 import kr.tripamigo.tripamigo.domain.board.PlanDetail;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
@@ -23,7 +25,7 @@ public class PlanService {
     }
 
     public List<Plan> listAll() {
-        return planRepository.findAllByStatus(true);
+        return planRepository.findAllByStatusAndOpen(true, OpenScope.PUBLIC);
     }
 
     public int countAll() {
@@ -39,6 +41,10 @@ public class PlanService {
                 .map(o -> new PlanDetail().createByDTO(plan, o))
                 .collect(Collectors.toList());
 //        planDetailRepository.saveAll(planDetails);
+    }
+
+    public List<Plan> listMyPlan(User user) {
+        return planRepository.findAllByUserAndStatusOrderBySeqDesc(user, true);
     }
 
 }

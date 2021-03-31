@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import kr.tripamigo.tripamigo.service.PlanService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,28 +24,28 @@ import kr.tripamigo.tripamigo.dto.DiaryFormDTO;
 import kr.tripamigo.tripamigo.dto.UserFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.BoardService;
-import kr.tripamigo.tripamigo.service.DiaryService;
 
 @Controller
 @RequestMapping("/mypage")
+@RequiredArgsConstructor
 public class MyPageController {
-	
-	@Autowired
-	private BoardService svc;
+
+	private final BoardService boardService;
+	private final PlanService planService;
 	/*
 	@Autowired
 	private DiaryService diaryService;
 	*/
 	@RequestMapping("/home")
     String home(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/home";
     }
 
 	@RequestMapping("/diary")
     String diary(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/diary";
     }
@@ -56,7 +57,7 @@ public class MyPageController {
 	
 	@PostMapping("/diaryForm")
 	public String diaryWrite(@ModelAttribute @Valid DiaryFormDTO diaryFormDTO, BindingResult bindingResult
-			,@RequestPart MultipartFile thumbnail, HttpServletRequest request, HttpSession session, Model model) throws Exception {
+			,@RequestPart MultipartFile thumbnail, HttpServletRequest request, HttpSession session, Model model) {
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getFieldError());
 			return "mypage/diaryForm";
@@ -69,57 +70,58 @@ public class MyPageController {
 		throw new LoginException("글쓰기 완료", "diary");
 	}
 	@RequestMapping("/plan")
-    String plan(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
-    	model.addAttribute(magazineList);
+    String plan(Model model, HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+
+		model.addAttribute("planList", planService.listMyPlan(loginUser));
         return "mypage/plan";
     }
 	
 	@RequestMapping("/board")
     String board(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/board";
     }
 	
 	@RequestMapping("/favorite")
     String favorite(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/favorite";
     }
 	
 	@RequestMapping("/note")
     String note(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/note";
     }
 	
 	@RequestMapping("/alarm")
     String alarm(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/alarm";
     }
 	
 	@RequestMapping("/followingview")
     String followingview(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/followingview";
     }
 	
 	@RequestMapping("/followerview")
     String followerview(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/followerview";
     }
 	
 	@RequestMapping("/comment")
     String comment(UserFormDTO userFormDTO, Model model) {
-		List<Magazine> magazineList = svc.magazineList();
+		List<Magazine> magazineList = boardService.magazineList();
     	model.addAttribute(magazineList);
         return "mypage/comment";
     }

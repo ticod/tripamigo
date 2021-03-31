@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{/fragment/mypagelayout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/fragment/mypagelayout :: layout(~{::title}, ~{::section}, ~{::style})}">
 <head>
     <title>mypage - home</title>
     <style>
@@ -12,7 +13,18 @@
 <body>
 <!-- Main Contents -->
 <section class="w3-padding">
-	내계획표시
+
+    <div th:if="${planList.size() == 0}">
+        글이 존재하지 않습니다.
+    </div>
+
+    <div th:each="plan : ${planList}" class="w3-row">
+        <a class="w3-col s4" th:text="${plan.subject}" th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
+        <div class="w3-col s4" th:text="${#strings.replace(plan.period.start, 'T', ' ')} + ' - ' + ${#strings.replace(plan.period.end, 'T', ' ')}"></div>
+        <div class="w3-col s2" th:text="${plan.user.userNickname}"></div>
+        <div class="w3-col s2" th:text="${#strings.replace(plan.regdate, 'T', ' ')}"></div>
+    </div>
+
 </section>
 <!-- Main Contents END -->
 
