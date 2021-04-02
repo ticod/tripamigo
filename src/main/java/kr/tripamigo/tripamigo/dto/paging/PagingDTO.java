@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class PagingDTO {
 
     private final int boardCount;
-    private final int pageCount;
+    private final int pageCount; // = end page
     private final int currentPage;
     private final int pageSize;
 
@@ -26,7 +26,7 @@ public class PagingDTO {
         int pageSize = pageable.getPageSize();
         int currentBlock = pageable.getPageNumber() / blockSize;
         int currentBlockFirstPage = currentBlock * blockSize;
-        int currentBlockEndPage = currentBlock * blockSize + (blockSize - 1);
+        int currentBlockEndPage = Math.min(currentBlock * blockSize + (blockSize - 1), pageCount);
 
         return PagingDTO.builder()
                 .boardCount(boardCount)
