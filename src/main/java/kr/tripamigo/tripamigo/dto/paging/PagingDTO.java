@@ -41,7 +41,7 @@ public class PagingDTO {
                 .currentBlock(currentBlock)
                 .currentBlockFirstPage(currentBlockFirstPage)
                 .currentBlockEndPage(currentBlockEndPage)
-                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage)
+                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1)
                         .toArray())
                 .build();
     }
