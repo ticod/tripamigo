@@ -36,7 +36,7 @@ public class PlanController {
     // List page
     @RequestMapping("")
     public String planHome(Model model, @PageableDefault(size = 10, sort = "regdate") Pageable pageable) {
-        int planCount = planService.countAllPaging();
+        int planCount = planService.countAll();
         model.addAttribute("planList", planService.listAllPaging(pageable));
         model.addAttribute("count", planCount);
         model.addAttribute("pagingDTO", PagingDTO.getPagingDTO(pageable, planCount, PagingDTO.BLOCK_SIZE_M));
