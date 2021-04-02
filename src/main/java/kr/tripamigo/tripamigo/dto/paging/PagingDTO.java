@@ -1,0 +1,45 @@
+package kr.tripamigo.tripamigo.dto.paging;
+
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.data.domain.Pageable;
+
+import java.util.stream.IntStream;
+
+@Getter
+@Builder
+public class PagingDTO {
+
+    private final int boardCount;
+    private final int pageCount;
+    private final int currentPage;
+    private final int pageSize;
+
+    // block : page 단위
+    private final int blockSize;
+    private final int currentBlock;
+    private final int currentBlockFirstPage;
+    private final int currentBlockEndPage;
+    private final int[] block; // page list
+
+    public PagingDTO getPagingDTO(Pageable pageable, int boardCount, int blockSize) {
+        int pageSize = pageable.getPageSize();
+        int currentBlock = pageable.getPageNumber() / blockSize;
+        int currentBlockFirstPage = currentBlock * blockSize;
+        int currentBlockEndPage = currentBlock * blockSize + (blockSize - 1);
+
+        return PagingDTO.builder()
+                .boardCount(boardCount)
+                .pageCount(pageSize / boardCount)
+                .currentPage(pageable.getPageNumber())
+                .pageSize(pageSize)
+                .blockSize(blockSize)
+                .currentBlock(currentBlock)
+                .currentBlockFirstPage(currentBlockFirstPage)
+                .currentBlockEndPage(currentBlockEndPage)
+                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage)
+                        .toArray())
+                .build();
+    }
+
+}
