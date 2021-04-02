@@ -8,6 +8,8 @@ import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,8 @@ public class PlanController {
     /*** Read ***/
     // List page
     @RequestMapping("")
-    public String planHome(Model model) {
-        model.addAttribute("planList", planService.listAll());
+    public String planHome(Model model, @PageableDefault(size = 10, sort = "regdate") Pageable pageable) {
+        model.addAttribute("planList", planService.listAllPaging(pageable));
         return "/plan/list";
     }
     

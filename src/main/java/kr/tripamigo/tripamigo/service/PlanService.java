@@ -9,6 +9,8 @@ import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
 import kr.tripamigo.tripamigo.repository.plan.PlanDetailRepository;
 import kr.tripamigo.tripamigo.repository.plan.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -48,6 +50,10 @@ public class PlanService {
 
     public List<Plan> getMyPlanList(User user) {
         return planRepository.findAllByUserAndStatusOrderBySeqDesc(user, true);
+    }
+
+    public List<Plan> listAllPaging(Pageable pageable) {
+        return planRepository.findAllByStatus(true, pageable).toList();
     }
 
 }
