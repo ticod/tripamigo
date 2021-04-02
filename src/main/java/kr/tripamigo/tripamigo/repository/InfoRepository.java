@@ -32,5 +32,6 @@ public interface InfoRepository {
 	void hitsUp(@Param("infoSeq") Long infoSeq);
 
 	List<Info> findAllByUserAndInfoStatusOrderByInfoSeqDesc(User user, boolean status);
-	
+
+    int countByStatus(boolean status);
 }
