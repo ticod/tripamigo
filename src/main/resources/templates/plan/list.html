@@ -25,6 +25,8 @@
 		<div class="w3-col s2" th:text="${#strings.replace(plan.regdate, 'T', ' ')}"></div>
 	</div>
 
+	<div th:replace="/fragment/paging :: page_list('/community/plan', ${pagingDTO}) "></div>
+
 </section>
 
 </body>

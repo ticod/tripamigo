@@ -2,10 +2,10 @@ package kr.tripamigo.tripamigo.controller;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
-import kr.tripamigo.tripamigo.dto.paging.PagingDTO;
 import kr.tripamigo.tripamigo.dto.plan.PeriodDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
+import kr.tripamigo.tripamigo.service.PagingService;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,7 @@ public class PlanController {
 
     // autowired
     private final PlanService planService;
+    private final PagingService pagingService;
 
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
@@ -36,10 +37,8 @@ public class PlanController {
     // List page
     @RequestMapping("")
     public String planHome(Model model, @PageableDefault(size = 10, sort = "regdate") Pageable pageable) {
-        int planCount = planService.countAll();
         model.addAttribute("planList", planService.listAllPaging(pageable));
-        model.addAttribute("count", planCount);
-        model.addAttribute("pagingDTO", PagingDTO.getPagingDTO(pageable, planCount, PagingDTO.BLOCK_SIZE_M));
+        model.addAttribute("pagingDTO", pagingService.getPlanPaging(pageable));
         return "/plan/list";
     }
     

@@ -2,7 +2,7 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
     <!-- Page List -->
-    <div th:fragment="page_list (uri, count, pagingDTO)">
+    <div th:fragment="page_list (uri, pagingDTO)">
 
         <div class="w3-bar w3-margin-top w3-padding">
             <a th:href="${uri + '?page=0'}" class="w3-button">&#10094;</a>
