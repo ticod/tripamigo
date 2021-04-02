@@ -10,6 +10,9 @@ import java.util.stream.IntStream;
 @Builder
 public class PagingDTO {
 
+    public static int BLOCK_SIZE_M = 5;
+    public static int BLOCK_SIZE_L = 10;
+
     private final int boardCount;
     private final int pageCount; // = end page
     private final int currentPage;
@@ -22,15 +25,16 @@ public class PagingDTO {
     private final int currentBlockEndPage;
     private final int[] block; // page list
 
-    public PagingDTO getPagingDTO(Pageable pageable, int boardCount, int blockSize) {
+    public static PagingDTO getPagingDTO(Pageable pageable, int boardCount, int blockSize) {
         int pageSize = pageable.getPageSize();
+        int pageCount = pageSize / boardCount;
         int currentBlock = pageable.getPageNumber() / blockSize;
         int currentBlockFirstPage = currentBlock * blockSize;
         int currentBlockEndPage = Math.min(currentBlock * blockSize + (blockSize - 1), pageCount);
 
         return PagingDTO.builder()
                 .boardCount(boardCount)
-                .pageCount(pageSize / boardCount)
+                .pageCount(pageCount)
                 .currentPage(pageable.getPageNumber())
                 .pageSize(pageSize)
                 .blockSize(blockSize)
