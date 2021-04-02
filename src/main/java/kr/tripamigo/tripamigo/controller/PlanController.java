@@ -2,6 +2,7 @@ package kr.tripamigo.tripamigo.controller;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
+import kr.tripamigo.tripamigo.dto.paging.PagingDTO;
 import kr.tripamigo.tripamigo.dto.plan.PeriodDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
@@ -35,7 +36,10 @@ public class PlanController {
     // List page
     @RequestMapping("")
     public String planHome(Model model, @PageableDefault(size = 10, sort = "regdate") Pageable pageable) {
+        int planCount = planService.countAllPaging();
         model.addAttribute("planList", planService.listAllPaging(pageable));
+        model.addAttribute("count", planCount);
+        model.addAttribute("pagingDTO", PagingDTO.getPagingDTO(pageable, planCount, PagingDTO.BLOCK_SIZE_M));
         return "/plan/list";
     }
     
