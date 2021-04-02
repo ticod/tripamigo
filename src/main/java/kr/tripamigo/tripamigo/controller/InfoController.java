@@ -15,7 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import kr.tripamigo.tripamigo.dto.BoardType;
+import kr.tripamigo.tripamigo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,10 +39,6 @@ import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.dto.CommentFormDTO;
 import kr.tripamigo.tripamigo.dto.InfoFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
-import kr.tripamigo.tripamigo.service.BoardService;
-import kr.tripamigo.tripamigo.service.CommentService;
-import kr.tripamigo.tripamigo.service.InfoService;
-import kr.tripamigo.tripamigo.service.RecommendService;
 import kr.tripamigo.tripamigo.util.APIKey;
 
 @Controller
@@ -56,11 +57,19 @@ public class InfoController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping("/info")
-	public String info(HttpSession session, Model model) throws Exception {
+	@Autowired
+	private PagingService pagingService;
 
-		List<Info> infoList = infoService.infoList();
+	@GetMapping("/info")
+	public String info(HttpSession session, Model model,
+					   @PageableDefault(size = 10, sort = "infoRegdate", direction = Sort.Direction.DESC)
+							   Pageable pageable)
+			throws Exception {
+
+		List<Info> infoList = infoService.getInfoListPaging(pageable);
+		// 페이징
 		model.addAttribute(infoList);
+		model.addAttribute("pagingDTO", pagingService.getPaging(BoardType.INFO, pageable));
 
 		// 추천수
 		Map<Info, Integer> infoRecommendCountMap = recommendService.countInfoRecommendList(infoList);
