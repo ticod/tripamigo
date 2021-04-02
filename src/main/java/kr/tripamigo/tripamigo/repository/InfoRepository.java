@@ -33,5 +33,5 @@ public interface InfoRepository {
 
 	List<Info> findAllByUserAndInfoStatusOrderByInfoSeqDesc(User user, boolean status);
 
-    int countByStatus(boolean status);
+    int countByInfoStatus(boolean infoStatus);
 }
