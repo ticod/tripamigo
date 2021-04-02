@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Getter
@@ -20,14 +23,15 @@ public class PagingDTO {
 
     // block : page 단위
     private final int blockSize;
+    private final int blockCount;
     private final int currentBlock;
     private final int currentBlockFirstPage;
     private final int currentBlockEndPage;
-    private final int[] block; // page list
+    private final List<Integer> block; // page list
 
     public static PagingDTO getPagingDTO(Pageable pageable, int boardCount, int blockSize) {
         int pageSize = pageable.getPageSize();
-        int pageCount = pageSize / boardCount;
+        int pageCount = boardCount / pageSize;
         int currentBlock = pageable.getPageNumber() / blockSize;
         int currentBlockFirstPage = currentBlock * blockSize;
         int currentBlockEndPage = Math.min(currentBlock * blockSize + (blockSize - 1), pageCount);
@@ -38,11 +42,12 @@ public class PagingDTO {
                 .currentPage(pageable.getPageNumber())
                 .pageSize(pageSize)
                 .blockSize(blockSize)
+                .blockCount(pageCount / blockSize)
                 .currentBlock(currentBlock)
                 .currentBlockFirstPage(currentBlockFirstPage)
                 .currentBlockEndPage(currentBlockEndPage)
-                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1)
-                        .toArray())
+//                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1).toArray())
+                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1).boxed().collect(Collectors.toList()))
                 .build();
     }
 
