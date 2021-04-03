@@ -1,0 +1,23 @@
+#calendar {
+    height: 560px;
+    width: 100%;
+}
+
+.cal_row {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    height: 80px;
+}
+
+.cal_col {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.cal_col > p {
+    padding: 0;
+    margin: auto;
+}

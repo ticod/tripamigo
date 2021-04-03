@@ -15,23 +15,23 @@ export class Calendar {
         let row = document.createElement("div");
 
         for (let i = 1; i <= total; i++) {
-            row.classList.add("w3-cell-row");
+            row.classList.add("cal-row");
             if (i % 7 === 1) {
                 this.calendarValue.appendChild(row);
                 row = document.createElement("div");
             }
 
             const col = document.createElement("span");
-            col.classList.add("w3-cell");
-            col.classList.add("w3-border");
-            col.classList.add("w3-border-black");
+            col.classList.add("cal_col");
             if (i % 7 === 0) {
                 col.classList.add("w3-blue");
             } else if (i % 7 === 1) {
                 col.classList.add("w3-red");
             }
+            const p = document.createElement("p");
 
-            col.innerHTML = (i <= date.getDay() || day > lastDay.getDate()) ? `&nbsp;` : `${day++}`;
+            p.innerHTML = (i <= date.getDay() || day > lastDay.getDate()) ? `&nbsp;` : `${day++}`;
+            col.appendChild(p);
             row.appendChild(col);
         }
     }

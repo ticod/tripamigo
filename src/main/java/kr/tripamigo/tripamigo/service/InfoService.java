@@ -6,6 +6,7 @@ import java.util.Locale;
 import kr.tripamigo.tripamigo.dto.AreaSummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.tripamigo.tripamigo.domain.User;
@@ -76,6 +77,10 @@ public class InfoService {
 		List<Info> infoList;
     	infoList = infoRepository.findAllByInfoStatusOrderByInfoSeqDesc(true);
 		return infoList;
+	}
+
+	public List<Info> getInfoListPaging(Pageable pageable) {
+		return infoRepository.findAllByInfoStatus(true, pageable).toList();
 	}
 
 	public void writeInfo(InfoFormDTO infoFormDTO, Area area, User user) {

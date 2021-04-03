@@ -2,13 +2,16 @@ package kr.tripamigo.tripamigo.controller;
 
 import kr.tripamigo.tripamigo.domain.User;
 import kr.tripamigo.tripamigo.domain.board.Plan;
+import kr.tripamigo.tripamigo.dto.BoardType;
 import kr.tripamigo.tripamigo.dto.plan.PeriodDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanDetailDTO;
 import kr.tripamigo.tripamigo.dto.plan.PlanFormDTO;
+import kr.tripamigo.tripamigo.service.PagingService;
 import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.util.APIKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +31,18 @@ public class PlanController {
 
     // autowired
     private final PlanService planService;
+    private final PagingService pagingService;
 
     private final static String REDIRECT_HOME = "redirect:/community/plan";
 
     /*** Read ***/
     // List page
     @RequestMapping("")
-    public String planHome(Model model, @PageableDefault(size = 10, sort = "regdate") Pageable pageable) {
+    public String planHome(Model model,
+                           @PageableDefault(size = 10, sort = "regdate", direction = Sort.Direction.DESC)
+                                   Pageable pageable) {
         model.addAttribute("planList", planService.listAllPaging(pageable));
+        model.addAttribute("pagingDTO", pagingService.getPaging(BoardType.PLAN, pageable));
         return "/plan/list";
     }
     

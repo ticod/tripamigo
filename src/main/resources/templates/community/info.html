@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>INFO</title>
   <style>
 	  table{border:solid 1px black;}
@@ -65,7 +66,9 @@
 				
 		<p th:text="' | '+${info.key.user.userNickname}+' | '+${#strings.replace(info.key.infoRegdate,'T',' ')}+' | 추천 '+${info.value}+' | 조회 '+${info.key.infoHits}" class="w3-right w3-small"></p>
 	</div>
-	
+
+	<div th:replace="/fragment/paging :: page_list(@{/community/info}, ${pagingDTO}) "></div>
+
 </section>
 
 </body>
