@@ -14,13 +14,33 @@
 <body>
 <!-- Main Contents -->
 <section class="w3-center w3-container" >
+
 	<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
 	<p class="w3-center w3-sans-serif">매거진</p>
 	<hr>
+	<style>
+	.searchInput{
+		width:300px;
+		height:50px;
+		color:grey;
+		border:none;
+		border-bottom: 1px solid #cccccc;
+		
+	}
+	</style>
+	<div>
+		<form action="magazine" method="get" id="magazineSearch">
+		<input type="text" class="searchInput" name="findString" id="findString" placeholder="검색어 입력" th:if="${findString!=null}" th:value="${findString}">
+		<input type="text" class="searchInput" name="findString" id="findString" placeholder="검색어 입력" th:unless="${findString!=null}" >
+		<input type="submit" value="매거진검색" class="w3-button w3-black">
+		</form>
+	</div>
+	
 	<div th:if="${session.loginUser != null}" class="w3-container">
 		<a href="magazineForm"><button th:if="${session.loginUser.userRank}!=0" class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button></a>
 	</div>
 	<div class="w3-row" style="padding:100px;">
+	<th:block th:if="${magazineList.size!=0}">
 		<div th:each="magazine : ${magazineList}" class="w3-col s4 w3-center w3-card" style="margin-right:10px; margin-left:10px; margin-bottom:100px; width:300px; height:350px;" >
 			<div class="w3-row" style="padding:0px; height:250px">
 				<a href="" th:href="@{'/community/magazinePage?boardSeq='+${magazine.boardSeq}}">
@@ -34,6 +54,29 @@
 			</div>
 			<div th:text="'작성자 : '+${magazine.User.userNickname}" class="w3-row w3-dark-grey" style="padding:10px; text-align:right; font-size:13px;">subject</div>
 		</div>
+	</th:block>
+	<th:block th:unless="${magazineList.size!=0}">
+		<div>
+			게시글이 없습니다.
+		</div>
+	</th:block>
+		
+	</div>
+	<div>
+		<th:block th:if="${magazineList.size!=0}">
+			<span th:each="pageNum : ${pageList}">
+				<a href="#" th:if="${findString eq null}" th:href="@{'/community/magazine?page=' + ${pageNum} + '&findString='}">
+					<font style="color: grey;" class="w3-button" th:if="${pageNum!=null}" th:text="${pageNum+1}" ></font>
+				</a>
+				<a href="#" th:unless="${findString eq null}" th:href="@{'/community/magazine?page=' + ${pageNum} + '&findString='+${findString}}">
+					<font style="color: grey;" class="w3-button" th:if="${pageNum!=null}"th:text="${pageNum+1}" ></font>
+				</a>
+			</span>
+		</th:block>
+		<th:block th:unless="${magazineList.size!=0}">
+			fff
+		</th:block>
+	
 	</div>
 </section>
 

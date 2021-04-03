@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +34,6 @@ import kr.tripamigo.tripamigo.domain.Comment;
 import kr.tripamigo.tripamigo.domain.Recommend;
 import kr.tripamigo.tripamigo.domain.RecommendType;
 import kr.tripamigo.tripamigo.domain.User;
-import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
 import kr.tripamigo.tripamigo.dto.CommentFormDTO;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
@@ -88,13 +90,28 @@ public class CommunityController {
 		return "community/home";
 	}
 
-	@GetMapping("/magazine")
-	public String magazine(HttpSession session, Model model) {
-		List<Magazine> magazineList = boardService.magazineList();
-		model.addAttribute(magazineList);
-
-		return "community/magazine";
-	}
+//	@GetMapping("/magazine")
+//	public String magazine(HttpSession session, Model model) {
+//		List<Magazine> magazineList = boardService.magazineList();
+//		model.addAttribute("magazineList",magazineList);
+//
+//		return "community/magazine";
+//	}
+	
+	 @RequestMapping("/magazine")
+	 public String magazine(Model model, @PageableDefault(page=0, size = 8, sort = "boardSeq") Pageable pageable, @RequestParam(value="findString",  required=false, defaultValue="") String findString) {
+		System.out.println("findString : "+findString);
+		if(findString.equals("") ) {
+			model.addAttribute("magazineList", boardService.magazineListAllPaging(pageable));
+			model.addAttribute("pageList", boardService.getPageList(pageable, null));
+		}else {
+			model.addAttribute("magazineList", boardService.magazineListAllPagingAndFind(pageable, findString));
+			model.addAttribute("findString", findString);
+			model.addAttribute("pageList", boardService.getPageList(pageable, findString));
+		}
+        model.addAttribute("curPage", pageable.getPageNumber());
+        return "community/magazine";
+    }
 
 	@GetMapping("/magazineForm") // AOP적용 필요
 	public String magazineForm(MagazineFormDTO magazineFormDTO, Model model) {
@@ -110,6 +127,8 @@ public class CommunityController {
 //    	throw new LoginException("글쓰기 완료","home");
 //    }
 
+	
+	
 	@PostMapping("/magazineForm")
 	public String magazineWrite(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
 			,@RequestPart MultipartFile file, HttpServletRequest request, HttpSession session, Model model) throws Exception {
