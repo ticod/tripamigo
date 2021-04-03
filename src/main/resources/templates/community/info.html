@@ -31,7 +31,7 @@
 			<p class="w3-padding" th:if="${#strings.length(sortedInfo.key.infoSubject)<14}" th:text="'&quot;'+${sortedInfo.key.infoSubject}+'&quot;'"></p>
 			<p class="w3-padding" th:unless="${#strings.length(sortedInfo.key.infoSubject)<14}" th:text="'&quot;'+${#strings.substring(sortedInfo.key.infoSubject,0,14)}+' ...&quot;'"></p>
 			
-			<p class="w3-small w3-padding" th:text="'추천수:'+${sortedInfo.value}"></p>
+			<p class="w3-small w3-tag w3-green w3-round" style="margin-left: 10px" th:text="'추천 '+${sortedInfo.value}"></p>
 		</a>
 	
 	</div>
@@ -48,8 +48,13 @@
 	</div>
 	
 	<div th:each="info : ${infoRecommendCountMap}" class="w3-container w3-card w3-panel w3-leftbar w3-border-blue w3-pale-blue">
-		<h4 th:text="'장소명 : '+${info.key.area.name}" style="font-weight:bold; text-align:left"></h4><br>
+		<h4 th:text="'장소명 : '+${info.key.area.name}" style="font-weight:bold; text-align:left"></h4>
 		
+		<th:block th:each="bestRecommendedInfo : ${bestRecommendedInfo}">
+			<span th:if="${info.key.infoSeq==bestRecommendedInfo.infoSeq}" th:text="'추천수 best 1'" class="w3-right w3-tag w3-round w3-red" style=""></span>
+		</th:block>
+		<br>
+
 		<span class="fa fa-quote-right w3-left w3-small"></span>
 		<a href="" th:href="@{'/community/infoPage?infoSeq='+${info.key.infoSeq}}">
 			<span th:text="${info.key.infoSubject}" class="w3-left"></span>

@@ -87,6 +87,9 @@ public class InfoController {
 		model.addAttribute("infoRecommendCountSortedMap", infoTopFiveList);
 
 		//추천수 best1
+		Info bestRecommendedInfo = infoTopFiveList.get(0).getKey();
+		model.addAttribute("bestRecommendedInfo",bestRecommendedInfo);
+		
 		
 		
 		return "community/info";

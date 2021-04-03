@@ -38,7 +38,7 @@
 							th:text="${info.infoSubject}" id="subject"></div>
 				<div class="w3-padding w3-display-bottomright" id="text"
 							th:text="'조회수 : ' + ${info.infoHits}" ></div>
-				<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성ID : '+${info.user.userId}"></div>
+				<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성자 : '+${info.user.userNickname}"></div>
 				<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + ${#strings.replace(info.infoRegdate,'T',' ')}"></div>
 			</span>
 		</div>
