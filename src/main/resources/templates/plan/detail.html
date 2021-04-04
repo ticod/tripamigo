@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org" th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>PLAN</title>
+  <style th:inline="text">
+	  @import url('/css/plan-detail.css');
+	  @import url('/css/plan-detail-table.css');
+  </style>
 <body>
 <!-- Main Contents -->
 <section class="w3-center w3-center-align w3-container" th:object="${plan}">
 
-	<!-- Header -->
-	<h1 th:text="*{subject}"></h1>
-	<p th:text="*{user.userNickname}"></p>
-	<p th:text="*{regdate}"></p>
-	<p th:text="*{hits}"></p>
+	<b class="w3-center w3-xxlarge w3-sans-serif">Plan</b>
+	<p class="w3-center w3-sans-serif">여행 계획</p>
+
+	<div class="w3-card w3-display-container w3-round w3-border w3-border-black plan-display-container">
+		<h2 class="w3-display-middle" th:text="*{subject}"></h2>
+		<p class="w3-display-topright" th:text="*{regdate}"></p>
+		<p class="w3-display-bottomleft" th:text="*{user.userNickname}"></p>
+		<p class="w3-display-bottomright" th:text="*{hits}"></p>
+	</div>
 
 	<!-- Detail Plan Table -->
-	<div class="w3-card w3-center w3-dropdown" style="width: 90%">
+	<div class="w3-card w3-center w3-dropdown w3-button plan-detail-table">
 		<h2>세부 일정 목록</h2>
 	</div>
 
 	<!-- Content -->
-	<div th:utext="*{content}"
-		 class="w3-row w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-border">
+	<div class="w3-card plan-detail-content">
+		<p th:utext="*{content}">
+		</p>
 	</div>
 
 	<!-- Comment -->
