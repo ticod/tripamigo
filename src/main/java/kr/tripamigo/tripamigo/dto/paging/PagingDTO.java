@@ -31,7 +31,7 @@ public class PagingDTO {
 
     public static PagingDTO getPagingDTO(Pageable pageable, int boardCount, int blockSize) {
         int pageSize = pageable.getPageSize();
-        int pageCount = boardCount / pageSize;
+        int pageCount = (boardCount - 1) / pageSize;
         int currentBlock = pageable.getPageNumber() / blockSize;
         int currentBlockFirstPage = currentBlock * blockSize;
         int currentBlockEndPage = Math.min(currentBlock * blockSize + (blockSize - 1), pageCount);
@@ -46,7 +46,6 @@ public class PagingDTO {
                 .currentBlock(currentBlock)
                 .currentBlockFirstPage(currentBlockFirstPage)
                 .currentBlockEndPage(currentBlockEndPage)
-//                .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1).toArray())
                 .block(IntStream.range(currentBlockFirstPage, currentBlockEndPage + 1).boxed().collect(Collectors.toList()))
                 .build();
     }
