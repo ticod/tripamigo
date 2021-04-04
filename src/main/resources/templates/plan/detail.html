@@ -20,8 +20,10 @@
 	</div>
 
 	<!-- Detail Plan Table -->
-	<div class="w3-card w3-center w3-dropdown w3-button plan-detail-table">
-		<h2>세부 일정 목록</h2>
+	<div class="w3-dropdown-click w3-center plan-detail-table">
+		<button class="w3-button w3-card" onclick="detailPlanDropDown()">
+			지금까지 작성한 일정 보기
+		</button>
 	</div>
 
 	<!-- Content -->
@@ -30,8 +32,22 @@
 		</p>
 	</div>
 
+	<!-- Buttons -->
+	<div class="w3-margin" style="display: flex; justify-content: space-between;">
+		<span style="text-align: left; width: 100%;">
+			<a class="w3-button w3-round w3-border" th:href="@{/community/plan}">목록</a>
+		</span>
+		<span style="text-align: right; width: 100%;">
+			<button class="w3-button w3-round w3-border">★</button>
+			<button class="w3-button w3-round w3-border" th:text="${'추천 0'}"></button>
+			<button class="w3-button w3-round w3-border">신고</button>
+		</span>
+	</div>
+
 	<!-- Comment -->
-	<div></div>
+	<div class="w3-card">
+		<div>comment 1</div>
+	</div>
 
 </section>
 

@@ -1,3 +1,7 @@
 .plan-detail-table {
     width: 100%;
 }
+
+.plan-detail-table > button {
+    width: 100%;
+}
