@@ -3,29 +3,53 @@
   <title>PLAN</title>
 <body>
 <!-- Main Contents -->
-<section class="w3-center w3-container" >
-	<h1>여행 계획</h1>
-	<a th:href="@{/community/plan/write/first}" class="w3-button">여행 계획 작성하기</a>
+<section class="w3-center w3-container">
 
-	<div class="w3-row w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-border">
-		<div class="w3-col s4">제목</div>
-		<div class="w3-col s4">일정</div>
-		<div class="w3-col s2">작성자</div>
-		<div class="w3-col s2">작성일</div>
+	<b class="w3-center w3-xxlarge w3-sans-serif">Plan</b>
+	<p class="w3-center w3-sans-serif">여행 계획</p>
+
+	<div class="w3-margin" style="text-align: right">
+		<a th:href="@{/community/plan/write/first}"
+		   class="w3-button w3-round w3-border w3-indigo w3-hover-white w3-hover-border-indigo w3-hover-text-indigo">
+			여행 계획 작성하기
+		</a>
 	</div>
 
-	<div th:if="${planList.size() == 0}">
-		글이 존재하지 않습니다.
-	</div>
+	<div class="w3-card">
 
-	<div th:each="plan : ${planList}" class="w3-row">
-		<a class="w3-col s4" th:text="${plan.subject}" th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
-		<div class="w3-col s4" th:text="${#strings.replace(plan.period.start, 'T', ' ')} + ' - ' + ${#strings.replace(plan.period.end, 'T', ' ')}"></div>
-		<div class="w3-col s2" th:text="${plan.user.userNickname}"></div>
-		<div class="w3-col s2" th:text="${#strings.replace(plan.regdate, 'T', ' ')}"></div>
-	</div>
+		<div class="w3-row w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-border w3-border-black">
+			<div class="w3-col s4 w3-border">제목</div>
+			<div class="w3-col s4 w3-border">일정</div>
+			<div class="w3-col s2 w3-border">작성자</div>
+			<div class="w3-col s2 w3-border">작성일</div>
+		</div>
 
-	<div th:replace="/fragment/paging :: page_list(@{/community/plan}, ${pagingDTO}) "></div>
+		<div th:if="${planList.size() == 0}">
+			글이 존재하지 않습니다.
+		</div>
+
+		<div th:each="plan : ${planList}" class="w3-row w3-margin-bottom">
+			<a th:if="${#strings.length(plan.subject) > 15}"
+			   class="w3-col s4 w3-border w3-padding"
+			   th:text="${#strings.substring(plan.subject, 0, 15) + '...'}"
+			   th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
+			<a th:unless="${#strings.length(plan.subject) > 15}"
+			   class="w3-col s4 w3-border w3-padding"
+			   th:text="${plan.subject}"
+			   th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
+			<div class="w3-col s4 w3-border w3-padding"
+				 th:text="${#temporals.format(plan.period.start, 'yyyy-MM-dd HH시')}
+				 	+ ' - '
+				 	+ ${#temporals.format(plan.period.end, 'yyyy-MM-dd HH시')}"></div>
+			<div class="w3-col s2 w3-border w3-padding"
+				 th:text="${plan.user.userNickname}"></div>
+
+			<div class="w3-col s2 w3-border w3-padding"
+				 th:text="${#temporals.format(plan.regdate, 'yyyy-MM-dd')}"></div>
+		</div>
+
+		<div th:replace="/fragment/paging :: page_list(@{/community/plan}, ${pagingDTO}) "></div>
+	</div>
 
 </section>
 
