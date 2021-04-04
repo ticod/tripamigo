@@ -13,45 +13,39 @@
 	<!-- Calendar -->
 	<div id="calendar" class="calendar">
 
-		<div class="cal_row">
-			<div class="cal_col">
-				<select id="year">
-					<option value="">연도를 선택하세요</option>
-					<option value="2020">2020</option>
-					<option value="2019">2019</option>
-					<option value="2018">2018</option>
-					<option value="2017">2017</option>
-					<option value="2016">2016</option>
-					<option value="2015">2015</option>
-					<option value="2014">2014</option>
-					<option value="2013">2013</option>
-					<option value="2012">2012</option>
-					<option value="2011">2011</option>
-					<option value="2010">2010</option>
+		<div class="cal-select-bar">
+			<span>
+				<select name="cal-year" id="cal-year">
+					<option value="">연도</option>
 				</select>
-			</div>
+			</span>
+			<span>
+				<select name="cal-month" id="cal-month">
+					<option value="">월</option>
+				</select>
+			</span>
 		</div>
 
-		<div class="cal_row">
-			<div class="cal_col s1 w3-border">
+		<div class="cal-row">
+			<div class="cal-col">
 				<p>일</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>월</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>화</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>수</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>목</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>금</p>
 			</div>
-			<div class="cal_col s1 w3-border">
+			<div class="cal-col">
 				<p>토</p>
 			</div>
 		</div>
@@ -62,7 +56,7 @@
 	<!-- Calendar END -->
 
 	<!-- 전체 일정 입력 폼 (Period Form) -->
-	<form th:action="@{first}" method="post" th:object="${periodDTO}">
+	<form th:action="@{first}" method="post" th:object="${periodDTO}" class="w3-card">
 
 		<h3>일정 시작 시간을 선택하세요!</h3>
 
@@ -177,7 +171,7 @@
 			}
 
 			range(start, end) {
-				return Array(end - start + 1).fill(start).map((x, y) => x + y)
+				return Array(end - start + 1).fill(start).map((x, y) => x + y);
 			}
 
 			valueAppendChildTo(target, values) {
