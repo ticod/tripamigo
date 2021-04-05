@@ -5,6 +5,6 @@
 - 권도훈, 서석근, 오승현
 
 # 기술 스텍
-- Java, Spring Boot / Gradle
-- JPA, MariaDB (AWS RDS)
+- Java, Spring Boot, Gradle
+- Spring Data JPA, MariaDB (AWS RDS)
 - thymeleaf, javascript, jQuery, w3css
