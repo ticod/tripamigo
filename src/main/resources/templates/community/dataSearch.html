@@ -10,7 +10,7 @@
 <!-- Main Contents -->
 <section class="w3-center w3-container" >
 	<b class="w3-center w3-xxlarge w3-sans-serif" id="top">Search</b>
-	<p class="w3-center w3-sans-serif">공공데이터검색</p><hr><br>
+	<p class="w3-center w3-sans-serif">관광지 정보 검색</p><hr><br>
 	
 	<div id="loading" class="w3-modal">
 		<div class="w3-modal-content w3-card-4 w3-animate-top w3-round-xlarge" style="width:200px; height:130px;">
@@ -29,15 +29,15 @@
 			<input type="text" name="findString" id="findString" placeholder="검색어 입력">
 			
 			
-			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-green">공공데이터검색</button>
-			<button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button>
+			<button type="button" onclick="dataSearch()" class="w3-button w3-round-xlarge w3-green">장소 및 축제 검색</button>
+			<!-- <button type="button" onclick="CommunitySearch()" class="w3-button w3-round-xlarge w3-teal">게시글검색</button> -->
 		</form>
 	</div>
 	
 	<div class="w3-container">
 		<h2 th:text="'지역 : '+${sido}+' '+${gugun}"></h2>
 		<h2 th:text="'검색어 : '+${findString}"></h2>
-		<p>검색결과</p>
+		<p>에 대한 공공데이터(&quot;data.go.kr&quot;, &quot;culture.go.kr&quot;)검색결과 입니다.</p>
 	</div>
 	<div>
     	<a href="#place"><font class="w3-button w3-round-xlarge w3-orange">장소</font></a>

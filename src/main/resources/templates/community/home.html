@@ -6,52 +6,58 @@
 <body>
 
 <!-- Main Contents -->
-<section class="w3-padding">
-    <div class="w3-row w3-margin">
-        <div class="w3-col s6">
-            <h5>여행 계획</h5>
+<section class="w3-center w3-container">
+	<b class="w3-center w3-xxlarge w3-sans-serif" id="top">Main</b>
+	<p class="w3-center w3-sans-serif">홈</p><hr><br>
+	
+    <div class="w3-row w3-margin w3-center w3-container" style="justify-content: center; display: flex; ">
+        
+        <div class="w3-col s4" style="margin-right: 50px;">
+        	<div class="w3-tag w3-indigo" style="width:100%; padding:10px;">
+            	<b style="font-size: 20px">여행 계획</b>
+            </div>
             <div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
+                <th:block th:each="plan : ${planList}">
+                	<div th:text="' · '+${plan.subject}" class="w3-leftbar w3-border-indigo w3-border-bottom w3-pale-blue" style="text-align: left; padding-top:5px;padding-left: 20px; height:35px;">제목1</div>
+                </th:block>
             </div>
         </div>
-        <div class="w3-col s6">
-            <h5>여행 정보</h5>
-            <div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
+        
+        <div class="w3-col s4">
+            <div class="w3-tag w3-blue" style="width:100%; padding:10px;">
+            	<b style="font-size: 20px">여행 정보</b>
             </div>
-        </div>
-    </div>
-
-    <div class="w3-row w3-margin">
-        <div class="w3-col s6">
-            <h5>홍보</h5>
             <div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-            </div>
-        </div>
-        <div class="w3-col s6">
-            <h5>매거진</h5>
-            <div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
-                <div>제목 1</div>
+            	<th:block th:each="info : ${infoList}">
+                	<div th:text="' · '+${info.infoSubject}" class="w3-leftbar w3-border-blue w3-border-bottom w3-pale-blue" style="text-align: left; padding-top:5px;padding-left: 20px; height:35px;">제목 1</div>
+                </th:block>
             </div>
         </div>
     </div>
+<br><br>
+    <div class="w3-row w3-margin w3-center w3-container" style="justify-content: center; display: flex; "> 	
+        <div class="w3-col s4" style="margin-right: 50px;">
+        	<div class="w3-tag w3-red" style="width:100%; padding:10px;">
+            	<b style="font-size: 20px">홍보</b>
+            </div>
+            <div>
+                <th:block th:each="plan : ${planList}">
+                	<div th:text="' · '+${plan.subject}" class="w3-leftbar w3-border-red w3-border-bottom w3-pale-blue" style="text-align: left; padding-top:5px;padding-left: 20px; height:35px;">제목1</div>
+                </th:block>
+            </div>
+        </div>
+        <div class="w3-col s4" style="margin-right: 50px;">
+        	<div class="w3-tag w3-green" style="width:100%; padding:10px;">
+            	<b style="font-size: 20px">매거진</b>
+            </div>
+            <div>
+                <th:block th:each="magazine : ${magazineList}">
+                	<div th:text="' · '+${magazine.boardSubject}" class="w3-hover-opercity w3-leftbar w3-border-green w3-border-bottom w3-pale-blue" style="text-align: left; padding-top:5px;padding-left: 20px; height:35px;">제목1</div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br>
 </section>
 <!-- Main Contents END -->
 

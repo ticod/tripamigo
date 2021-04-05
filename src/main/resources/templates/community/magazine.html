@@ -62,19 +62,29 @@
 	</th:block>
 		
 	</div>
+<!-- <div>
+	<div th:replace="/fragment/paging :: page_list(@{/community/magazine}, ${pagingDTO}) "></div>
+	</div>
+	 -->	
 	<div>
 		<th:block th:if="${magazineList.size!=0}">
 			<span th:each="pageNum : ${pageList}">
 				<a href="#" th:if="${findString eq null}" th:href="@{'/community/magazine?page=' + ${pageNum} + '&findString='}">
-					<font style="color: grey;" class="w3-button" th:if="${pageNum!=null}" th:text="${pageNum+1}" ></font>
+					<th:block th:if="${pageNum!=null}">
+						<font th:if="${pageNum==curPage}" class="w3-button w3-indigo w3-hover-none" th:text="${pageNum+1}" ></font>
+						<font th:unless="${pageNum==curPage}" class="w3-button w3-hover-indigo" th:text="${pageNum+1}" ></font>
+					</th:block>
 				</a>
 				<a href="#" th:unless="${findString eq null}" th:href="@{'/community/magazine?page=' + ${pageNum} + '&findString='+${findString}}">
-					<font style="color: grey;" class="w3-button" th:if="${pageNum!=null}"th:text="${pageNum+1}" ></font>
+					<th:block th:if="${pageNum!=null}">
+						<font th:if="${pageNum==curPage}" class="w3-button w3-indigo w3-hover-none" th:text="${pageNum+1}" ></font>
+						<font th:unless="${pageNum==curPage}" class="w3-button w3-hover-indigo" th:text="${pageNum+1}" ></font>
+					</th:block>
 				</a>
 			</span>
 		</th:block>
 		<th:block th:unless="${magazineList.size!=0}">
-			fff
+			-
 		</th:block>
 	
 	</div>

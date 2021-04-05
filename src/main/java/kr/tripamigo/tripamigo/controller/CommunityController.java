@@ -15,7 +15,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +33,18 @@ import kr.tripamigo.tripamigo.domain.Comment;
 import kr.tripamigo.tripamigo.domain.Recommend;
 import kr.tripamigo.tripamigo.domain.RecommendType;
 import kr.tripamigo.tripamigo.domain.User;
+import kr.tripamigo.tripamigo.domain.board.Info;
 import kr.tripamigo.tripamigo.domain.board.Magazine;
+import kr.tripamigo.tripamigo.domain.board.Plan;
+import kr.tripamigo.tripamigo.dto.BoardType;
 import kr.tripamigo.tripamigo.dto.CommentFormDTO;
 import kr.tripamigo.tripamigo.dto.MagazineFormDTO;
 import kr.tripamigo.tripamigo.exception.LoginException;
 import kr.tripamigo.tripamigo.service.BoardService;
 import kr.tripamigo.tripamigo.service.CommentService;
+import kr.tripamigo.tripamigo.service.InfoService;
+import kr.tripamigo.tripamigo.service.PagingService;
+import kr.tripamigo.tripamigo.service.PlanService;
 import kr.tripamigo.tripamigo.service.RecommendService;
 
 @Controller
@@ -48,12 +53,21 @@ public class CommunityController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private InfoService infoService;
+	
+	@Autowired
+	private PlanService planService;
 
 	@Autowired
 	private CommentService commentService;
 
 	@Autowired
 	private RecommendService recommendService;
+	
+	@Autowired
+	private PagingService pagingService;
 
 	private void boardHitsUp(HttpServletRequest request, HttpServletResponse response, Long boardSeq) {
 		String cookieName = boardSeq + "";
@@ -87,6 +101,14 @@ public class CommunityController {
 
 	@RequestMapping("/home")
 	public String home(Model model) {
+		List<Magazine> magazineList = boardService.magazineList().subList(0, 5);
+		List<Info> infoList = infoService.infoList().subList(0, 5);
+		List<Plan> planList = planService.listAll().subList(0, 5);
+		model.addAttribute(magazineList);
+		model.addAttribute(infoList);
+		model.addAttribute(planList);
+		
+		
 		return "community/home";
 	}
 
@@ -101,15 +123,23 @@ public class CommunityController {
 	 @RequestMapping("/magazine")
 	 public String magazine(Model model, @PageableDefault(page=0, size = 8, sort = "boardSeq") Pageable pageable, @RequestParam(value="findString",  required=false, defaultValue="") String findString) {
 		System.out.println("findString : "+findString);
+		
+		
 		if(findString.equals("") ) {
 			model.addAttribute("magazineList", boardService.magazineListAllPaging(pageable));
 			model.addAttribute("pageList", boardService.getPageList(pageable, null));
+			
+			model.addAttribute("pagingDTO", pagingService.getPaging(BoardType.MAGAZINE, pageable));
 		}else {
 			model.addAttribute("magazineList", boardService.magazineListAllPagingAndFind(pageable, findString));
-			model.addAttribute("findString", findString);
 			model.addAttribute("pageList", boardService.getPageList(pageable, findString));
+			model.addAttribute("findString", findString);
+			
+			model.addAttribute("pagingDTO", pagingService.getSearchPaging(BoardType.MAGAZINE, pageable, findString));
 		}
-        model.addAttribute("curPage", pageable.getPageNumber());
+        
+		
+		model.addAttribute("curPage", pageable.getPageNumber());
         return "community/magazine";
     }
 
