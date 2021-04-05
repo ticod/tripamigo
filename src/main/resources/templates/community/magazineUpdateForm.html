@@ -1,18 +1,99 @@
 <!DOCTYPE html>
-<html th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
-  <title>Tripamigo | MAGAZINE</title>
-  <style>
-  a{text-decoration:none;}
-  </style>
+<html
+	th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
+<title>Tripamigo | MAGAZINE</title>
+<style>
+a {
+	text-decoration: none;
+}
+</style>
 
 <body>
 
-<!-- Main Contents -->
-<section class="w3-center w3-container" >
-  <b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
-  <p class="w3-center w3-sans-serif">게시글수정</p><hr><br>
- 
-  <script th:inline="javascript">
+	<!-- Main Contents -->
+	<section class="w3-center w3-container">
+		<script type="text/javascript"
+			src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<b class="w3-center w3-xxlarge w3-sans-serif">Magazines</b>
+		<p class="w3-center w3-sans-serif">게시글수정</p>
+		<hr>
+		<br>
+
+		<form id="magazineForm" role="form" onsubmit="return fileChk()"
+			action="updateBoard" th:object="${magazineFormDTO}" method="post"
+			enctype="multipart/form-data">
+			<div class="w3-table w3-centered" style="width: 100%;">
+				<div>
+					<input type="text" class="w3-input w3-border" th:field="*{subject}"
+						name="subject">
+					<p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">subject
+						Error</p>
+				</div>
+				<div>
+					<textarea rows="15" th:field="*{content}" name="content1"
+						id="content1" style="width: 100%; height: 100%;"
+						placeholder="내용 입력"></textarea>
+					<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content
+						Error</p>
+					<script th:inline="javascript">
+				CKEDITOR.replace("content1",{filebrowserImageUploadUrl:"imgupload"})
+				</script>
+				</div>
+				<div>
+
+					<hr>
+					<label class="w3-text-teal w3-left"><b>장소 태그(최대 5개)</b></label> <br>
+					<div id="tag-list" style="width: 100%; height: 60px"
+						class="w3-padding w3-light-grey"></div>
+					<div>
+						<input type="hidden" name="tags">
+						<th:block th:each="dbTag : ${dbTagList}">
+							<input type="hidden" name="dbTags" th:value="${dbTag}">
+						</th:block>
+						<input id="tag" name="tag" type="text"
+							style="width: 200px; height: 40px" class="w3-border"> <input
+							name='save' type="button" value="추가"
+							class="w3-button w3-border w3-blue">
+					</div>
+				</div>
+				<br>
+				<hr>
+				<label class="w3-text-teal w3-left"><b>썸네일 이미지 등록</b></label><br>
+				<div class="w3-light-grey">
+					<input type="hidden" name="thumb"
+						th:value="${magazineFormDTO.thumbnail}">
+					<div id="file_desc"
+						th:if="${magazineFormDTO.thumbnail != null} and ${magazineFormDTO.thumbnail != ''}"
+						style="width: 30%; border-bottom: 1px solid #cccccc">
+						<label class="w3-left w3-small"><b class="w3-small">**
+								첨부된 이미지 파일 :&nbsp;&nbsp;&nbsp;</b></label> <label id="thumb"
+							class="w3-left w3-small" th:text="*{thumbnail}"></label>&nbsp;
+						<button type="button" onclick="fileDelete()"
+							class="w3-left w3-small w3-blue w3-round-large w3-card"
+							style="margin-left: 5px; margin-top: 1px; border: none;">X</button>
+					</div>
+					<input type="file" th:field="*{file}" id="file" name="file"
+						class="w3-input w3-light-grey">
+
+				</div>
+				<div>
+					<input type="hidden" name="magazineSeq" th:value="${magazineSeq}">
+					<input type="submit" value="수정완료"
+						class="w3-btn w3-blue w3-round-xlarge"> <input
+						type="button" onclick="cancel()" value="수정취소"
+						class="w3-btn w3-blue-grey w3-round-xlarge">
+				</div>
+			</div>
+		</form>
+<script th:inline="javascript">
+	function fileDelete(){
+		document.getElementById('magazineForm').thumb.value="";
+		file_desc.style.display="none";
+	}
+</script>
+<script th:inline="javascript">
   	function cancel(){
   		if(confirm("작성을 취소하시겠습니까?") == true){
 			location.href="/community/magazine";	
@@ -37,156 +118,86 @@
 		}
 		return true;
   	}
-  </script>
-<script type="text/javascript" src="http://cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
-<!-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>-->
-	<form id="magazineForm" role="form" onsubmit="return fileChk()" action="updateBoard" th:object="${magazineFormDTO}" method="post"
-	enctype="multipart/form-data">
-		<div class="w3-table w3-centered" style="width:100%;">
-			<div>
-				<input type="text" class="w3-input w3-border" th:field="*{subject}" name="subject">
-				<p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">subject Error</p>
-			</div>
-			<div>
-				<textarea rows="15" th:field="*{content}" name="content1" id="content1" style="width:100%; height:100%;" placeholder="내용 입력"></textarea>
-				<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content Error</p>
-				<script th:inline="javascript">
-				CKEDITOR.replace("content1",{filebrowserImageUploadUrl:"imgupload"})
-				</script>
-	<!-- <script>
-    ClassicEditor
-        .create( document.querySelector( '#content1' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-    </script>-->
-			</div>
-			<div>
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-				<script th:inline="javascript">
-					
-					function deleteTag(b){
- 							b.remove();
- 							var tags = "";
-	  						 	
-  						 	$("b[name='tag1']").each(function(index, item){
-	  							tags += $(item).text()+',';
-  						 	})
-	  							
-  						 	console.log(tags)
-	  							
-  						 	tag.value = "";
-  						 	tag.focus();
-	  						  						 		
-  						 	$("input[name='tags']").val(tags);
- 						}
- 					function showTags(){
- 						var tt = '';
-						$("input[name='dbTags']").each(function(index, item){
-		  					tt = $(item).val();
-		  					$("div[id='tag-list']").append("<button class='w3-tag w3-blue' style=\"border:none;margin:3px;\" type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+tt+"</b></button>");
-  						})
-  						var tags = "";
-  						$("b[name='tag1']").each(function(index, item){
-	  						tags += $(item).text()+',';
-  				 		})
-  									
-  						$("input[name='tags']").val(tags);
-  						console.log(tags)
+</script>
+<script th:inline="javascript">
+	function deleteTag(b){
+ 		b.remove();
+ 		var tags = "";
+	  	$("b[name='tag1']").each(function(index, item){
+	  		tags += $(item).text()+',';
+  		})
+	  	console.log(tags)
+	  	tag.value = "";
+  		tag.focus();
+	  	$("input[name='tags']").val(tags);
+	}
  					
- 					}
-					$(function () {
- 						
- 						 showTags();
- 						 $("input[name='save']").click(function () {
- 						 	tag = document.getElementById('tag');
+ 	function showTags(){
+ 		var tt = '';
+		$("input[name='dbTags']").each(function(index, item){
+		tt = $(item).val();
+		$("div[id='tag-list']").append("<button class='w3-tag w3-blue' style=\"border:none;margin:3px;\" type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+tt+"</b></button>");
+  		})
+  		var tags = "";
+  		$("b[name='tag1']").each(function(index, item){
+	  		tags += $(item).text()+',';
+  		})
+  									
+  		$("input[name='tags']").val(tags);
+  			console.log(tags)
+ 	}
+	
+	$(function () {
+ 		showTags();
+ 		 $("input[name='save']").click(function () {
+ 		tag = document.getElementById('tag');
  						 	
- 						 	var siz = $("b[name='tag1']").length;
+ 		var siz = $("b[name='tag1']").length;
  						 	
- 						 	if(tag.value!='' && siz!=5){
+ 		if(tag.value!='' && siz!=5){
+ 			// 태그 중복방지
+ 			var tagList = [];
+ 			$("b[name='tag1']").each(function(index, item){
+	  			tagList.push($(item).text());
+  			});
+  			var t = $("input[name='tag']").val();
+ 			var chkTag = '#'+t;
  						 		
- 						 		// 태그 중복방지
- 						 		var tagList = [];
- 						 		$("b[name='tag1']").each(function(index, item){
-	  						 		tagList.push($(item).text());
-  						 		});
-  						 		var t = $("input[name='tag']").val();
- 						 		var chkTag = '#'+t;
- 						 		
- 						 		if(tagList.includes(chkTag)){
- 						 			alert('중복 태그 존재');
- 						 			tag.value = "";
-  						 			tag.focus();
+ 			if(tagList.includes(chkTag)){
+ 				alert('중복 태그 존재');
+ 				tag.value = "";
+  				tag.focus();
   						 			
- 						 		}else{
-	 						 		//화면에 태그 출력
-	  						 		$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
+ 			}else{
+	 			//화면에 태그 출력
+	  			$("div[id='tag-list']").append("<button class='w3-button w3-white w3-border w3-border-blue' type=\"button\" onclick='deleteTag(this)' name='tag2'><b name='tag1'>#"+t+"</b></button>");
 	  						 		
-  						 			//서버로 전송하기 위한 문자열 만들어 input hidden으로 넘기기.
-  						 			var tags = "";
+  				//서버로 전송하기 위한 문자열 만들어 input hidden으로 넘기기.
+  				var tags = "";
+		  		$("b[name='tag1']").each(function(index, item){
+		  			tags += $(item).text()+',';
+  				})
 		  						 	
-  						 			$("b[name='tag1']").each(function(index, item){
-		  						 		tags += $(item).text()+',';
-  						 			})
+  				console.log(tags)
 		  						 	
-  						 			console.log(tags)
+  				tag.value = "";
+  				tag.focus();
 		  						 	
-  						 			tag.value = "";
-  						 			tag.focus();
-		  						 	
-  						 			
-  						 			$("input[name='tags']").val(tags);
-  						 		}
-  						 	}else{
-  						 		if(siz >= 5){
-  						 			alert('태그는 최대 5개까지만 가능합니다.')
-  						 		}else if(tag.value==''){
-  						 			alert('태그를 입력하고 추가를 누르세요')
-  						 			tag.value = "";
-  						 			tag.focus();
-  						 		}
-  						 	}
- 						 });
-					});
-				</script>
-				<hr>
-				<label class="w3-text-teal w3-left"><b>장소 태그(최대 5개)</b></label>
-				<br>
-        		<div id="tag-list" style="width:100%; height:60px" class="w3-padding w3-light-grey"></div>
-        		<div>
-        			<input type="hidden" name="tags">
-        				<th:block th:each="dbTag : ${dbTagList}">
-        					<input type="hidden" name="dbTags" th:value="${dbTag}">
-        				</th:block>
-        			<input id="tag" name="tag" type="text" style="width:200px; height:40px" class="w3-border">
-            		<input name='save' type="button" value="추가" class="w3-button w3-border w3-blue">
-        		</div>
-		    </div>
-		    <br>
-		    <hr>
-		    <label class="w3-text-teal w3-left"><b>썸네일 이미지 등록</b></label><br>
-			<div class="w3-light-grey">
-				<input type="hidden" name="thumb" th:value="${magazineFormDTO.thumbnail}">
-				<div id="file_desc" th:if="${magazineFormDTO.thumbnail != null} and ${magazineFormDTO.thumbnail != ''}" style="width: 30%;border-bottom: 1px solid #cccccc">
-					<label class="w3-left w3-small"><b class="w3-small">** 첨부된 이미지 파일 :&nbsp;&nbsp;&nbsp;</b></label>
-					<label id="thumb" class="w3-left w3-small" th:text="*{thumbnail}"></label>&nbsp;
-					<button type="button" onclick="fileDelete()" class="w3-left w3-small w3-blue w3-round-large w3-card" style="margin-left: 5px;margin-top:1px;border:none;">X</button>
-				</div>
-				<input type="file" th:field="*{file}" id="file" name="file" class="w3-input w3-light-grey">
-					<script th:inline="javascript">
-						function fileDelete(){
-							document.getElementById('magazineForm').thumb.value="";
-							file_desc.style.display="none";
-						}
-					</script>				
-			</div>
-			<div>
-				<input type="hidden" name="magazineSeq" th:value="${magazineSeq}">
-				<input type="submit" value="수정완료" class="w3-btn w3-blue w3-round-xlarge">
-				<input type="button" onclick="cancel()" value="수정취소" class="w3-btn w3-blue-grey w3-round-xlarge">
-			</div>
-		</div>
-	</form>
-</section>
+  				$("input[name='tags']").val(tags);
+  			}
+  		}else{
+  			if(siz >= 5){
+  				alert('태그는 최대 5개까지만 가능합니다.')
+  			}else if(tag.value==''){
+  				alert('태그를 입력하고 추가를 누르세요')
+  				tag.value = "";
+  				tag.focus();
+  			}
+  		}
+ 	});
+});
+</script>
+
+	</section>
 </body>
 </html>

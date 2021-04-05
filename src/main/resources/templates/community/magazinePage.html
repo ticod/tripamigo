@@ -51,125 +51,78 @@ a {
 			<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
 		</span>
 			<div>
-			<br>
-			<hr>
-				<!-- 
-				<div class="w3-panel w3-card-4 w3-round-xxlarge" style="height: 50px;">
-					<div class="w3-padding w3-left w3-xlarge w3-sans-serif"
-						th:text="'제목 : ' + ${magazine.boardSubject}"></div>
-					<div class="w3-padding w3-right"
-						th:text="'조회수 : ' + ${magazine.boardHits}"></div>
-				</div>
-				<div class="w3-container w3-round-xxlarge" style="border: solid 1px;">
-					<div class="w3-left" th:text="'작성자명 : '+${magazine.user.userId}"></div>
-					<div class="w3-right" th:text="'작성시간 : ' + ${#strings.replace(magazine.boardRegdate,'T',' ')}"></div>
-				</div>
-				 -->
-				<!-- 글 내용 -->
+				<br>
+				<hr>
+<!-- 글 내용 -->
 				<div class="w3-container w3-panel" style="width:100%;height: 100%;">
 					<div class="w3-left w3-panel w3-leftbar w3-rightbar" th:utext="${magazine.boardContent}" style="width:100%; height:100%; text-align:left"></div>
 				</div>
 			</div>
 			<div th:text="${tagList}" class="w3-text-blue"></div>
-			<hr>
-			<!-- 버튼 -->
-			<div class="w3-container">
-				<a href="/community/magazine">
-					<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
-				</a>
-				<div class="w3-right w3-button w3-dark-grey w3-round-xlarge">★</div>
-				<div class="w3-right w3-button w3-yellow w3-round-xlarge" th:text="신고" />
-			</div>
-			<br>
-			<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
-				<div
-					th:if="${session.loginUser.userId == magazine.user.userId} or ${session.loginUser.userId=='admin'}">
-					<form name="f" method="post">
-						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
-						<input type="hidden" name="type" value="1">
-						<button type="button" onclick="deleteBoard()" class="w3-button w3-blue w3-round-xlarge">글삭제</button>
-						<a th:href="@{'updateBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}"><button type="button" class="w3-button w3-dark-grey w3-round-xlarge">글수정</button></a>
-					</form>
-					<script th:inline="javascript">
-						function deleteBoard(){
-							form = document.f;
-							if(confirm('삭제하시겠습니까?')==true){
-								f.action = "deleteBoard";
-								f.submit();
-							}else{
-								return;
-							}
-						}
-						function updateBoard(){
-							form = document.f;
-							if(confirm('수정하시겠습니까?')==true){
-								f.action="updateBoard";
-								f.submit();
-							}else{
-								return;
-							}
-						}
-					</script>
+				<hr>
+<!-- 버튼 -->
+				<div class="w3-container">
+					<a href="/community/magazine">
+						<div class="w3-left w3-button w3-dark-grey w3-round-xlarge" th:text="목록" style="width:100px;"/>
+					</a>
+					<div class="w3-right w3-button w3-dark-grey w3-round-xlarge">★</div>
+					<div class="w3-right w3-button w3-yellow w3-round-xlarge" th:text="신고" />
 				</div>
 				<br>
-				<br>
-				<!-- 댓글달기 -->
-				<div>
-					<script th:inline="javascript">
+				<div class="w3-container w3-center" th:if="${session.loginUser != null}"  style="text-decoration: none;">
+					<div th:if="${session.loginUser.userId == magazine.user.userId} or ${session.loginUser.userId=='admin'}">
+						<form name="f" method="post">
+							<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
+							<input type="hidden" name="type" value="1">
+							<button type="button" onclick="deleteBoard()" class="w3-button w3-blue w3-round-xlarge">글삭제</button>
+							<a th:href="@{'updateBoard?boardSeq='+${magazine.boardSeq}+'&type=1'}"><button type="button" class="w3-button w3-dark-grey w3-round-xlarge">글수정</button></a>
+						</form>
+					</div>
+					<br>
+					<br>
+					<div>
+<!-- 댓글 폼 -->
+						<form id="comment" onsubmit="return inputChk()" action="comment" th:object="${commentFormDTO}" method="post">
+							<input type="hidden" name="id" th:value="${session.loginUser.userId}"> 
+							<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
+							<input type="hidden" name="boardType" value="1">
+							<div class="w3-card w3-left" style="width:10% ;height:100px;" th:text="${session.loginUser.userNickname}"></div>
+							<div class="w3-left" style="width: 80%; text-align: left">
+								<textarea class="w3-card" name="content" placeholder="댓글내용" style="width: 100%; height:100px; resize:none;border:none"></textarea>
+							</div>
+							<div class="w3-right" style="width:10%">
+								<input type="submit" value="댓글작성" class="w3-button w3-blue w3-round-xlarge">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="w3-container w3-center" th:unless="${session.loginUser != null}"  style="text-decoration: none;">
+					댓글은 로그인후 가능합니다.
+				</div>
+				<br><br>
+<!-- 댓글목록 -->
+				<div style="width: 100%;" th:if="${commentList.size > 0}">
+					<table style="width: 100%" class="w3-small w3-table-all">
+						<tr>
+							<th class="w3-large" colspan="3" style="text-align: center">댓글 목록</th>
+						</tr>
 						
-						function inputChk(){
-							form = document.getElementById('comment');
-							if(form.content.value==''||form.content.value.trim()==''){
-								alert("댓글 내용을 입력하세요")
-								form.content.value='';
-								form.content.focus();
-								return false;	
-							}
-							return true;
-						}
-					</script>
-					<!-- 댓글 폼 -->
-					<form id="comment" onsubmit="return inputChk()" action="comment" th:object="${commentFormDTO}" method="post">
-						<input type="hidden" name="id" th:value="${session.loginUser.userId}"> 
-						<input type="hidden" name="boardSeq" th:value="${magazine.boardSeq}">
-						<input type="hidden" name="boardType" value="1">
-						<div class="w3-card w3-left" style="width:10% ;height:100px;" th:text="${session.loginUser.userNickname}"></div>
-						<div class="w3-left" style="width: 80%; text-align: left">
-							<textarea class="w3-card" name="content" placeholder="댓글내용" style="width: 100%; height:100px; resize:none;border:none"></textarea>
-						</div>
-						<div class="w3-right" style="width:10%">
-							<input type="submit" value="댓글작성" class="w3-button w3-blue w3-round-xlarge">
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="w3-container w3-center" th:unless="${session.loginUser != null}"  style="text-decoration: none;">
-				댓글은 로그인후 가능합니다.
-			</div>
-			<br>
-			<br>
-
-			<!-- 댓글목록 -->
-			<div style="width: 100%;" th:if="${commentList.size > 0}">
-				<table style="width: 100%" class="w3-small w3-table-all">
-					<tr>
-						<th class="w3-large" colspan="3" style="text-align: center">댓글
-							목록</th>
-					</tr>
-					
-					<tr th:each="comment : ${commentListMap}">
-								<td style="width: 10%; text-align: center"><span
-									class="w3-panel w3-border-none" th:text="${comment.key.user.userNickname}"></span>
-								</td>
-								<td><span class="w3-panel w3-border-left" th:text="${comment.key.commentContent}" style="float: left; text-align: left; width: 95%"></span>
+						<tr th:each="comment : ${commentListMap}">
+							<td style="width: 10%; text-align: center">
+								<span class="w3-panel w3-border-none" th:text="${comment.key.user.userNickname}"></span>
+							</td>
+							<td>
+								<span class="w3-panel w3-border-left" th:text="${comment.key.commentContent}" style="float: left; text-align: left; width: 95%"></span>
 								<p class="w3-tiny w3-right" th:text="${#strings.replace(comment.key.commentRegdate,'T',' ')}"><p> 
-									<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.key.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
-										<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}">
-										<img src="/imgs/icons/del_cmt.png"></a>
-								</span></td>
-						<!-- 추천/ 신고 -->
-								<td style="width: 15%">
-								<!-- th:if="${session.loginUser!=null}" -->
+								<span style="float: right; text-align: center; width: 5%" th:if="(${session.loginUser!=null} and ${comment.key.user.userId==session.loginUser.userId}) or (${session.loginUser!= null and session.loginUser.userId=='admin'})">
+									<a th:href="@{'deleteComment?commentSeq='+${comment.key.commentSeq} + '&boardType=1&boardSeq=' + ${magazine.boardSeq}}">
+										<img src="/imgs/icons/del_cmt.png">
+									</a>
+								</span>
+							</td>
+<!-- 추천/ 신고 -->
+							<td style="width: 15%">
+							<!-- th:if="${session.loginUser!=null}" -->
 								<button th:if="${session.loginUser!=null} and ${!comment.value}" class="w3-button w3-blue w3-round-xlarge" 
 									th:onclick="'recommend('+${comment.key.user.userSeq}+','+${comment.key.commentSeq}+','+${session.loginUser.userSeq}+',3)'">
 									<b th:each="countRecommend : ${countCommentRecommend}">
@@ -195,47 +148,78 @@ a {
 							
 								</td>
 							</tr>
-				</table>
+						</table>
+					</div>
+					<div style="width: 100%;" th:unless="${commentList.size > 0}">
+						댓글이 없습니다.
+						<br><br>
+					</div>
 			</div>
-			<div style="width: 100%;" th:unless="${commentList.size > 0}">
-				댓글이 없습니다.
-				<br><br>
-			</div>
-		</div>
-	<script th:inline="javascript">
-		function recommend(contentUserSeq, contentSeq, userSeq, type){
-			console.log(contentUserSeq)
-			console.log(contentSeq)
-			console.log(userSeq)
-			console.log(type)
-			if(contentUserSeq==userSeq){
-				alert('본인 댓글 추천 불가');
-				return false;			
+<script th:inline="javascript">
+	function deleteBoard(){
+		form = document.f;
+		if(confirm('삭제하시겠습니까?')==true){
+			f.action = "deleteBoard";
+			f.submit();
+		}else{
+			return;
+		}
+	}
+	
+	function updateBoard(){
+		form = document.f;
+		if(confirm('수정하시겠습니까?')==true){
+			f.action="updateBoard";
+			f.submit();
+		}else{
+			return;
+		}
+	}
+	
+	function inputChk(){
+		form = document.getElementById('comment');
+		if(form.content.value==''||form.content.value.trim()==''){
+			alert("댓글 내용을 입력하세요")
+			form.content.value='';
+			form.content.focus();
+			return false;	
+		}
+		return true;
+	}
+	
+	function recommend(contentUserSeq, contentSeq, userSeq, type){
+		console.log(contentUserSeq)
+		console.log(contentSeq)
+		console.log(userSeq)
+		console.log(type)
+		if(contentUserSeq==userSeq){
+			alert('본인 댓글 추천 불가');
+			return false;			
+		}
+		
+		$.ajax({
+			type:"POST",
+			url:"recommend",
+			data:{"contentSeq":contentSeq, "userSeq":userSeq, "type":type},
+			success: function(data){
+				if(data==true){
+					alert("추천 완료")
+					location.reload();
+					console.log(data)
+				}else{
+					alert("추천 취소")
+					location.reload();
+					console.log(data)
+				}
 			}
-			
-			$.ajax({
-				type:"POST",
-				url:"recommend",
-				data:{"contentSeq":contentSeq, "userSeq":userSeq, "type":type},
-				success: function(data){
-							if(data==true){
-								alert("추천 완료")
-								location.reload();
-								console.log(data)
-							}else{
-								alert("추천 취소")
-								location.reload();
-								console.log(data)
-							}
-						}
-			})
-			
-		}
-		function loginAlert(){
-			alert("로그인하세요")
-			location.href="/login";
-		}
-	</script>
+		})
+	}
+	
+	function loginAlert(){
+		alert("로그인하세요")
+		location.href="/login";
+	}
+</script>
 	</section>
 
 </body>
