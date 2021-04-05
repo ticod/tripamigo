@@ -45,7 +45,10 @@ public class PlanService {
         List<PlanDetail> planDetails = planDetailDTOs.stream()
                 .map(o -> new PlanDetail().createByDTO(plan, o))
                 .collect(Collectors.toList());
-//        planDetailRepository.saveAll(planDetails);
+
+        for (PlanDetail planDetail : planDetails) {
+            planDetailRepository.save(planDetail);
+        }
     }
 
     public List<Plan> getMyPlanList(User user) {

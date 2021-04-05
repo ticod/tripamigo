@@ -45,18 +45,22 @@ public class PlanDetail {
 
     public PlanDetail createByDTO(Plan plan, PlanDetailDTO o) {
         this.plan = plan;
-        this.area = o.getArea().getAddress() + " / " + o.getArea().getPlaceName();
         this.budget = o.getBudget();
         this.memo = o.getMemo();
         this.period = Period.builder()
                 .start(o.getStartDateTime())
                 .end(o.getEndDateTime())
                 .build();
-        this.trafficInfo = TrafficInfo.builder()
-                .org(o.getTraffic().getOrg())
-                .des(o.getTraffic().getDes())
-                .traffic(o.getTraffic().getInfo())
-                .build();
+        if (o.getArea() != null) {
+            this.area = o.getArea().getAddress() + " / " + o.getArea().getPlaceName();
+        }
+        if (o.getTraffic() != null) {
+            this.trafficInfo = TrafficInfo.builder()
+                    .org(o.getTraffic().getOrg())
+                    .des(o.getTraffic().getDes())
+                    .traffic(o.getTraffic().getInfo())
+                    .build();
+        }
         return this;
     }
 }

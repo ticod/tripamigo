@@ -7,6 +7,6 @@ import java.util.List;
 public interface PlanDetailRepository {
 
     List<PlanDetail> findAll();
-//    void saveAll(List<PlanDetail> planDetails);
+    PlanDetail save(PlanDetail planDetail);
 
 }

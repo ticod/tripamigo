@@ -194,9 +194,12 @@ public class PlanController {
 
         Plan savePlan = planService.createAndReturn(planFormDTO);
 
-//        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
-//        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
-//        planService.savePlanDetails(savePlan, planDetailList);
+        @SuppressWarnings("unchecked") // planWriteSecond 메서드 참고 및 아래 세션 setAttribute 참고
+        List<PlanDetailDTO> planDetailList = (List<PlanDetailDTO>) session.getAttribute("planDetailList");
+        if (planDetailList != null && planDetailList.size() > 0) {
+            planService.savePlanDetails(savePlan, planDetailList);
+        }
+        session.removeAttribute("planDetailList");
 
         return "redirect:/community/plan/detail/" + savePlan.getSeq();
     }
