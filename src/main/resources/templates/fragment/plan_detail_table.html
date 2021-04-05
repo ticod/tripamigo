@@ -2,12 +2,13 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
     <!-- table fragment -->
-    <div class="w3-dropdown-click w3-center plan-detail-table"
+    <div class="w3-dropdown-click w3-center plan-detail-table w3-margin-top w3-margin-bottom"
          th:fragment="table (planDetailList, subject)">
 
-        <button class="w3-button w3-card" onclick="detailPlanDropDown()" th:text="${subject}"></button>
+        <button class="w3-button w3-card w3-round w3-border w3-border-black"
+                onclick="detailPlanDropDown()" th:text="${subject}"></button>
 
-        <div id="plan_detail_table" class="w3-dropdown-content" style="width: 100%;">
+        <div id="plan_detail_table" class="w3-dropdown-content w3-border w3-border-black w3-light-gray" style="width: 100%;">
 
             <!-- 세부 일정 목록 O -->
             <div th:if="${planDetailList != null && planDetailList.size > 0}" class="plan-detail-list">
