@@ -72,7 +72,7 @@ public class CommunityController {
 	private void boardHitsUp(HttpServletRequest request, HttpServletResponse response, Long boardSeq) {
 		String cookieName = boardSeq + "";
 		Cookie cookie = new Cookie(cookieName, null);
-		cookie.setMaxAge(10); // 초단위
+		cookie.setMaxAge(60); // 초단위
 
 		boolean hitSwitch = false;
 
@@ -111,14 +111,6 @@ public class CommunityController {
 		
 		return "community/home";
 	}
-
-//	@GetMapping("/magazine")
-//	public String magazine(HttpSession session, Model model) {
-//		List<Magazine> magazineList = boardService.magazineList();
-//		model.addAttribute("magazineList",magazineList);
-//
-//		return "community/magazine";
-//	}
 	
 	 @RequestMapping("/magazine")
 	 public String magazine(Model model, @PageableDefault(page=0, size = 8, sort = "boardSeq") Pageable pageable, @RequestParam(value="findString",  required=false, defaultValue="") String findString) {
@@ -144,20 +136,13 @@ public class CommunityController {
     }
 
 	@GetMapping("/magazineForm") // AOP적용 필요
-	public String magazineForm(MagazineFormDTO magazineFormDTO, Model model) {
+	public String magazineForm(MagazineFormDTO magazineFormDTO, HttpSession session, Model model) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		if(loginUser.getUserRank()<1) {
+			throw new LoginException("레벨이 낮아 매거진을 작성할 수 없습니다.","/community/magazine");
+		}
 		return "community/magazineForm";
 	}
-
-//    @RequestMapping(value="/magazineForm", method=RequestMethod.POST)
-//    public @ResponseBody String magazineForm(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult, HttpSession session, Model model) throws Exception{
-//    	if(bindingResult.hasErrors()) {
-//    		return "/community/magazineForm";
-//    		
-//    	}
-//    	throw new LoginException("글쓰기 완료","home");
-//    }
-
-	
 	
 	@PostMapping("/magazineForm")
 	public String magazineWrite(@ModelAttribute @Valid MagazineFormDTO magazineFormDTO, BindingResult bindingResult
@@ -198,7 +183,9 @@ public class CommunityController {
 		User loginUser = (User)session.getAttribute("loginUser");
 		
 		if(!magazine.getUser().getUserSeq().equals(loginUser.getUserSeq()) || magazine.getUser().getUserSeq()!=(loginUser.getUserSeq())) {
-			throw new LoginException("본인게시물만 수정가능","/community/magazine");
+			if(loginUser.getUserRank()!=2) {
+				throw new LoginException("본인게시물만 수정가능","/community/magazine");
+			}
 		}
 		
 		model.addAttribute("magazine",magazine);
@@ -300,7 +287,6 @@ public class CommunityController {
 		}else {
 		}
 		//upload : ckeditor에서 지정한 파일이름이기때문에 바꾸면 안된다.
-//		String fileName  = multi.getFilesystemName("upload");
 		String fileName  = file.getOriginalFilename();
 		model.addAttribute("fileName", "/uploadFiles/" + fileName);
 		model.addAttribute("CKEditorFuncNum", request.getParameter("CKEditorFuncNum"));

@@ -54,25 +54,7 @@ public class SearchController {
 		
 		return "community/search";
 	}
-	
-//	@RequestMapping("/communitySearch")
-//	public @ResponseBody int communitySearch(@RequestParam("sido")String sido, Model model) throws Exception{
-//		System.out.println("communitySearch 메서드");
-//		List<String> city = Arrays.asList("서울특별시", "부산광역시", "대구광역시", "인천광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도","세종특별시");
-//		Map<String, Integer> map = new HashMap<>();
-//		for(String s : city) {
-//			int infoCount = infoService.infoCount(s);
-//			map.put(s, infoCount);
-//		}
-//		
-//		return infoCount;
-////		List<Magazine> searchMagazineList = boardService.searchMagazineList(sido, gugun, findString);
-////		List<Info> searchInfoList = infoService.searchInfoList(sido, gugun, findString);
-////		model.addAttribute("searchMagazineList",searchMagazineList);
-////		model.addAttribute("searchInfoList",searchInfoList);
-//		
-//	}
-	
+
 	@RequestMapping("/dataSearch")
 	public String dataSearch(String sido, String gugun, String findString, Model model) throws Exception {
 		System.out.println("시/도 : " + sido);
@@ -126,9 +108,6 @@ public class SearchController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-//		String tmp = result.toString();
-//		System.out.println(tmp);
-//		System.out.println(map);
 		
 		for (Object o : map.entrySet()) {
 			System.out.println(o);
