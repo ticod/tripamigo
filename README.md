@@ -1,9 +1,11 @@
 # Tripamigo
 - 여러 데이터를 통해 여행 계획 설계를 도와주고, 여행 기록을 다이어리로 남길 수 있는 여행 보조 플랫폼
 <br>    
+
 # 팀원
 - 권도훈, 서석근, 오승현
 <br>    
+
 # 기술 스텍
 - Java, Spring Boot, Gradle
 - Spring Data JPA, MariaDB (AWS RDS)
