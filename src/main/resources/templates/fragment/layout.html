@@ -36,12 +36,12 @@
             <button th:text="${session.loginUser.userNickname ?: '닉네임을 설정하세요'} + '&nbsp;&nbsp; ▼'"
                     class="w3-button w3-round w3-center w3-border-bottom w3-border-gray w3-margin-top"></button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
-                <a th:href="@{/mypage/home}" class="w3-bar-item w3-button w3-hover-indigo">
-                    마이 페이지
-                </a>
-                <a th:href="@{/info}" class="w3-bar-item w3-button w3-hover-indigo">
-                    회원 정보 수정
-                </a>
+<!--                <a th:href="@{/mypage/home}" class="w3-bar-item w3-button w3-hover-indigo">-->
+<!--                    마이 페이지-->
+<!--                </a>-->
+<!--                <a th:href="@{/info}" class="w3-bar-item w3-button w3-hover-indigo">-->
+<!--                    회원 정보 수정-->
+<!--                </a>-->
                 <a th:href="@{/logout}" class="w3-bar-item w3-button w3-hover-indigo">
                     로그아웃
                 </a>
@@ -86,11 +86,11 @@
         <div class="menu-hr"></div>
 
         <div class="w3-center w3-margin-top">
-            <a href="#" 
-               class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
-                w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
-                <i class="far fa-heart" style="width: 2rem;"></i>&nbsp;&nbsp;&nbsp; 다이어리
-            </a>
+<!--            <a href="#" -->
+<!--               class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray-->
+<!--                w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">-->
+<!--                <i class="far fa-heart" style="width: 2rem;"></i>&nbsp;&nbsp;&nbsp; 다이어리-->
+<!--            </a>-->
             <a th:href="@{/community/plan}"
                class="w3-bar-item w3-round w3-margin-left w3-button w3-border-light-gray
                 w3-hover-white w3-hover-text-indigo sidebar-item" style="font-weight: 400; font-size: 1.125rem">
