@@ -4,12 +4,25 @@
 <body>
 <!-- Main Contents -->
 <section class="w3-center w3-center-align w3-container" th:object="${plan}">
-
+	<b class="w3-center w3-xxlarge w3-sans-serif" id="top">Plan</b>
+	<p class="w3-center w3-sans-serif">여행계획 상세보기</p><hr><br>
+	
 	<!-- Header -->
+	<span id="c" class="w3-display-container w3-card w3-round-large">
+		<img src="/imgs/mainbar2.jpg" width="100%" class="imgs"/>
+		<div class="w3-padding w3-display-middle w3-xxlarge w3-sans-serif"
+				th:text="*{subject}" id="subject"></div>
+		<div class="w3-padding w3-display-bottomright" id="text"
+				th:text="'조회수 : ' + *{hits}" ></div>
+		<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성자 : '+*{user.userNickname}"></div>
+		<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + *{#strings.replace(regdate,'T',' ')}"></div>
+	</span>
+	<!-- 
 	<h1 th:text="*{subject}"></h1>
 	<p th:text="*{user.userNickname}"></p>
 	<p th:text="*{regdate}"></p>
 	<p th:text="*{hits}"></p>
+	 -->
 
 	<!-- Detail Plan Table -->
 	<div class="w3-card w3-center w3-dropdown" style="width: 90%">
@@ -18,12 +31,35 @@
 
 	<!-- Content -->
 	<div th:utext="*{content}"
-		 class="w3-row w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-border">
+		 class="w3-row w3-padding w3-margin-top w3-margin-bottom w3-border"
+		 style="min-height:300px; text-align:left">
 	</div>
 
 	<!-- Comment -->
 	<div></div>
 
+	<style>
+			#c{
+				overflow: hidden;
+				display: flex;
+				align-items:center;
+				justify-content:center;
+				width:100%;
+				height:150px;
+			}
+			.imgs{
+				filter:brightness(60%);
+			}
+			#subject{
+				font-size: 50px;
+				font-weight: bold;
+				color: white;
+				width:100%;
+			}
+			#text{
+				color:white;
+			}
+	</style>
 </section>
 
 </body>
