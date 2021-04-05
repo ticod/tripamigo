@@ -19,11 +19,7 @@
 	</div>
 
 	<!-- Detail Plan Table -->
-	<div class="w3-dropdown-click w3-center plan-detail-table">
-		<button class="w3-button w3-card" onclick="detailPlanDropDown()">
-			지금까지 작성한 일정 보기
-		</button>
-	</div>
+	<div th:replace="/fragment/plan_detail_table :: table(*{planDetails}, '세부 일정 보기')"></div>
 
 	<!-- Content -->
 	<div class="w3-card plan-detail-content">

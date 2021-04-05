@@ -9,3 +9,10 @@
 .plan-detail-content {
     min-height: 560px;
 }
+
+.plan-detail-list {
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: scroll;
+}
