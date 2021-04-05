@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+    <!-- table fragment -->
+    <div class="w3-dropdown-click w3-center plan-detail-table"
+         th:fragment="table (planDetailList, subject)">
+
+        <button class="w3-button w3-card" onclick="detailPlanDropDown()" th:text="${subject}"></button>
+
+        <div id="plan_detail_table" class="w3-dropdown-content" style="width: 100%;">
+
+            <!-- 세부 일정 목록 O -->
+            <div th:if="${planDetailList != null && planDetailList.size > 0}" class="plan-detail-list">
+                <div class="item w3-border-bottom w3-border-black w3-row">
+                    <div class="w3-col s2">
+                        일정 시간
+                    </div>
+                    <div class="w3-col s2">
+                        장소 / 교통 편
+                    </div>
+                    <div class="w3-col s2">
+                        예상 지출액
+                    </div>
+                    <div class="w3-col s5">
+                        메모
+                    </div>
+                </div>
+
+                <!-- 세부 일정 추가 목록 -->
+                <div class="item w3-border-top w3-border-bottom w3-row"
+                     th:each="planDetail, planDetailStat : ${planDetailList}"
+                     style="padding-left: 1rem;">
+                    <div class="w3-col s2">
+                        <p th:text="${planDetail.getStartDateTime() + ' - '}"></p>
+                        <p th:text="${planDetail.getEndDateTime() + ''}"></p>
+                    </div>
+                    <div class="w3-col s2">
+                        <!-- 교통편 선택 -->
+                        <p th:if="${planDetail.traffic != null}"
+                           th:text="${planDetail.traffic.org + '-' + planDetail.traffic.des}"></p>
+                        <!-- 장소 선택 -->
+                        <p th:if="${planDetail.area != null}"
+                           th:text="${planDetail.area.placeName}"></p>
+                        <p th:if="${planDetail.area == null && planDetail.traffic == null}"></p>
+                    </div>
+                    <div class="w3-col s2">
+                        <p th:text="${planDetail.budget}"></p>
+                    </div>
+                    <div class="w3-col s5">
+                        <p th:text="${planDetail.memo}"></p>
+                    </div>
+                    <div class="w3-col s1 w3-center">
+                        <p>
+                            <a th:href="@{'/community/plan/write/second/delete/' + ${planDetailStat.index}}"
+                               class="w3-centered w3-button w3-round w3-indigo w3-border
+                                    w3-hover-white w3-hover-border-indigo w3-hover-text-indigo">
+                                삭제
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 세부 일정 목록 X -->
+            <div th:unless="${planDetailList != null && planDetailList.size > 0}">
+                <div class="item w3-border">
+                    작성 중인 세부 일정이 없습니다.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Script -->
+        <script>
+            function detailPlanDropDown() {
+                const table = document.getElementById("plan_detail_table");
+                if (table.className.indexOf("w3-show") === -1) {
+                    table.className += " w3-show";
+                } else {
+                    table.className = table.className.replace(" w3-show", "");
+                }
+            }
+        </script>
+
+    </div>
+
+</html>
