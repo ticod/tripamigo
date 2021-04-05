@@ -1,0 +1,11 @@
+.plan-display-container {
+    height: 360px;
+}
+
+.plan-display-container > * {
+    padding: 0.5rem 2rem;
+}
+
+.plan-detail-content {
+    min-height: 560px;
+}

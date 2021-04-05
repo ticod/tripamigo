@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org" th:replace="~{/fragment/layout :: layout(~{::title}, ~{::section}, ~{::style})}">
   <title>PLAN</title>
+  <style th:inline="text">
+	  @import url('/css/plan-detail.css');
+	  @import url('/css/plan-detail-table.css');
+  </style>
 <body>
 <!-- Main Contents -->
 <section class="w3-center w3-center-align w3-container" th:object="${plan}">
-	<b class="w3-center w3-xxlarge w3-sans-serif" id="top">Plan</b>
-	<p class="w3-center w3-sans-serif">여행계획 상세보기</p><hr><br>
-	
-	<!-- Header -->
-	<span id="c" class="w3-display-container w3-card w3-round-large">
-		<img src="/imgs/mainbar2.jpg" width="100%" class="imgs"/>
-		<div class="w3-padding w3-display-middle w3-xxlarge w3-sans-serif"
-				th:text="*{subject}" id="subject"></div>
-		<div class="w3-padding w3-display-bottomright" id="text"
-				th:text="'조회수 : ' + *{hits}" ></div>
-		<div class="w3-padding w3-display-bottomleft" id="text" th:text="'작성자 : '+*{user.userNickname}"></div>
-		<div class="w3-padding w3-display-topright" id="text" th:text="'작성시각 : ' + *{#strings.replace(regdate,'T',' ')}"></div>
-	</span>
-	<!-- 
-	<h1 th:text="*{subject}"></h1>
-	<p th:text="*{user.userNickname}"></p>
-	<p th:text="*{regdate}"></p>
-	<p th:text="*{hits}"></p>
-	 -->
+	<b class="w3-center w3-xxlarge w3-sans-serif">Plan</b>
+	<p class="w3-center w3-sans-serif">여행 계획</p>
+
+	<div class="w3-card w3-display-container w3-round w3-border w3-border-black plan-display-container">
+		<h2 class="w3-display-middle" th:text="*{subject}"></h2>
+		<p class="w3-display-topright" th:text="*{regdate}"></p>
+		<p class="w3-display-bottomleft" th:text="*{user.userNickname}"></p>
+		<p class="w3-display-bottomright" th:text="*{hits}"></p>
+	</div>
 
 	<!-- Detail Plan Table -->
-	<div class="w3-card w3-center w3-dropdown" style="width: 90%">
-		<h2>세부 일정 목록</h2>
+	<div class="w3-dropdown-click w3-center plan-detail-table">
+		<button class="w3-button w3-card" onclick="detailPlanDropDown()">
+			지금까지 작성한 일정 보기
+		</button>
 	</div>
 
 	<!-- Content -->
-	<div th:utext="*{content}"
-		 class="w3-row w3-padding w3-margin-top w3-margin-bottom w3-border"
-		 style="min-height:300px; text-align:left">
+	<div class="w3-card plan-detail-content">
+		<p th:utext="*{content}">
+		</p>
+	</div>
+
+	<!-- Buttons -->
+	<div class="w3-margin" style="display: flex; justify-content: space-between;">
+		<span style="text-align: left; width: 100%;">
+			<a class="w3-button w3-round w3-border" th:href="@{/community/plan}">목록</a>
+		</span>
+		<span style="text-align: right; width: 100%;">
+			<button class="w3-button w3-round w3-border">★</button>
+			<button class="w3-button w3-round w3-border" th:text="${'추천 0'}"></button>
+			<button class="w3-button w3-round w3-border">신고</button>
+		</span>
 	</div>
 
 	<!-- Comment -->
-	<div></div>
+	<div class="w3-card">
+		<div>comment 1</div>
+	</div>
 
 	<style>
 			#c{

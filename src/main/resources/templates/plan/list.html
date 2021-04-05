@@ -3,39 +3,51 @@
   <title>PLAN</title>
 <body>
 <!-- Main Contents -->
-<section class="w3-center w3-container" >
+<section class="w3-center w3-container">
 	<b class="w3-center w3-xxlarge w3-sans-serif">Plan</b>
-	<p class="w3-center w3-sans-serif">여행계획</p><hr><br>
-	
-	<div th:if="${session.loginUser != null}" class="w3-container">
-		<a th:href="@{/community/plan/write/first}">
-			<button class="w3-right w3-btn w3-round-large w3-dark-grey">작성하기</button>
+	<p class="w3-center w3-sans-serif">여행 계획</p>
+
+	<div class="w3-margin" style="text-align: right">
+		<a th:href="@{/community/plan/write/first}"
+		   class="w3-button w3-round w3-border w3-indigo w3-hover-white w3-hover-border-indigo w3-hover-text-indigo">
+			여행 계획 작성하기
 		</a>
 	</div>
 
-	<br>
-	<div class="w3-row w3-padding w3-border w3-round-xlarge w3-indigo">
-		<div class="w3-col s5 w3-border-right">제목</div>
-		<div class="w3-col s4 w3-border-right">여행일정</div>
-		<div class="w3-col s1 w3-border-right">작성자</div>
-		<div class="w3-col s2">작성일</div>
-	</div>
+	<div class="w3-card">
 
-	<div th:if="${planList.size() == 0}">
-		글이 존재하지 않습니다.
-	</div>
-
-	<div th:each="plan : ${planList}" class="w3-row w3-padding w3-border-bottom">
-		<a class="w3-col s5" th:text="${plan.subject}" th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
-		<div class="w3-col s4" >
-			<div class="w3-tag w3-teal" th:text="${#strings.replace(plan.period.start, 'T', ' ')} + ' ~ '"></div>
-			<div class=""  th:text="${#strings.replace(plan.period.end, 'T', ' ')}"></div>
+		<div class="w3-row w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-border w3-border-black">
+			<div class="w3-col s4 w3-border">제목</div>
+			<div class="w3-col s4 w3-border">일정</div>
+			<div class="w3-col s2 w3-border">작성자</div>
+			<div class="w3-col s2 w3-border">작성일</div>
 		</div>
-		<div class="w3-col s1" th:text="${plan.user.userNickname}"></div>
-		<div class="w3-col s2 w3-small" th:text="${#strings.replace(plan.regdate, 'T', ' ')}"></div>
-	</div>
+		<div th:if="${planList.size() == 0}">
+			글이 존재하지 않습니다.
+		</div>
 
-	<div th:replace="/fragment/paging :: page_list(@{/community/plan}, ${pagingDTO}) "></div>
+		<div th:each="plan : ${planList}" class="w3-row w3-margin-bottom">
+			<a th:if="${#strings.length(plan.subject) > 15}"
+			   class="w3-col s4 w3-border w3-padding"
+			   th:text="${#strings.substring(plan.subject, 0, 15) + '...'}"
+			   th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
+			<a th:unless="${#strings.length(plan.subject) > 15}"
+			   class="w3-col s4 w3-border w3-padding"
+			   th:text="${plan.subject}"
+			   th:href="@{'/community/plan/detail/' + ${plan.seq}}"></a>
+			<div class="w3-col s4 w3-border w3-padding"
+				 th:text="${#temporals.format(plan.period.start, 'yyyy-MM-dd HH시')}
+				 	+ ' - '
+				 	+ ${#temporals.format(plan.period.end, 'yyyy-MM-dd HH시')}"></div>
+			<div class="w3-col s2 w3-border w3-padding"
+				 th:text="${plan.user.userNickname}"></div>
+
+			<div class="w3-col s2 w3-border w3-padding"
+				 th:text="${#temporals.format(plan.regdate, 'yyyy-MM-dd')}"></div>
+		</div>
+
+		<div th:replace="/fragment/paging :: page_list(@{/community/plan}, ${pagingDTO}) "></div>
+	</div>
 
 </section>
 

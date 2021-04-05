@@ -5,19 +5,27 @@
     <div th:fragment="page_list (uri, pagingDTO)">
 
         <div class="w3-bar w3-margin-top w3-padding">
-            <a th:href="${uri + '?page=0'}" class="w3-button">&#10094;</a>
-            <a th:if="${pagingDTO.currentPage > 0 && pagingDTO.currentBlock != 0}" th:href="${uri + '?page=0'}" class="w3-button">1 ...</a>
+            <a th:if="${pagingDTO.currentBlock > 0}"
+               th:href="${uri + '?page=0'}"
+               class="w3-button w3-hover-indigo">&#10094;</a>
+            <a th:if="${pagingDTO.currentPage > 0 && pagingDTO.currentBlock != 0}"
+               th:href="${uri + '?page=0'}"
+               class="w3-button w3-hover-indigo">1 ...</a>
             <span th:each="index : ${pagingDTO.block}">
                 <a th:if="${index == pagingDTO.currentPage}"
-                   th:href="${uri + '?page=' + index}" th:text="${index + 1}" class="w3-button w3-indigo w3-hover-none"></a>
+                   th:href="${uri + '?page=' + index}" th:text="${index + 1}"
+                   class="w3-button w3-indigo w3-hover-none"></a>
                 <a th:unless="${index == pagingDTO.currentPage}"
-                   th:href="${uri + '?page=' + index}" th:text="${index + 1}" class="w3-button w3-hover-indigo"></a>
+                   th:href="${uri + '?page=' + index}" th:text="${index + 1}"
+                   class="w3-button w3-hover-indigo"></a>
             </span>
             <a th:if="${pagingDTO.currentBlockEndPage < pagingDTO.pageCount}"
                th:href="${uri + '?page=' + (pagingDTO.pageCount)}"
-               th:text="${'... ' + (pagingDTO.pageCount + 1)}" class="w3-button"></a>
+               th:text="${'... ' + (pagingDTO.pageCount + 1)}"
+               class="w3-button w3-hover-indigo"></a>
             <a th:if="${pagingDTO.currentBlock < pagingDTO.blockCount}"
-               th:href="${uri + '?page=' + (pagingDTO.currentBlock + pagingDTO.blockSize)}" class="w3-button">&#10095;</a>
+               th:href="${uri + '?page=' + (pagingDTO.currentBlock + pagingDTO.blockSize)}"
+               class="w3-button w3-hover-indigo">&#10095;</a>
         </div>
 
     </div>

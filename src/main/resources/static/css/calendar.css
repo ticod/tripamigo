@@ -1,23 +1,60 @@
-#calendar {
+#calendar-value {
+    /* border */
+    border: 1px solid black;
     height: 560px;
-    width: 100%;
 }
 
-.cal_row {
+.calendar {
+    margin-top: 80px;
+    margin-bottom: 80px;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.calendar > div {
+    align-self: center;
+    width: 80%;
+}
+
+.cal-select-bar {
+    border: 1px solid black;
+    margin-bottom: 1px;
+}
+
+.cal-row {
     display: flex;
     justify-content: space-around;
     align-content: center;
     height: 80px;
+
+    margin: 1px;
 }
 
-.cal_col {
+.cal-col {
     width: 100%;
     display: flex;
     justify-content: center;
     align-content: center;
+    flex-direction: column;
+
+    /* border */
+    border: 1px solid black;
+
+    margin: 1px;
 }
 
-.cal_col > p {
+.cal-col > p {
     padding: 0;
+    margin: auto;
+}
+
+.cal-col > .cal-day {
+    margin-top: 0;
+    /*font-size: 0.5rem;*/
+}
+
+.cal-col > .cal-weather {
     margin: auto;
 }

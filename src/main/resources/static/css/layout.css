@@ -12,6 +12,15 @@
     font-size: 16px;
 }
 
+a, button {
+    transition: .2s;
+    text-decoration: none;
+}
+
+a:hover {
+    color: crimson;
+}
+
 .sidebar {
     width: var(--sidebar-length);
 }
