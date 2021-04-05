@@ -44,8 +44,9 @@ public class PlanDetail {
     private Period period;
 
     public PlanDetail createByDTO(Plan plan, PlanDetailDTO o) {
+        System.out.println("[createByDTO] " + o);
         this.plan = plan;
-        this.budget = o.getBudget();
+        this.budget = (o.getBudget() != null) ? o.getBudget() : 0;
         this.memo = o.getMemo();
         this.period = Period.builder()
                 .start(o.getStartDateTime())

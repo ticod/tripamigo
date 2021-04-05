@@ -56,13 +56,27 @@ public class PlanController {
     // 전체 일정 입력 (Period)
     @GetMapping("/write/first")
     public String planWriteFirst(PeriodDTO periodDTO, Model model, HttpSession session) {
-        session.setAttribute("planFormDTO", new PlanFormDTO());
+
+        // 세션에 저장된 값이 있다면 pass
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        if (planFormDTO == null) {
+            planFormDTO = new PlanFormDTO();
+        }
+
+        session.setAttribute("planFormDTO", planFormDTO);
         model.addAttribute("periodDTO", periodDTO);
         return "/plan/write/first";
     }
 
     @PostMapping("/write/first")
     public String planWriteFirstToSecond(@Valid PeriodDTO periodDTO, BindingResult bindingResult, Model model, HttpSession session) {
+
+        // 세션에 저장된 값이 있다면 pass
+        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
+        if (planFormDTO.getPeriodStart() != null
+                && planFormDTO.getPeriodEnd() != null) {
+            return "redirect:/community/plan/write/second";
+        }
 
         if (bindingResult.hasErrors()) {
             return "/plan/write/first";
@@ -71,7 +85,6 @@ public class PlanController {
         LocalDateTime start = periodDTO.getStartDateTime();
         LocalDateTime end = periodDTO.getEndDateTime();
 
-        PlanFormDTO planFormDTO = (PlanFormDTO) session.getAttribute("planFormDTO");
         planFormDTO.setPeriodStart(start);
         planFormDTO.setPeriodEnd(end);
 
@@ -134,6 +147,8 @@ public class PlanController {
         }
 
         planDetailList.add(planDetailDTO);
+
+        System.out.println(planDetailDTO);
 
         session.setAttribute("planDetailList", planDetailList);
         model.addAttribute("planDetailList", planDetailList);

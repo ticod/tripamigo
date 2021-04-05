@@ -42,6 +42,7 @@ public class PlanService {
     }
 
     public void savePlanDetails(Plan plan, List<PlanDetailDTO> planDetailDTOs) {
+        System.out.println(planDetailDTOs);
         List<PlanDetail> planDetails = planDetailDTOs.stream()
                 .map(o -> new PlanDetail().createByDTO(plan, o))
                 .collect(Collectors.toList());
