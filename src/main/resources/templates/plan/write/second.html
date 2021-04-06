@@ -339,8 +339,8 @@
 				this.valueAppendChildTo(this.idEndYear, this.years);
 
 				this.times = this.range(1, 24);
-				this.valueAppendChildTo(this.idStartTime, this.times);
-				this.valueAppendChildTo(this.idEndTime, this.times);
+				this.timeAppendChildTo(this.idStartTime, this.times);
+				this.timeAppendChildTo(this.idEndTime, this.times);
 
 				this.idStartYear.addEventListener('change', this.changeMonthByYear.bind(this));
 				this.idStartMonth.addEventListener('change', this.changeDayByMonth.bind(this));
@@ -357,6 +357,18 @@
 				target.options.length = 1;
 				for (const value in values) {
 					if (values.hasOwnProperty(value)) {
+						const option = document.createElement("option");
+						option.text = values[value].toString();
+						option.value = values[value].toString();
+						target.appendChild(option)
+					}
+				}
+			}
+
+			timeAppendChildTo(target, values) {
+				target.options.length = 1;
+				for (const value in values) {
+					if(values.hasOwnProperty(value)) {
 						const option = document.createElement("option");
 						option.text = values[value].toString();
 						option.value = (values[value] - 1).toString();
