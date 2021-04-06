@@ -46,9 +46,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     public List<String> getExcludePath() {
         return Arrays.asList("/community/magazine", 
                 "/community/magazinePage**", 
-                "/community/ckeditor**",
-                // 개발 중 임시 제외
-                "/community/plan/write/**");
+                "/community/ckeditor**");
     }
 
 }
