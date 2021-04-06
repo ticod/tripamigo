@@ -34,13 +34,13 @@ public class PeriodDTO {
     public LocalDateTime getStartDateTime() {
         return LocalDateTime.of(this.getStartYear(),
             this.getStartMonth(), this.getStartDay(),
-            this.getStartTime() - 1, 0);
+            this.getStartTime(), 0);
     }
 
     public LocalDateTime getEndDateTime() {
         return LocalDateTime.of(this.getEndYear(),
             this.getEndMonth(), this.getEndDay(),
-            this.getEndTime() - 1, 0);
+            this.getEndTime(), 0);
     }
 
 }

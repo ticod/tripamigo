@@ -359,7 +359,7 @@
 					if (values.hasOwnProperty(value)) {
 						const option = document.createElement("option");
 						option.text = values[value].toString();
-						option.value = values[value].toString();
+						option.value = (values[value] - 1).toString();
 						target.appendChild(option)
 					}
 				}
