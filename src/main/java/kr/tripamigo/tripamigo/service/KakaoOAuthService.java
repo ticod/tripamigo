@@ -76,8 +76,6 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
         ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
 
-        System.out.println(responseBody);
-
         if (responseBody == null) {
             throw new LoginException("서버 에러", "/home");
         }
@@ -104,8 +102,6 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
 
         ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
-
-        System.out.println(responseBody);
 
         if (responseBody == null) {
             throw new LoginException("서버 에러", "/home");
@@ -155,8 +151,6 @@ public class KakaoOAuthService implements OAuthService<OAuthKakaoInfoDTO> {
 
         ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
-
-        System.out.println(responseBody);
 
     }
 }
