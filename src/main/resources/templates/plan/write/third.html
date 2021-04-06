@@ -85,35 +85,37 @@
 	<form th:action="@{third}" method="post" th:object="${planFormDTO}">
 
 		<label for="subject">제목</label>
-		<input type="text" placeholder="제목 입력" id="subject" th:field="*{subject}">
+		<input type="text" placeholder="제목 입력" id="subject" th:field="*{subject}" class="w3-input" required>
 
 		<br>
 
 		<label for="content">내용</label>
-		<textarea id="content" cols="40" rows="20" th:field="*{content}" style="resize:none;"></textarea>
+		<textarea id="content" cols="40" rows="20" th:field="*{content}" style="resize:none;" class="w3-input" required></textarea>
 
 		<br>
 
 		<label for="public">전체 공개</label>
-		<input type="radio" id="public" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PUBLIC}" checked>
+		<input type="radio" id="public" name="open" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PUBLIC}" required>
+		&nbsp;&nbsp;&nbsp;
 		<label for="follow">팔로워 공개</label>
-		<input type="radio" id="follow" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).FOLLOW}">
+		<input type="radio" id="follow" name="open" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).FOLLOW}" required>
+		&nbsp;&nbsp;&nbsp;
 		<label for="private">비공개</label>
-		<input type="radio" id="private" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PRIVATE}">
+		<input type="radio" id="private" name="open" th:field="*{open}" th:value="${T(kr.tripamigo.tripamigo.domain.OpenScope).PRIVATE}" required>
 
 		<div class="w3-card w3-white sidebar-plan">
 
 			<div class="w3-container">
 				<p>1. 전체 일정 고르기</p>
 				<p>2. 세부 일정 쌓기</p>
-				<b>3. 글 작성하기</b>
+				<p><b>3. 글 작성하기</b></p>
 			</div>
 
 			<input type="button" class="w3-button w3-round w3-border"
-				   style="" value="이전 단계로" onclick="location.href='second'">
-			<br>
-			<input type="submit" class="w3-button w3-round w3-border"
-				   style="" value="여행 계획 작성 완료">
+				   style="width: 100%;" value="이전 단계로" onclick="location.href='second'">
+			<hr>
+			<input type="submit" class="w3-button w3-round w3-border w3-indigo w3-hover-white"
+				   style="width: 100%; transition: .3s;" value="여행 계획 작성 완료">
 
 		</div>
 
