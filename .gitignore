@@ -38,3 +38,4 @@ out/
 
 ### Custom ###
 /config/application.properties
+/logs/
