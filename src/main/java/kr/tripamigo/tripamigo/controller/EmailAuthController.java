@@ -53,6 +53,7 @@ public class EmailAuthController {
             session.setAttribute(sessionCodeName, email + sessionSeparator + code);
             emailService.sendMail(email, EmailService.DEFAULT_FROM_ADDRESS, emailSubject, emailContent + orgCode);
         } catch (Exception e) {
+            e.printStackTrace();
             session.invalidate();
             return false;
         }
