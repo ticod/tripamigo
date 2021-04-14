@@ -10,9 +10,9 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-    public final static String DEFAULT_FROM_ADDRESS = "Tripamigo";
+    public final static String DEFAULT_FROM_ADDRESS = "with@ticod.me";
 
-    public void sendMail(String recipient, String sender, String subject, String message) throws Exception {
+    public void sendMail(String recipient, String sender, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(recipient);
         simpleMailMessage.setFrom(sender);
